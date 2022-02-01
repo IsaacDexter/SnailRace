@@ -6,3 +6,5 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
+//Task 4: Implementing a simple OpenGL scene
