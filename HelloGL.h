@@ -6,6 +6,17 @@
 
 #include "GLUTCallbacks.h"
 
+
+/// <summary>
+/// Simple enum used to store different triangle types.
+/// </summary>
+enum TriangleTypes
+{
+	Scalene = 1,
+	Isoceles,
+	Equilateral,
+};
+
 class HelloGL
 {
 public:
@@ -17,5 +28,6 @@ public:
 
 	//Display methods
 	void DrawRectangle();
+	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
 };
