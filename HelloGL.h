@@ -15,6 +15,7 @@ public:
 	//Destructor def
 	~HelloGL(void);
 
-	//Display method
+	//Display methods
+	void DrawRectangle();
 	void Display();
 };

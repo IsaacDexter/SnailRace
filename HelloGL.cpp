@@ -18,14 +18,28 @@ void HelloGL::Display()
 	//Steps: clear existing scene, begin drawing, draw object, end drwaing, flush to graphics card.
 	//Draw simple rectangle
 	glClear(GL_COLOR_BUFFER_BIT);	//Clears the scene
+	
+	//Drawing code goes here:
+
+	DrawRectangle();
+
+	//And ends here:
+
+	glFlush();	//Flushes scene to the graphics card
+}
+
+/// <summary>
+/// Draws a simple red rectangle when called. Does not clear or flush.
+/// </summary>
+void HelloGL::DrawRectangle()
+{
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
-		glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
-		glVertex2f(-0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
-		glVertex2f(0.75, 0.5);	//Top right
-		glVertex2f(0.75, -0.5);	//Top left
-		glVertex2f(-0.75, -0.5); //Bottom left
-		glEnd();	//Defines the end of the polygon
-		glFlush();	//Flushes scene to the graphics card
+	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
+	glVertex2f(-0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
+	glVertex2f(0.75, 0.5);	//Top right
+	glVertex2f(0.75, -0.5);	//Top left
+	glVertex2f(-0.75, -0.5); //Bottom left
+	glEnd();	//Defines the end of the polygon
 }
 
 HelloGL::~HelloGL(void)
