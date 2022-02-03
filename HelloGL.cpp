@@ -53,7 +53,9 @@ void HelloGL::DrawTriangle(TriangleTypes triangleType)
 	case Scalene:
 		glColor4f(0.0f, 0.0f, 1.0f, 0.0f);	//Blue
 		glVertex2f(-1, 1);
+		glColor4f(0.0f, 1.0f, 0.0f, 0.0f);	//Green
 		glVertex2f(-0.4, 1);	
+		glColor4f(0.9f, 0.8f, 0.0f, 0.0f);	//Yellow
 		glVertex2f(-0.35, 0.5);	
 		break;
 	case Isoceles:
