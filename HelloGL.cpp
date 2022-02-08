@@ -31,6 +31,13 @@ void HelloGL::Display()
 	glFlush();	//Flushes scene to the graphics card
 }
 
+/// <summary>Calls each frame. Updates each aspect of the game</summary>
+void HelloGL::Update()
+{
+	//Calls the scene to redraw itself after the update has finished.
+	glutPostRedisplay();
+}
+
 /// <summary>
 /// Draws a simple red rectangle when called. Does not clear or flush.
 /// </summary>

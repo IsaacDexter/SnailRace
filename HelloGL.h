@@ -30,4 +30,7 @@ public:
 	void DrawRectangle();
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
+
+	//Update methods
+	void Update();
 };
