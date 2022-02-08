@@ -7,6 +7,12 @@
 #include "GLUTCallbacks.h"
 
 
+//Defs
+#define REFRESHRATE 16
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
+
+
 /// <summary>
 /// Simple enum used to store different triangle types.
 /// </summary>
