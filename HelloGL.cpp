@@ -7,9 +7,11 @@ HelloGL::HelloGL(int argc, char* argv[])
 
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
+	glutInitDisplayMode(GLUT_DOUBLE);	//Sets display mode to double buffering, which eliminates 'flickering'.
 	glutInit(&argc, argv);
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	glutCreateWindow("Simple OpenGL Program");
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("HelloGL");
 	glutDisplayFunc(GLUTCallbacks::Display);
 	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
@@ -35,6 +37,7 @@ void HelloGL::Display()
 	//And ends here:
 
 	glFlush();	//Flushes scene to the graphics card
+	glutSwapBuffers();	//Tell freeGLut to swap the buffers.
 }
 
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
