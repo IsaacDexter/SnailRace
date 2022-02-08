@@ -29,6 +29,7 @@ public:
 	//Constructor def
 	HelloGL(int argc, char* argv[]);
 
+
 	//Destructor def
 	~HelloGL(void);
 
@@ -39,4 +40,6 @@ public:
 
 	//Update methods
 	void Update();
+private:
+	float _rotation;
 };

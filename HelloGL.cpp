@@ -2,6 +2,10 @@
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
+	//Initialise variables
+	_rotation = 0.0f;
+
+	//Initialise everything else
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -36,6 +40,15 @@ void HelloGL::Display()
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
 void HelloGL::Update()
 {
+	if (_rotation <= 360.0f)
+	{
+		_rotation += 0.5f;
+	}
+	else
+	{
+		_rotation = 0.0f;
+	}
+
 	//Calls the scene to redraw itself after the update has finished.
 	glutPostRedisplay();
 }
@@ -45,6 +58,9 @@ void HelloGL::Update()
 /// </summary>
 void HelloGL::DrawRectangle()
 {
+	glPushMatrix();	//Isolate matrix calculations ('{')
+	glRotatef(_rotation, 0.0f, 0.0f, -1.0f);	//Rotate by rotation solely around the Z axis.
+
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
 	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
 	glVertex2f(0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
@@ -52,6 +68,8 @@ void HelloGL::DrawRectangle()
 	glVertex2f(-0.75, -0.5);	//Top left
 	glVertex2f(-0.75, 0.5); //Bottom left
 	glEnd();	//Defines the end of the polygon
+
+	glPopMatrix();	//Isolate matrix calculations ('}')
 }
 
 void HelloGL::DrawTriangle(TriangleTypes triangleType)
