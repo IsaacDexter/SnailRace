@@ -33,6 +33,7 @@ public:
 	~HelloGL(void);
 
 	//Display methods
+	float _rectangleRed = 1.0f;
 	void DrawRectangle();
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();

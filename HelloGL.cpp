@@ -36,6 +36,9 @@ void HelloGL::Display()
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
 void HelloGL::Update()
 {
+	//Alters rectangles red value just to test update
+	_rectangleRed = max(0.0f, _rectangleRed - 0.01f);
+
 	//Calls the scene to redraw itself after the update has finished.
 	glutPostRedisplay();
 }
@@ -46,7 +49,7 @@ void HelloGL::Update()
 void HelloGL::DrawRectangle()
 {
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
-	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
+	glColor4f(_rectangleRed, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
 	glVertex2f(0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
 	glVertex2f(0.75, -0.5);	//Top right
 	glVertex2f(-0.75, -0.5);	//Top left
