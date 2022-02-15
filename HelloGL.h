@@ -41,5 +41,5 @@ public:
 	//Update methods
 	void Update();
 private:
-	float _rotation;
+	float _rectangleRotation;
 };

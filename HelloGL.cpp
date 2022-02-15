@@ -3,18 +3,34 @@
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialise variables
-	_rotation = 0.0f;
+	_rectangleRotation = 0.0f;
 
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
 	glutInitDisplayMode(GLUT_DOUBLE);	//Sets display mode to double buffering, which eliminates 'flickering'.
 	glutInit(&argc, argv);
+	//set the size of the window in pixels
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	//set the initial position of the window on the screen
 	glutInitWindowPosition(100, 100);
+	//The title of the window
 	glutCreateWindow("HelloGL");
 	glutDisplayFunc(GLUTCallbacks::Display);
 	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
+	
+	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
+	glMatrixMode(GL_PROJECTION);
+	//Loads the identity matrix, think of setting the matrix back to 1
+	glLoadIdentity();
+	//set the viewport to take the entirity of the window
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	//Set up the camera. Parameters are F.O.V. , Aspect ratio, near clipping distance, far clipping distance
+	gluPerspective(45, 1, 0, 1000);
+	//Switch back to the model view matrix to work with models again
+	glMatrixMode(GL_MODELVIEW);
+
+	//start the main loop
 	glutMainLoop();
 }
 
@@ -40,13 +56,17 @@ void HelloGL::Display()
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
 void HelloGL::Update()
 {
-	if (_rotation <= 360.0f)
+	//Rest our modelview matrix , so all transformations from previous frames arent included in the current one
+	glLoadIdentity();
+
+	//Update the rotation of the rectangle
+	if (_rectangleRotation <= 360.0f)
 	{
-		_rotation += 0.5f;
+		_rectangleRotation += 0.5f;
 	}
 	else
 	{
-		_rotation = 0.0f;
+		_rectangleRotation = 0.0f;
 	}
 
 	//Calls the scene to redraw itself after the update has finished.
@@ -59,7 +79,12 @@ void HelloGL::Update()
 void HelloGL::DrawRectangle()
 {
 	glPushMatrix();	//Isolate matrix calculations ('{')
-	glRotatef(_rotation, 1.0f, 0.0f, 0.0f);	//Rotate by rotation solely around the Z axis.
+
+	//It is worth noting that irder of operation is important, as transformation calls are dealt with IN REVERSE ORDER
+
+	//Translate the object down the z axis
+	glTranslatef(0.0f, 0.0f, -5.0f);
+	glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);	//Rotate by rotation solely around the Z axis.
 
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
 	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
