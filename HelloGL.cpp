@@ -50,8 +50,10 @@ void HelloGL::Display()
 	glClear(GL_COLOR_BUFFER_BIT);	//Clears the scene
 	
 	//Drawing code goes here:
-
-	DrawRectangle();
+	glPushMatrix();
+		glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);
+		glutWireTeapot(0.1);
+	glPopMatrix();
 
 	//And ends here:
 
