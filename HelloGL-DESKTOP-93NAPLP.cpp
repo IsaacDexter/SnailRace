@@ -2,19 +2,11 @@
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
-	//Initialise variables
-	_rotation = 0.0f;
-
-	//Initialise everything else
 	GLUTCallbacks::Init(this);
-	glutInitDisplayMode(GLUT_DOUBLE);	//Sets display mode to double buffering, which eliminates 'flickering'.
 	glutInit(&argc, argv);
-	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("HelloGL");
+	glutInitWindowSize(800, 800);
+	glutCreateWindow("Simple OpenGL Program");
 	glutDisplayFunc(GLUTCallbacks::Display);
-	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
-	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
 	glutMainLoop();
 }
 
@@ -30,27 +22,13 @@ void HelloGL::Display()
 	//Drawing code goes here:
 
 	DrawRectangle();
+	DrawTriangle(Scalene);
+	DrawTriangle(Isoceles);
+	DrawTriangle(Equilateral);
 
 	//And ends here:
 
 	glFlush();	//Flushes scene to the graphics card
-	glutSwapBuffers();	//Tell freeGLut to swap the buffers.
-}
-
-/// <summary>Calls each frame. Updates each aspect of the game</summary>
-void HelloGL::Update()
-{
-	if (_rotation <= 360.0f)
-	{
-		_rotation += 0.5f;
-	}
-	else
-	{
-		_rotation = 0.0f;
-	}
-
-	//Calls the scene to redraw itself after the update has finished.
-	glutPostRedisplay();
 }
 
 /// <summary>
@@ -58,9 +36,6 @@ void HelloGL::Update()
 /// </summary>
 void HelloGL::DrawRectangle()
 {
-	glPushMatrix();	//Isolate matrix calculations ('{')
-	glRotatef(_rotation, 1.0f, 0.0f, 0.0f);	//Rotate by rotation solely around the Z axis.
-
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
 	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
 	glVertex2f(0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
@@ -68,8 +43,6 @@ void HelloGL::DrawRectangle()
 	glVertex2f(-0.75, -0.5);	//Top left
 	glVertex2f(-0.75, 0.5); //Bottom left
 	glEnd();	//Defines the end of the polygon
-
-	glPopMatrix();	//Isolate matrix calculations ('}')
 }
 
 void HelloGL::DrawTriangle(TriangleTypes triangleType)
@@ -82,7 +55,7 @@ void HelloGL::DrawTriangle(TriangleTypes triangleType)
 		glVertex2f(-1, 1);
 		glColor4f(0.0f, 1.0f, 0.0f, 0.0f);	//Green
 		glVertex2f(-0.4, 1);	
-		glColor4f(0.9f, 0.8f, 1.0f, 0.0f);	//Yellow
+		glColor4f(0.9f, 0.8f, 0.0f, 0.0f);	//Yellow
 		glVertex2f(-0.35, 0.5);	
 		break;
 	case Isoceles:
