@@ -23,6 +23,35 @@ enum TriangleTypes
 	Equilateral,
 };
 
+/// <summary>A 3D vector represeting a single point in space</summary>
+struct Vector3
+{
+	float x;
+	float y;
+	float z;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	Vector3()
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+	//Allows us to take parameters, so we can construct with any values
+	Vector3(float initial_x, float initial_y, float initial_z)
+	{
+		x = initial_x;
+		y = initial_y;
+		z = initial_z;
+	}
+};
+
+struct Camera
+{
+	Vector3 eye;
+	Vector3 center;
+	Vector3 up;
+};
+
 class HelloGL
 {
 public:
@@ -42,4 +71,5 @@ public:
 	void Update();
 private:
 	float _rectangleRotation;
+	Camera* camera;
 };

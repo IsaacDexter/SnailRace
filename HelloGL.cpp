@@ -19,6 +19,12 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
 	
+	//Create a new camera and initialise it
+	camera = new Camera();
+	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
+	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
+	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
 	//Loads the identity matrix, think of setting the matrix back to 1
@@ -58,6 +64,10 @@ void HelloGL::Update()
 {
 	//Rest our modelview matrix , so all transformations from previous frames arent included in the current one
 	glLoadIdentity();
+
+	//move the camera
+	gluLookAt(camera->eye.x, camera->eye.y, camera->eye.z, camera->center.x, camera->center.y, camera->center.z, camera->up.x, camera->up.y, camera->up.z);
+	
 
 	//Update the rotation of the rectangle
 	if (_rectangleRotation <= 360.0f)
@@ -130,5 +140,5 @@ void HelloGL::DrawTriangle(TriangleTypes triangleType)
 
 HelloGL::~HelloGL(void)
 {
-
+	delete camera;
 }
