@@ -18,6 +18,8 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutDisplayFunc(GLUTCallbacks::Display);
 	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
+	//GlutKeyboardFunc sets the keyboard callback for the current window, so must be after createwindow. Tells glut freeglut about the Keyboard method.
+	glutKeyboardFunc(GLUTCallbacks::Keyboard);
 	
 	//Create a new camera and initialise it
 	camera = new Camera();
@@ -61,6 +63,98 @@ void HelloGL::Display()
 	glutSwapBuffers();	//Tell freeGLut to swap the buffers.
 }
 
+void HelloGL::Keyboard(unsigned char key, int x, int y)
+{
+	if (key == ' ')
+	{
+		viewMode += 1;
+		if (viewMode > 3)
+		{
+			viewMode = 1;
+		}
+	}
+	switch (viewMode)
+	{
+	case 1:
+		switch (key)
+		{
+		case 'w':
+			camera->center.y -= 0.1f;
+			break;
+		case 'a':
+			camera->center.x -= 0.1f;
+			break;
+		case 's':
+			camera->center.y += 0.1f;
+			break;
+		case 'd':
+			camera->center.x += 0.1f;
+			break;
+		case 'q':
+			camera->center.z += 0.1f;
+			break;
+		case 'e':
+			camera->center.z -= 0.1f;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 2:
+		switch (key)
+		{
+		case 'w':
+			camera->eye.y -= 0.1f;
+			break;
+		case 'a':
+			camera->eye.x -= 0.1f;
+			break;
+		case 's':
+			camera->eye.y += 0.1f;
+			break;
+		case 'd':
+			camera->eye.x += 0.1f;
+			break;
+		case 'q':
+			camera->eye.z += 0.1f;
+			break;
+		case 'e':
+			camera->eye.z -= 0.1f;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3:
+		switch (key)
+		{
+		case 'w':
+			camera->up.y -= 0.1f;
+			break;
+		case 'a':
+			camera->up.x -= 0.1f;
+			break;
+		case 's':
+			camera->up.y += 0.1f;
+			break;
+		case 'd':
+			camera->up.x += 0.1f;
+			break;
+		case 'q':
+			camera->up.z += 0.1f;
+			break;
+		case 'e':
+			camera->up.z -= 0.1f;
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
 void HelloGL::Update()
 {
@@ -72,14 +166,14 @@ void HelloGL::Update()
 	
 
 	//Update the rotation of the rectangle
-	if (_rectangleRotation <= 360.0f)
+	/*if (_rectangleRotation <= 360.0f)
 	{
 		_rectangleRotation += 0.5f;
 	}
 	else
 	{
 		_rectangleRotation = 0.0f;
-	}
+	}*/
 
 	//Calls the scene to redraw itself after the update has finished.
 	glutPostRedisplay();

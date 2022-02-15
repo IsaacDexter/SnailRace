@@ -15,6 +15,11 @@ namespace GLUTCallbacks
 		helloGL = gl;
 	}
 
+	void Keyboard(unsigned char key, int x, int y)
+	{
+		helloGL->Keyboard(key, x, y);
+	}
+
 	void Display()
 	{
 		if (helloGL != nullptr)

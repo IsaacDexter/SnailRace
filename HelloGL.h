@@ -67,9 +67,14 @@ public:
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
 
+	//Input Methods
+	void Keyboard(unsigned char key, int x, int y);
+
 	//Update methods
 	void Update();
 private:
+	/// <summary>1 for center, 2 for eye, 3 for up</summary>
+	int viewMode = 1;
 	float _rectangleRotation;
 	Camera* camera;
 };
