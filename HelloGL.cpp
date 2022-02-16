@@ -64,10 +64,11 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		glRotatef(_rotationAxes->x, 1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
-		glRotatef(_rotationAxes->y, 0.0f, 1.0f, 0.0f);	//Rotate in the y by the y rotation
-		glRotatef(_rotationAxes->z, 0.0f, 0.0f, 1.0f);	//Rotate in the z by the z rotation
-		glutWireTeapot(0.1);
+		//glRotatef(_rotationAxes->x, 1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
+		//glRotatef(_rotationAxes->y, 0.0f, 1.0f, 0.0f);	//Rotate in the y by the y rotation
+		//glRotatef(_rotationAxes->z, 0.0f, 0.0f, 1.0f);	//Rotate in the z by the z rotation
+		//glutWireTeapot(0.1);
+		DrawCube();
 	glPopMatrix();
 
 	//And ends here:
@@ -278,6 +279,98 @@ void HelloGL::DrawRectangle()
 	glEnd();	//Defines the end of the polygon
 
 	glPopMatrix();	//Isolate matrix calculations ('}')
+}
+
+void HelloGL::DrawCube()
+{
+	glBegin(GL_TRIANGLES);
+
+	//face v0-v1-v2
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	glColor3f(1, 1, 0);		//vertex 1 colours
+	glVertex3f(-1, 1, 1);	//vertex 1 point
+	glColor3f(1, 0, 0);		//vertex 2 colours
+	glVertex3f(-1, -1, 1);	//vertex 2 point
+	//face v2-v3-v0
+	glColor3f(1, 0, 0);		//vertex 2 colours
+	glVertex3f(-1, -1, 1);	//vertex 2 point
+	glColor3f(1, 0, 1);		//vertex 3 colours
+	glVertex3f(1, -1, 1);	//vertex 3 point
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	//face v0-v3-v4
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	glColor3f(1, 0, 1);		//vertex 3 colours
+	glVertex3f(1, -1, 1);	//vertex 3 point
+	glColor3f(0, 0, 1);		//vertex 4 colours
+	glVertex3f(1, -1, -1);	//vertex 4 point
+	//face v4-v5-v0
+	glColor3f(0, 0, 1);		//vertex 4 colours
+	glVertex3f(1, -1, -1);	//vertex 4 point
+	glColor3f(1, 0, 1);		//vertex 5 colours
+	glVertex3f(1, 1, -1);	//vertex 5 point
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	//face v0-v5-v6
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	glColor3f(1, 0, 1);		//vertex 5 colours
+	glVertex3f(1, 1, -1);	//vertex 5 point
+	glColor3f(0, 1, 0);		//vertex 6 colours
+	glVertex3f(-1, 1, -1);	//vertex 6 point
+	//face v6-v1-v0
+	glColor3f(0, 1, 0);		//vertex 6 colours
+	glVertex3f(-1, 1, -1);	//vertex 6 point
+	glColor3f(1, 1, 0);		//vertex 1 colours
+	glVertex3f(-1, 1, 1);	//vertex 1 point
+	glColor3f(1, 1, 1);		//vertex 0 colours
+	glVertex3f(1, 1, 1);	//vertex 0 point
+	//face v1-v6-v7
+	glColor3f(1, 1, 0);		//vertex 1 colours
+	glVertex3f(-1, 1, 1);	//vertex 1 point
+	glColor3f(0, 1, 0);		//vertex 6 colours
+	glVertex3f(-1, 1, -1);	//vertex 6 point
+	glColor3f(0, 0, 0);		//vertex 7 colours
+	glVertex3f(-1, -1, -1);	//vertex 7 point
+	//face v7-v2-v1
+	glColor3f(0, 0, 0);		//vertex 7 colours
+	glVertex3f(-1, -1, -1);	//vertex 7 point
+	glColor3f(1, 0, 0);		//vertex 2 colours
+	glVertex3f(-1, -1, 1);	//vertex 2 point
+	glColor3f(1, 1, 0);		//vertex 1 colours
+	glVertex3f(-1, 1, 1);	//vertex 1 point
+	//face v7-v4-v3
+	glColor3f(0, 0, 0);		//vertex 7 colours
+	glVertex3f(-1, -1, -1);	//vertex 7 point
+	glColor3f(0, 0, 1);		//vertex 4 colours
+	glVertex3f(1, -1, -1);	//vertex 4 point
+	glColor3f(1, 0, 1);		//vertex 3 colours
+	glVertex3f(1, -1, 1);	//vertex 3 point
+	//face v3-v2-v7
+	glColor3f(1, 0, 1);		//vertex 3 colours
+	glVertex3f(1, -1, 1);	//vertex 3 point
+	glColor3f(1, 0, 0);		//vertex 2 colours
+	glVertex3f(-1, -1, 1);	//vertex 2 point
+	glColor3f(0, 0, 0);		//vertex 7 colours
+	glVertex3f(-1, -1, -1);	//vertex 7 point
+	//face v4-v7-v6
+	glColor3f(0, 0, 1);		//vertex 4 colours
+	glVertex3f(1, -1, -1);	//vertex 4 point
+	glColor3f(0, 0, 0);		//vertex 7 colours
+	glVertex3f(-1, -1, -1);	//vertex 7 point
+	glColor3f(0, 1, 0);		//vertex 6 colours
+	glVertex3f(-1, 1, -1);	//vertex 6 point
+	//face v6-v5-v4
+	glColor3f(0, 1, 0);		//vertex 6 colours
+	glVertex3f(-1, 1, -1);	//vertex 6 point
+	glColor3f(1, 0, 1);		//vertex 5 colours
+	glVertex3f(1, 1, -1);	//vertex 5 point
+	glColor3f(0, 0, 1);		//vertex 4 colours
+	glVertex3f(1, -1, -1);	//vertex 4 point
+
+	glEnd();
 }
 
 void HelloGL::DrawTriangle(TriangleTypes triangleType)

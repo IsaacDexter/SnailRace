@@ -90,6 +90,7 @@ public:
 
 	//Display methods
 	void DrawRectangle();
+	void DrawCube();
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
 
