@@ -20,12 +20,17 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
 	//GlutKeyboardFunc sets the keyboard callback for the current window, so must be after createwindow. Tells glut freeglut about the Keyboard method.
 	glutKeyboardFunc(GLUTCallbacks::Keyboard);
+	//GlutMotionFunc sets mouse callback for current window as well
+	glutMotionFunc(GLUTCallbacks::MouseMotion);
 	
 	//Create a new camera and initialise it
 	camera = new Camera();
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
 	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+
+	//Create a new vector2 representing the mouse location and initialise it
+	_oldMousePos = new Vector2();
 
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
@@ -53,7 +58,7 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);
+	glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);
 		glutWireTeapot(0.1);
 	glPopMatrix();
 
@@ -65,6 +70,7 @@ void HelloGL::Display()
 
 void HelloGL::Keyboard(unsigned char key, int x, int y)
 {
+	//Toggles between various camera view modes. These are used to experiment with the camera, as I do not understand how it works
 	if (key == ' ')
 	{
 		viewMode += 1;
@@ -79,22 +85,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		switch (key)
 		{
 		case 'w':
-			camera->center.y -= 0.1f;
+			camera->center.y -= 0.0125f;
 			break;
 		case 'a':
-			camera->center.x -= 0.1f;
+			camera->center.x -= 0.0125f;
 			break;
 		case 's':
-			camera->center.y += 0.1f;
+			camera->center.y += 0.0125f;
 			break;
 		case 'd':
-			camera->center.x += 0.1f;
+			camera->center.x += 0.0125f;
 			break;
 		case 'q':
-			camera->center.z += 0.1f;
+			camera->center.z += 0.0125f;
 			break;
 		case 'e':
-			camera->center.z -= 0.1f;
+			camera->center.z -= 0.0125f;
 			break;
 		default:
 			break;
@@ -104,22 +110,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		switch (key)
 		{
 		case 'w':
-			camera->eye.y -= 0.1f;
+			camera->eye.y -= 0.025f;
 			break;
 		case 'a':
-			camera->eye.x -= 0.1f;
+			camera->eye.x -= 0.025f;
 			break;
 		case 's':
-			camera->eye.y += 0.1f;
+			camera->eye.y += 0.025f;
 			break;
 		case 'd':
-			camera->eye.x += 0.1f;
+			camera->eye.x += 0.025f;
 			break;
 		case 'q':
-			camera->eye.z += 0.1f;
+			camera->eye.z += 0.025f;
 			break;
 		case 'e':
-			camera->eye.z -= 0.1f;
+			camera->eye.z -= 0.025f;
 			break;
 		default:
 			break;
@@ -129,22 +135,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		switch (key)
 		{
 		case 'w':
-			camera->up.y -= 0.1f;
+			camera->up.y -= 0.05f;
 			break;
 		case 'a':
-			camera->up.x -= 0.1f;
+			camera->up.x -= 0.05f;
 			break;
 		case 's':
-			camera->up.y += 0.1f;
+			camera->up.y += 0.05f;
 			break;
 		case 'd':
-			camera->up.x += 0.1f;
+			camera->up.x += 0.05f;
 			break;
 		case 'q':
-			camera->up.z += 0.1f;
+			camera->up.z += 0.05f;
 			break;
 		case 'e':
-			camera->up.z -= 0.1f;
+			camera->up.z -= 0.05f;
 			break;
 		default:
 			break;
@@ -153,6 +159,12 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
+}
+
+///<summary>Calls the mouses position when a mouse button is held. Used to rotate the teapot<\summary>
+void HelloGL::MouseMotion(int x, int y)
+{
+	_rectangleRotation += (_oldMousePos->y - y) / 5;
 }
 
 /// <summary>Calls each frame. Updates each aspect of the game</summary>

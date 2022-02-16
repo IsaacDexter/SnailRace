@@ -45,6 +45,24 @@ struct Vector3
 	}
 };
 
+struct Vector2
+{
+	float x;
+	float y;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	Vector2()
+	{
+		x = 0.0f;
+		y = 0.0f;
+	}
+	//Allows us to take parameters, so we can construct with any values
+	Vector2(float initial_x, float initial_y)
+	{
+		x = initial_x;
+		y = initial_y;
+	}
+};
+
 struct Camera
 {
 	Vector3 eye;
@@ -69,6 +87,7 @@ public:
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
+	void MouseMotion(int x, int y);
 
 	//Update methods
 	void Update();
@@ -77,4 +96,5 @@ private:
 	int viewMode = 1;
 	float _rectangleRotation;
 	Camera* camera;
+	Vector2* _oldMousePos;
 };

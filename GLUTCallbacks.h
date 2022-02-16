@@ -9,5 +9,7 @@ namespace GLUTCallbacks
 
 	void Keyboard(unsigned char key, int x, int y);
 
+	void MouseMotion(int x, int y);
+
 	void Timer(int prefferedRefresh);
 }

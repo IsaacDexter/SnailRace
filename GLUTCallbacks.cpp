@@ -20,6 +20,11 @@ namespace GLUTCallbacks
 		helloGL->Keyboard(key, x, y);
 	}
 
+	void MouseMotion(int x, int y)
+	{
+		helloGL->MouseMotion(x, y);
+	}
+
 	void Display()
 	{
 		if (helloGL != nullptr)
