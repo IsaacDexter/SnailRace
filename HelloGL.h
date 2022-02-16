@@ -90,7 +90,9 @@ public:
 
 	//Display methods
 	void DrawRectangle();
-	void DrawCube();
+	/// <summary>Draws a multicoloured cube.</summary>
+	/// <param name="sf">The scale factor</param>
+	void DrawCube(float sf = 0.1f);
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
 
