@@ -11,5 +11,9 @@ namespace GLUTCallbacks
 
 	void MouseMotion(int x, int y);
 
+	void PassiveMouseMotion(int x, int y);
+
+	void MouseButton(int button, int state, int x, int y);
+
 	void Timer(int prefferedRefresh);
 }

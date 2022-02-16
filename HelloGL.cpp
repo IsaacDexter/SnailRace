@@ -1,10 +1,8 @@
 #include "HelloGL.h"
+#include <iostream>
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
-	//Initialise variables
-	_rectangleRotation = 0.0f;
-
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
 	glutInitDisplayMode(GLUT_DOUBLE);	//Sets display mode to double buffering, which eliminates 'flickering'.
@@ -18,11 +16,16 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutDisplayFunc(GLUTCallbacks::Display);
 	//16: how long timer should weight before calling the method (REFRESHRATE = 16ms * 60 ~= 1000ms, so 60fps). Timer: Method to be called. 16: Parameter passed into timer method (prefferedRefresh) (16ms again)
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
-	//GlutKeyboardFunc sets the keyboard callback for the current window, so must be after createwindow. Tells glut freeglut about the Keyboard method.
+
+	//glutKeyboardFunc sets the keyboard callback for the current window, so must be after createwindow. Tells glut freeglut about the Keyboard method.
 	glutKeyboardFunc(GLUTCallbacks::Keyboard);
-	//GlutMotionFunc sets mouse callback for current window as well
+	//glutMotionFunc sets mouse callback for current window as well. Used to rotate objects on screen
 	glutMotionFunc(GLUTCallbacks::MouseMotion);
-	
+	//glutPassiveMotionFunc - like glutMotionFunc but calls even when buttons aren't pressed. Used to update mouse position
+	glutPassiveMotionFunc(GLUTCallbacks::PassiveMouseMotion);
+	//glutMouseFunc used to handle click events
+	glutMouseFunc(GLUTCallbacks::MouseButton);
+
 	//Create a new camera and initialise it
 	camera = new Camera();
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
@@ -31,6 +34,9 @@ HelloGL::HelloGL(int argc, char* argv[])
 
 	//Create a new vector2 representing the mouse location and initialise it
 	_oldMousePos = new Vector2();
+
+	//Create a new Vector 3 representing rotation in each axis
+	_rotationAxes = new Vector3();
 
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
@@ -58,7 +64,9 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-	glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);
+		glRotatef(_rotationAxes->x, 1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
+		glRotatef(_rotationAxes->y, 0.0f, 1.0f, 0.0f);	//Rotate in the y by the y rotation
+		glRotatef(_rotationAxes->z, 0.0f, 0.0f, 1.0f);	//Rotate in the z by the z rotation
 		glutWireTeapot(0.1);
 	glPopMatrix();
 
@@ -164,7 +172,65 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 ///<summary>Calls the mouses position when a mouse button is held. Used to rotate the teapot<\summary>
 void HelloGL::MouseMotion(int x, int y)
 {
-	_rectangleRotation += (_oldMousePos->y - y) / 5;
+	switch (_mouseButtonPressed)
+	{
+	case none:
+		break;
+	case LeftMouseButton:
+		_rotationAxes->x += _oldMousePos->y - y;	//In lmb mode, pitch object forward/back
+		_rotationAxes->y += _oldMousePos->x - x;	//Yaw object to the left and right
+		break;
+	case RightMouseButton:
+		_rotationAxes->z += _oldMousePos->x - x;	//roll object starboard and port
+		break;
+	default:
+		break;
+	}
+	//Update mouse position, as passive does not call when motion is called
+	_oldMousePos->x = x, _oldMousePos->y = y;
+}
+
+/// <summary>Calls whenever the mouse moves. Used to update the mouse's position</summary>
+void HelloGL::PassiveMouseMotion(int x, int y)
+{
+	_oldMousePos->x = x, _oldMousePos->y = y;
+	//std::cout << "Mouse Pos: x = " << _oldMousePos->x << ", y = " << _oldMousePos->y << std::endl;
+}
+
+void HelloGL::MouseButton(int button, int state, int x, int y)
+{
+	switch (state)
+	{
+	case GLUT_DOWN:
+		switch (button)
+		{
+		case GLUT_LEFT_BUTTON:
+			_mouseButtonPressed = LeftMouseButton;
+			break;
+		case GLUT_RIGHT_BUTTON:
+			_mouseButtonPressed = RightMouseButton;
+			break;
+		case GLUT_MIDDLE_BUTTON:
+			_mouseButtonPressed = MiddleMouseButton;
+			//Reset Rotation
+			_rotationAxes->x = 0.0f; //Reset pitch as mmb mode
+			_rotationAxes->y = 0.0f; //Reset yaw as mmb mode
+			_rotationAxes->z = 0.0f; //Reset roll as mmb mode
+			//Reset Camera Position
+			camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
+			camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
+			camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+			break;
+		default:
+			break;
+		}
+		break;
+	case GLUT_UP:
+		_mouseButtonPressed = none;
+		break;
+	default:
+		break;
+	}
 }
 
 /// <summary>Calls each frame. Updates each aspect of the game</summary>
@@ -202,7 +268,6 @@ void HelloGL::DrawRectangle()
 
 	//Translate the object down the z axis
 	glTranslatef(0.0f, 0.0f, -5.0f);
-	glRotatef(_rectangleRotation, 1.0f, 0.0f, 0.0f);	//Rotate by rotation solely around the Z axis.
 
 	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
 	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).

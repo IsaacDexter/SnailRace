@@ -23,6 +23,14 @@ enum TriangleTypes
 	Equilateral,
 };
 
+enum MouseButtons
+{
+	none,
+	LeftMouseButton,
+	RightMouseButton,
+	MiddleMouseButton,
+};
+
 /// <summary>A 3D vector represeting a single point in space</summary>
 struct Vector3
 {
@@ -87,14 +95,20 @@ public:
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
+	void MouseButton(int button, int state, int x, int y);
 	void MouseMotion(int x, int y);
+	void PassiveMouseMotion(int x, int y);
 
 	//Update methods
 	void Update();
 private:
 	/// <summary>1 for center, 2 for eye, 3 for up</summary>
 	int viewMode = 1;
-	float _rectangleRotation;
 	Camera* camera;
+	/// <summary>Vector2 storing mouse position</summary>
 	Vector2* _oldMousePos;
+	/// <summary>Vector3 representing the rotation in each axis</summary>
+	Vector3* _rotationAxes;
+
+	MouseButtons _mouseButtonPressed = none;
 };

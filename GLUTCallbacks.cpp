@@ -25,6 +25,16 @@ namespace GLUTCallbacks
 		helloGL->MouseMotion(x, y);
 	}
 
+	void PassiveMouseMotion(int x, int y)
+	{
+		helloGL->PassiveMouseMotion(x, y);
+	}
+
+	void MouseButton(int button, int state, int x, int y)
+	{
+		helloGL->MouseButton(button, state, x, y);
+	}
+
 	void Display()
 	{
 		if (helloGL != nullptr)
