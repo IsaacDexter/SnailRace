@@ -3,10 +3,11 @@
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
+	//Initialises Glut
+	glutInit(&argc, argv);
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
-	glutInitDisplayMode(GLUT_DOUBLE);	//Sets display mode to double buffering, which eliminates 'flickering'.
-	glutInit(&argc, argv);
+
 	//set the size of the window in pixels
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	//set the initial position of the window on the screen
@@ -25,6 +26,13 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutPassiveMotionFunc(GLUTCallbacks::PassiveMouseMotion);
 	//glutMouseFunc used to handle click events
 	glutMouseFunc(GLUTCallbacks::MouseButton);
+
+	//Sets display mode to double buffering, which eliminates 'flickering'.
+	glutInitDisplayMode(GLUT_DOUBLE);
+	//Enables back face culling, which obscures back faces of shapes that are not in view, giving a true perspective
+	glEnable(GL_CULL_FACE);
+	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
+	glCullFace(GL_BACK);
 
 	//Create a new camera and initialise it
 	camera = new Camera();
@@ -68,7 +76,7 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, 1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, 1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawCube(0.1);
+		DrawCube();
 	glPopMatrix();
 
 	//And ends here:
