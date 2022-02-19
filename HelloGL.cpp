@@ -1,6 +1,48 @@
 #include "HelloGL.h"
 #include <iostream>
 
+/// <summary> static array containing all the vertices of a 1*1*1 cube</summary>
+Vertex HelloGL::vertices[] = { 
+	 1, 1, 1,	-1, 1, 1,	-1,-1, 1,	//v0-v1-v2 (front)
+	-1,-1, 1,	 1,-1, 1,	 1, 1, 1,	//v2-v3-v0
+
+	 1, 1, 1,	 1,-1, 1,	 1,-1,-1,	//v0-v3-v4 (right)
+	 1,-1,-1,	 1, 1,-1,	 1, 1, 1,	//v4-v5-v0
+
+	 1, 1, 1,	 1, 1,-1,	-1, 1,-1,	//v0-v5-v6 (top)
+	-1, 1,-1,	-1, 1, 1,	 1, 1, 1,	//v6-v1-v0
+
+	-1, 1, 1,	-1, 1,-1,	-1,-1,-1,	//v1-v6-v7 (left)
+	-1,-1,-1,	-1,-1, 1,	-1, 1, 1,	//v7-v2-v1
+
+	-1,-1,-1,	 1,-1,-1,	 1,-1, 1,	//v7-v4-v3 (bottom)
+	 1,-1, 1,	-1,-1, 1,	-1,-1,-1,	//v3-v2-v7
+
+	 1,-1,-1,	-1,-1,-1,	-1, 1,-1,	//v4-v7-v6 (back)
+	-1, 1,-1,	 1, 1,-1,	 1,-1,-1,	//v6-v5-v4
+};
+
+/// <summary>Array containing all the colours at each vertex. Different to tutorial as simply recycled old values cuz lazy</summary>
+Color HelloGL::colors[] = {
+	 1, 1, 1,	 0, 1, 1,	 0, 0, 1,	//v0-v1-v2 (front)
+	 0, 0, 1,	 1, 0, 1,	 1, 1, 1,	//v2-v3-v0
+
+	 1, 1, 1,	 1, 0, 1,	 1, 0, 0,	//v0-v3-v4 (right)
+	 1, 0, 0,	 1, 1, 0,	 1, 1, 1,	//v4-v5-v0
+
+	 1, 1, 1,	 1, 1, 0,	 0, 1, 0,	//v0-v5-v6 (top)
+	 0, 1, 0,	 0, 1, 1,	 1, 1, 1,	//v6-v1-v0
+
+	 0, 1, 1,	 0, 1, 0,	 0, 0, 0,	//v1-v6-v7 (left)
+	 0, 0, 0,	 0, 0, 1,	 0, 1, 1,	//v7-v2-v1
+
+	 0, 0, 0,	 1, 0, 0,	 1, 0, 1,	//v7-v4-v3 (bottom)
+	 1, 0, 1,	 0, 0, 1,	 0, 0, 0,	//v3-v2-v7
+
+	 1, 0, 0,	 0, 0, 0,	 0, 1, 0,	//v4-v7-v6 (back)
+	 0, 1, 0,	 1, 1, 0,	 1, 0, 0,	//v6-v5-v4
+};
+
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialises Glut
@@ -72,11 +114,11 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		glRotatef(_rotationAxes->x, 1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
-		glRotatef(_rotationAxes->y, 0.0f, 1.0f, 0.0f);	//Rotate in the y by the y rotation
-		glRotatef(_rotationAxes->z, 0.0f, 0.0f, 1.0f);	//Rotate in the z by the z rotation
+		glRotatef(_rotationAxes->x, -1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
+		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
+		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawCube();
+		DrawCubeArray();
 	glPopMatrix();
 
 	//And ends here:
@@ -379,6 +421,21 @@ void HelloGL::DrawCube(float sf)
 	glVertex3f(sf, -sf, -sf);	//vertex 4 point
 
 	glEnd();
+}
+
+void HelloGL::DrawCubeArray(float sf)
+{
+	glPushMatrix();
+
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < 36; i++)
+	{
+		glColor3f(colors[i].r, colors[i].g, colors[i].b);
+		glVertex3f(vertices[i].x * sf, vertices[i].y * sf, vertices[i].z * sf);
+	}
+	glEnd();
+
+	glPopMatrix();
 }
 
 void HelloGL::DrawTriangle(TriangleTypes triangleType)

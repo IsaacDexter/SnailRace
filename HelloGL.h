@@ -78,6 +78,18 @@ struct Camera
 	Vector3 up;
 };
 
+/// <summary>Used to store colours for each vertex in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
+struct Color
+{
+	GLfloat r, g, b;
+};
+
+/// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
+struct Vertex
+{
+	GLfloat x, y, z;
+};
+
 class HelloGL
 {
 public:
@@ -95,6 +107,8 @@ public:
 	void DrawCube(float sf = 0.1f);
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
+	/// <summary>Method used to draw a cube from a vertex and colour array.</summary>
+	void DrawCubeArray(float sf = 0.1f);
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
@@ -112,6 +126,10 @@ private:
 	Vector2* _oldMousePos;
 	/// <summary>Vector3 representing the rotation in each axis</summary>
 	Vector3* _rotationAxes;
+
+	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
+	static Vertex vertices[];
+	static Color colors[];
 
 	MouseButtons _mouseButtonPressed = none;
 };
