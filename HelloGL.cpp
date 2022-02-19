@@ -152,7 +152,7 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawIndexedCube();
+		DrawCubeArrayAlt();
 	glPopMatrix();
 
 	//And ends here:
@@ -472,6 +472,23 @@ void HelloGL::DrawCubeArray(float sf)
 	glPopMatrix();
 }
 
+void HelloGL::DrawCubeArrayAlt(float sf)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glColorPointer(3, GL_FLOAT, 0, colors);
+
+	glPushMatrix();
+
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+}
+
 void HelloGL::DrawIndexedCube(float sf)
 {
 	glPushMatrix();
@@ -487,6 +504,23 @@ void HelloGL::DrawIndexedCube(float sf)
 	glEnd();
 
 	glPopMatrix();
+}
+
+void HelloGL::DrawIndexedCubeAlt(float sf)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, indexedVertices);
+	glColorPointer(3, GL_FLOAT, 0, indexedColors);
+
+	glPushMatrix();
+
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
+
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void HelloGL::DrawTriangle(TriangleTypes triangleType)

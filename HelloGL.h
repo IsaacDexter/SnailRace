@@ -111,9 +111,15 @@ public:
 	/// <summary>Method used to draw a cube from a vertex and colour array.</summary>
 	/// <param name="sf">The scale factor. Defaults to 0.1.</param>
 	void DrawCubeArray(float sf = 0.1f);
+	/// <summary>Draws cube using alternative built in method included. Does not support scale factor yet.</summary>
+	/// <param name="sf">Nonfunctional.</param>
+	void DrawCubeArrayAlt(float sf = 1.0f);
 	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
 	/// <param name="sf">The scale factor. Defaults to 0.1</param>
 	void DrawIndexedCube(float sf = 0.1f);
+	/// <summary>Draws indexed cube using alternative built in method included. DOes not support scale factor yet.</summary>
+	/// <param name="sf">Nonfuctional</param>
+	void DrawIndexedCubeAlt(float sf = 1.0f);
 
 
 	//Input Methods
