@@ -2,7 +2,7 @@
 #include <iostream>
 
 /// <summary> static array containing all the vertices of a 1*1*1 cube</summary>
-Vertex HelloGL::vertices[] = { 
+Vertex HelloGL::cube_vertices[] = { 
 	 1, 1, 1,	-1, 1, 1,	-1,-1, 1,	//v0-v1-v2 (front)
 	-1,-1, 1,	 1,-1, 1,	 1, 1, 1,	//v2-v3-v0
 
@@ -23,7 +23,7 @@ Vertex HelloGL::vertices[] = {
 };
 
 /// <summary>Array containing all the colours at each vertex. Different to tutorial as simply recycled old values cuz lazy</summary>
-Color HelloGL::colors[] = {
+Color HelloGL::cube_colors[] = {
 	 1, 1, 1,	 0, 1, 1,	 0, 0, 1,	//v0-v1-v2 (front)
 	 0, 0, 1,	 1, 0, 1,	 1, 1, 1,	//v2-v3-v0
 
@@ -44,7 +44,7 @@ Color HelloGL::colors[] = {
 };
 
 /// <summary>All 8 indexed vertices in the cube</summary>
-Vertex HelloGL::indexedVertices[] = {
+Vertex HelloGL::cube_indexedVertices[] = {
 	 1, 1, 1,	//vertex 0
 	-1, 1, 1,	//vertex 1
 	-1,-1, 1,	//vertex 2
@@ -53,10 +53,10 @@ Vertex HelloGL::indexedVertices[] = {
 	 1, 1,-1,	//vertex 5
 	-1, 1,-1,	//vertex 6
 	-1,-1,-1	//vertex 7
-};
+};	//8 vertices
 
 /// <summary>The color associated with each vertex</summary>
-Color HelloGL::indexedColors[] = {
+Color HelloGL::cube_indexedColors[] = {
 	 1, 1, 1,	//vertex 0, white
 	 0, 1, 1,	//vertex 1, cyan
 	 0, 0, 1,	//vertex 2, blue
@@ -65,17 +65,62 @@ Color HelloGL::indexedColors[] = {
 	 1, 1, 0,	//vertex 5, yellow
 	 0, 1, 0,	//vertex 6, green
 	 0, 0, 0	//vertex 7, black
-};
+};	//8 colours
 
 /// <summary>Defines the triangles that make up the cube, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-GLushort HelloGL::indices[] = {
+GLushort HelloGL::cube_indices[] = {
 	0,	1,	2,		2,	3,	0,	//Front
 	0,	3,	4,		4,	5,	0,	//Right
 	0,	5,	6,		6,	1,	0,	//Top
 	1,	6,	7,		7,	2,	1,	//Left
 	7,	4,	3,		3,	2,	7,	//Bottom
 	4,	7,	6,		6,	5,	4	//Back
-};
+};	//12 triangles, 36 vertices overall
+
+Vertex HelloGL::hexagonalPrism_indexedVertices[] = {
+	//Front Face
+	-1,0,1,			//vertex 0
+	-0.5,0.866,1,	//vertex 1
+	0.5,0.866,1,	//vertex 2
+	1,0,1,			//vertex 3
+	0.5,-0.866,1,	//vertex 4
+	-0.5,-0.866,1,	//vertex 5
+
+	//Back Face
+	-1,0,-1,		//vertex 6
+	-0.5,0.866,-1,	//vertex 7
+	0.5,0.866,-1,	//vertex 8
+	1,0,-1,			//vertex 9
+	0.5,-0.866,-1,	//vertex 10
+	-0.5,-0.866,-1	//vertex 11
+};	//12 Vertices
+
+Color HelloGL::hexagonalPrism_indexedColors[] = {
+	1,		0,		0,
+	1,		0.25,	0,
+	1,		0.5,	0.25,
+	1,		0.5,	0.5,
+	1,		0.25,	0.5,
+	1,		0,		0.25,
+
+	0,		0,		1,
+	0,		0.25,	1,
+	0.25,	0.5,	1,
+	0.5,	0.5,	1,
+	0.5,	0.25,	1,
+	0.25,	0,		1
+};	//12 colours
+
+GLushort HelloGL::hexagonalPrism_indices[] = {
+	0,	1,	2,		2,	3,	4,		4,	5,	0,		0,	2,	4,	//Front Face
+	4,	10,	11,		11,	5,	4,	//side a
+	4,	10,	9,		9,	4,	3,	//side b
+	3,	9,	8,		8,	3,	2,	//side c
+	2,	8,	7,		7,	2,	1,	//side d
+	1,	7,	6,		6,	1,	0,	//side e
+	0,	5,	6,		6,	5,	11,	//side f
+	11,	10,	9,		9,	8,	7,		7,	6,	11,		11,	9,	7	//Rear Face
+};	//20 triangles, 60 vertices overall
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
@@ -106,9 +151,9 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Sets display mode to double buffering, which eliminates 'flickering'.
 	glutInitDisplayMode(GLUT_DOUBLE);
 	//Enables back face culling, which obscures back faces of shapes that are not in view, giving a true perspective
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
-	glCullFace(GL_BACK);
+	//glCullFace(GL_BACK);
 
 	//Create a new camera and initialise it
 	camera = new Camera();
@@ -152,7 +197,7 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawCubeArrayAlt();
+		DrawIndexedHexagonalPrismAlt();
 	glPopMatrix();
 
 	//And ends here:
@@ -464,8 +509,8 @@ void HelloGL::DrawCubeArray(float sf)
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 36; i++)
 	{
-		glColor3f(colors[i].r, colors[i].g, colors[i].b);
-		glVertex3f(vertices[i].x * sf, vertices[i].y * sf, vertices[i].z * sf);
+		glColor3fv(&cube_colors[i].r);
+		glVertex3f(cube_vertices[i].x * sf, cube_vertices[i].y * sf, cube_vertices[i].z * sf);
 	}
 	glEnd();
 
@@ -476,8 +521,8 @@ void HelloGL::DrawCubeArrayAlt(float sf)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glColorPointer(3, GL_FLOAT, 0, colors);
+	glVertexPointer(3, GL_FLOAT, 0, cube_vertices);
+	glColorPointer(3, GL_FLOAT, 0, cube_colors);
 
 	glPushMatrix();
 
@@ -497,8 +542,8 @@ void HelloGL::DrawIndexedCube(float sf)
 
 	for (int i = 0; i < 36; i++)
 	{
-		glColor3fv(&indexedColors[indices[i]].r);
-		glVertex3f(indexedVertices[indices[i]].x * sf, indexedVertices[indices[i]].y * sf, indexedVertices[indices[i]].z * sf);
+		glColor3fv(&cube_indexedColors[cube_indices[i]].r);
+		glVertex3f(cube_indexedVertices[cube_indices[i]].x * sf, cube_indexedVertices[cube_indices[i]].y * sf, cube_indexedVertices[cube_indices[i]].z * sf);
 	}
 
 	glEnd();
@@ -510,12 +555,29 @@ void HelloGL::DrawIndexedCubeAlt(float sf)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, indexedVertices);
-	glColorPointer(3, GL_FLOAT, 0, indexedColors);
+	glVertexPointer(3, GL_FLOAT, 0, cube_indexedVertices);
+	glColorPointer(3, GL_FLOAT, 0, cube_indexedColors);
 
 	glPushMatrix();
 
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, cube_indices);
+
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void HelloGL::DrawIndexedHexagonalPrismAlt(float sf)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, hexagonalPrism_indexedVertices);
+	glColorPointer(3, GL_FLOAT, 0, hexagonalPrism_indexedColors);
+
+	glPushMatrix();
+
+	glDrawElements(GL_TRIANGLES, 60, GL_UNSIGNED_SHORT, hexagonalPrism_indices);
 
 	glPopMatrix();
 

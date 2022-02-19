@@ -120,6 +120,9 @@ public:
 	/// <summary>Draws indexed cube using alternative built in method included. DOes not support scale factor yet.</summary>
 	/// <param name="sf">Nonfuctional</param>
 	void DrawIndexedCubeAlt(float sf = 1.0f);
+	/// <summary>Draws indexed hexagonal prism using alternative built in method included. Does not support scale factoring yet</summary>
+	/// <param name="sf">Nonfunctional</param>
+	void DrawIndexedHexagonalPrismAlt(float sf = 1.0f);
 
 
 	//Input Methods
@@ -140,13 +143,18 @@ private:
 	Vector3* _rotationAxes;
 
 	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
-	static Vertex vertices[];
-	static Color colors[];
+	static Vertex cube_vertices[];
+	static Color cube_colors[];
 
 	/// <summary>Less memory footprint than previous versions, uses indices</summary>
-	static Vertex indexedVertices[];
-	static Color indexedColors[];
-	static GLushort indices[];
+	static Vertex cube_indexedVertices[];
+	static Color cube_indexedColors[];
+	static GLushort cube_indices[];
+
+	/// <summary>Similar to the way draw indexedcube handles drawing, only for hexagonal prism</summary>
+	static Vertex hexagonalPrism_indexedVertices[];
+	static Color hexagonalPrism_indexedColors[];
+	static GLushort hexagonalPrism_indices[];
 
 	MouseButtons _mouseButtonPressed = none;
 };
