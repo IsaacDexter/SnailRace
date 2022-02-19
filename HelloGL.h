@@ -102,13 +102,19 @@ public:
 
 	//Display methods
 	void DrawRectangle();
-	/// <summary>Draws a multicoloured cube.</summary>
-	/// <param name="sf">The scale factor</param>
-	void DrawCube(float sf = 0.1f);
+	
 	void DrawTriangle(TriangleTypes triangleType);
 	void Display();
+	/// <summary>Draws a multicoloured cube using hard coded values.</summary>
+	/// <param name="sf">The scale factor</param>
+	void DrawCube(float sf = 0.1f);
 	/// <summary>Method used to draw a cube from a vertex and colour array.</summary>
+	/// <param name="sf">The scale factor. Defaults to 0.1.</param>
 	void DrawCubeArray(float sf = 0.1f);
+	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
+	/// <param name="sf">The scale factor. Defaults to 0.1</param>
+	void DrawIndexedCube(float sf = 0.1f);
+
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
@@ -130,6 +136,11 @@ private:
 	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
 	static Vertex vertices[];
 	static Color colors[];
+
+	/// <summary>Less memory footprint than previous versions, uses indices</summary>
+	static Vertex indexedVertices[];
+	static Color indexedColors[];
+	static GLushort indices[];
 
 	MouseButtons _mouseButtonPressed = none;
 };

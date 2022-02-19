@@ -43,6 +43,40 @@ Color HelloGL::colors[] = {
 	 0, 1, 0,	 1, 1, 0,	 1, 0, 0,	//v6-v5-v4
 };
 
+/// <summary>All 8 indexed vertices in the cube</summary>
+Vertex HelloGL::indexedVertices[] = {
+	 1, 1, 1,	//vertex 0
+	-1, 1, 1,	//vertex 1
+	-1,-1, 1,	//vertex 2
+	 1,-1, 1,	//vertex 3
+	 1,-1,-1,	//vertex 4
+	 1, 1,-1,	//vertex 5
+	-1, 1,-1,	//vertex 6
+	-1,-1,-1	//vertex 7
+};
+
+/// <summary>The color associated with each vertex</summary>
+Color HelloGL::indexedColors[] = {
+	 1, 1, 1,	//vertex 0, white
+	 0, 1, 1,	//vertex 1, cyan
+	 0, 0, 1,	//vertex 2, blue
+	 1, 0, 1,	//vertex 3, magenta
+	 1, 0, 0,	//vertex 4, red
+	 1, 1, 0,	//vertex 5, yellow
+	 0, 1, 0,	//vertex 6, green
+	 0, 0, 0	//vertex 7, black
+};
+
+/// <summary>Defines the triangles that make up the cube, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
+GLushort HelloGL::indices[] = {
+	0,	1,	2,		2,	3,	0,	//Front
+	0,	3,	4,		4,	5,	0,	//Right
+	0,	5,	6,		6,	1,	0,	//Top
+	1,	6,	7,		7,	2,	1,	//Left
+	7,	4,	3,		3,	2,	7,	//Bottom
+	4,	7,	6,		6,	5,	4	//Back
+};
+
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialises Glut
@@ -118,7 +152,7 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawCubeArray();
+		DrawIndexedCube();
 	glPopMatrix();
 
 	//And ends here:
@@ -433,6 +467,23 @@ void HelloGL::DrawCubeArray(float sf)
 		glColor3f(colors[i].r, colors[i].g, colors[i].b);
 		glVertex3f(vertices[i].x * sf, vertices[i].y * sf, vertices[i].z * sf);
 	}
+	glEnd();
+
+	glPopMatrix();
+}
+
+void HelloGL::DrawIndexedCube(float sf)
+{
+	glPushMatrix();
+
+	glBegin(GL_TRIANGLES);
+
+	for (int i = 0; i < 36; i++)
+	{
+		glColor3fv(&indexedColors[indices[i]].r);
+		glVertex3f(indexedVertices[indices[i]].x * sf, indexedVertices[indices[i]].y * sf, indexedVertices[indices[i]].z * sf);
+	}
+
 	glEnd();
 
 	glPopMatrix();
