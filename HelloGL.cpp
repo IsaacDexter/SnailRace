@@ -112,14 +112,14 @@ Color HelloGL::hexagonalPrism_indexedColors[] = {
 };	//12 colours
 
 GLushort HelloGL::hexagonalPrism_indices[] = {
-	0,	1,	2,		2,	3,	4,		4,	5,	0,		0,	2,	4,	//Front Face
-	4,	10,	11,		11,	5,	4,	//side a
-	4,	10,	9,		9,	4,	3,	//side b
-	3,	9,	8,		8,	3,	2,	//side c
-	2,	8,	7,		7,	2,	1,	//side d
-	1,	7,	6,		6,	1,	0,	//side e
-	0,	5,	6,		6,	5,	11,	//side f
-	11,	10,	9,		9,	8,	7,		7,	6,	11,		11,	9,	7	//Rear Face
+	2,	1,	0,		0,	5,	4,		4,	3,	2,		2,	0,	4,	//Front Face
+	9,	10,	11,		11,	6,	7,			7,	8,	9,		9,	11,	7,	//Rear Face
+	1,	2,	8,		8,	7,	1,	//top side
+	2,	3,	9,		9,	8,	2,	//top right side
+	3,	4,	10,		10,	9,	3,	//bottom right side
+	4,	5,	11,		11,	10,	4,	//bottom side
+	5,	0,	6,		6,	11,	5,	//bottom left side
+	0,	1,	7,		7,	6,	0	//top left side
 };	//20 triangles, 60 vertices overall
 
 HelloGL::HelloGL(int argc, char* argv[])
@@ -151,9 +151,9 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Sets display mode to double buffering, which eliminates 'flickering'.
 	glutInitDisplayMode(GLUT_DOUBLE);
 	//Enables back face culling, which obscures back faces of shapes that are not in view, giving a true perspective
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
-	//glCullFace(GL_BACK);
+	glCullFace(GL_BACK);
 
 	//Create a new camera and initialise it
 	camera = new Camera();
@@ -260,10 +260,10 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 			camera->eye.x += 0.025f;
 			break;
 		case 'q':
-			camera->eye.z += 0.025f;
+			camera->eye.z += 0.25f;
 			break;
 		case 'e':
-			camera->eye.z -= 0.025f;
+			camera->eye.z -= 0.25f;
 			break;
 		default:
 			break;
