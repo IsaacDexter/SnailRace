@@ -101,9 +101,12 @@ public:
 	~HelloGL(void);
 
 	//Display methods
+	/// <summary>Draws a rectangle of fixed size</summary>
 	void DrawRectangle();
-	
+	/// <summary>Draws a 2D triangle of fixed size</summary>
+	/// <param name="triangleType">Scalene, Isoscoles or Equilateral (ENUM)</param>
 	void DrawTriangle(TriangleTypes triangleType);
+
 	void Display();
 	/// <summary>Draws a multicoloured cube using hard coded values.</summary>
 	/// <param name="sf">The scale factor</param>
@@ -120,10 +123,14 @@ public:
 	/// <summary>Draws indexed cube using alternative built in method included. DOes not support scale factor yet.</summary>
 	/// <param name="sf">Nonfuctional</param>
 	void DrawIndexedCubeAlt(float sf = 1.0f);
+
 	/// <summary>Draws indexed hexagonal prism using alternative built in method included. Does not support scale factoring yet</summary>
 	/// <param name="sf">Nonfunctional</param>
 	void DrawIndexedHexagonalPrismAlt(float sf = 1.0f);
 
+	/// <summary>Draws indexed square based pyramid using alternative built in method included. Does not support scale factoring yet</summary>
+	/// <param name="sf">Nonfunctional</param>
+	void DrawIndexedSquareBasedPyramidAlt(float sf = 1.0f);
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
@@ -155,6 +162,11 @@ private:
 	static Vertex hexagonalPrism_indexedVertices[];
 	static Color hexagonalPrism_indexedColors[];
 	static GLushort hexagonalPrism_indices[];
+
+	/// <summary>Similar to the way draw indexedcube handles drawing, only for square based pyramid</summary>
+	static Vertex squareBasedPyramid_indexedVertices[];
+	static Color squareBasedPyramid_indexedColors[];
+	static GLushort squareBasedPyramid_indices[];
 
 	MouseButtons _mouseButtonPressed = none;
 };

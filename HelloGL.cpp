@@ -123,6 +123,31 @@ GLushort HelloGL::hexagonalPrism_indices[] = {
 	0,	1,	7,		7,	6,	0	//top left side
 };	//20 triangles, 60 vertices overall
 
+Vertex HelloGL::squareBasedPyramid_indexedVertices[] = {
+	 0,	 1,	 0,	//vertex 0 (Point)
+	 1,	-1,	 1,	//vertex 1
+	-1,	-1,	 1,	//vertex 2
+	-1,	-1,	-1,	//vertex 3
+	 1,	-1,	-1,	//vertex 4
+};	//5 vertices
+
+Color HelloGL::squareBasedPyramid_indexedColors[] = {
+	1,	1,	1,	//white, point
+	1,	0,	0,	//red
+	0,	0,	1,	//blue
+	1,	1,	0,	//yellow
+	0,	1,	0	//green
+};	//5 colors
+
+GLushort HelloGL::squareBasedPyramid_indices[] = {
+	2,	1,	0,	//face 1
+	3,	2,	0,	//face 2
+	4,	3,	0,	//face 3
+	1,	4,	0,	//face 4
+	2,	3,	1,	//base 1
+	4,	1,	3,	//base 2
+};	//6 triangles,	18 vertices overall.
+
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialises Glut
@@ -198,7 +223,7 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawIndexedHexagonalPrismAlt();
+		DrawIndexedSquareBasedPyramidAlt();
 	glPopMatrix();
 
 	//And ends here:
@@ -579,6 +604,23 @@ void HelloGL::DrawIndexedHexagonalPrismAlt(float sf)
 	glPushMatrix();
 
 	glDrawElements(GL_TRIANGLES, 60, GL_UNSIGNED_SHORT, hexagonalPrism_indices);
+
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void HelloGL::DrawIndexedSquareBasedPyramidAlt(float sf)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, squareBasedPyramid_indexedVertices);
+	glColorPointer(3, GL_FLOAT, 0, squareBasedPyramid_indexedColors);
+
+	glPushMatrix();
+
+	glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_SHORT, squareBasedPyramid_indices);
 
 	glPopMatrix();
 
