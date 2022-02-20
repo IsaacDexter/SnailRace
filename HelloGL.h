@@ -13,16 +13,7 @@
 #define SCREEN_HEIGHT 800
 
 
-/// <summary>
-/// Simple enum used to store different triangle types.
-/// </summary>
-enum TriangleTypes
-{
-	Scalene = 1,
-	Isoceles,
-	Equilateral,
-};
-
+/// <summary>Simple enum used to store currently pressed mouse buttons</summary>
 enum MouseButtons
 {
 	none,
@@ -101,25 +92,13 @@ public:
 	~HelloGL(void);
 
 	//Display methods
-	/// <summary>Draws a rectangle of fixed size</summary>
-	void DrawRectangle();
-	/// <summary>Draws a 2D triangle of fixed size</summary>
-	/// <param name="triangleType">Scalene, Isoscoles or Equilateral (ENUM)</param>
-	void DrawTriangle(TriangleTypes triangleType);
-
+	///<summary></summary>
 	void Display();
-	/// <summary>Draws a multicoloured cube using hard coded values.</summary>
-	/// <param name="sf">The scale factor</param>
-	void DrawCube(float sf = 0.1f);
-	/// <summary>Method used to draw a cube from a vertex and colour array.</summary>
-	/// <param name="sf">The scale factor. Defaults to 0.1.</param>
-	void DrawCubeArray(float sf = 0.1f);
-	/// <summary>Draws cube using alternative built in method included. Does not support scale factor yet.</summary>
-	/// <param name="sf">Nonfunctional.</param>
+
 	void DrawCubeArrayAlt(float sf = 1.0f);
 	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
 	/// <param name="sf">The scale factor. Defaults to 0.1</param>
-	void DrawIndexedCube(float sf = 0.1f);
+
 	/// <summary>Draws indexed cube using alternative built in method included. DOes not support scale factor yet.</summary>
 	/// <param name="sf">Nonfuctional</param>
 	void DrawIndexedCubeAlt(float sf = 1.0f);

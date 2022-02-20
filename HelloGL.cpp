@@ -96,18 +96,18 @@ Vertex HelloGL::hexagonalPrism_indexedVertices[] = {
 };	//12 Vertices
 
 Color HelloGL::hexagonalPrism_indexedColors[] = {
-	1,		0,		0,
+	1,		0,		0,		//red
 	1,		0.25,	0,
 	1,		0.5,	0.25,
-	1,		0.5,	0.5,
+	1,		0.5,	0.5,	//pink
 	1,		0.25,	0.5,
 	1,		0,		0.25,
 
 	
-	0.5,	0.5,	1,
+	0.5,	0.5,	1,		//pale blue
 	0.5,	0.25,	1,
 	0.25,	0,		1,
-	0,		0,		1,
+	0,		0,		1,		//blue
 	0,		0.25,	1,
 	0.25,	0.5,	1
 };	//12 colours
@@ -248,22 +248,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	case 1:
 		switch (key)
 		{
-		case 'w':
+		case 'w':	//Pan camera up
 			camera->center.y -= 0.0125f;
 			break;
-		case 'a':
+		case 'a':	//pan camera left
 			camera->center.x -= 0.0125f;
 			break;
-		case 's':
+		case 's':	//pan camera down
 			camera->center.y += 0.0125f;
 			break;
-		case 'd':
+		case 'd':	//Pan camera right
 			camera->center.x += 0.0125f;
 			break;
-		case 'q':
+		case 'q':	//?
 			camera->center.z += 0.0125f;
 			break;
-		case 'e':
+		case 'e':	//?
 			camera->center.z -= 0.0125f;
 			break;
 		default:
@@ -273,22 +273,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	case 2:
 		switch (key)
 		{
-		case 'w':
+		case 'w':	//?
 			camera->eye.y -= 0.025f;
 			break;
-		case 'a':
+		case 'a':	//?
 			camera->eye.x -= 0.025f;
 			break;
-		case 's':
+		case 's':	//?
 			camera->eye.y += 0.025f;
 			break;
-		case 'd':
+		case 'd':	//?
 			camera->eye.x += 0.025f;
 			break;
-		case 'q':
+		case 'q':	//move camera towards origin
 			camera->eye.z += 0.25f;
 			break;
-		case 'e':
+		case 'e':	//move camera away from origin
 			camera->eye.z -= 0.25f;
 			break;
 		default:
@@ -298,22 +298,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	case 3:
 		switch (key)
 		{
-		case 'w':
+		case 'w':	//?
 			camera->up.y -= 0.05f;
 			break;
-		case 'a':
+		case 'a':	//?
 			camera->up.x -= 0.05f;
 			break;
-		case 's':
+		case 's':	//?
 			camera->up.y += 0.05f;
 			break;
-		case 'd':
+		case 'd':	//?
 			camera->up.x += 0.05f;
 			break;
-		case 'q':
+		case 'q':	//?
 			camera->up.z += 0.05f;
 			break;
-		case 'e':
+		case 'e':	//?
 			camera->up.z -= 0.05f;
 			break;
 		default:
@@ -398,149 +398,7 @@ void HelloGL::Update()
 	//move the camera
 	gluLookAt(camera->eye.x, camera->eye.y, camera->eye.z, camera->center.x, camera->center.y, camera->center.z, camera->up.x, camera->up.y, camera->up.z);
 	
-
-	//Update the rotation of the rectangle
-	/*if (_rectangleRotation <= 360.0f)
-	{
-		_rectangleRotation += 0.5f;
-	}
-	else
-	{
-		_rectangleRotation = 0.0f;
-	}*/
-
-	//Calls the scene to redraw itself after the update has finished.
 	glutPostRedisplay();
-}
-
-/// <summary>
-/// Draws a simple red rectangle when called. Does not clear or flush.
-/// </summary>
-void HelloGL::DrawRectangle()
-{
-	glPushMatrix();	//Isolate matrix calculations ('{')
-
-	//It is worth noting that irder of operation is important, as transformation calls are dealt with IN REVERSE ORDER
-
-	//Translate the object down the z axis
-	glTranslatef(0.0f, 0.0f, -5.0f);
-
-	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
-	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);	//Indents not required. all drawing commands will be of this colour until next specified change. Args are (R, G, B, A).
-	glVertex2f(0.75, 0.5);	//Args are x and y, repectively. Remember the origin is in the center and the far edges of the screen are -1, 1, 1, -1 respectively, making this the top left corner.
-	glVertex2f(0.75, -0.5);	//Top right
-	glVertex2f(-0.75, -0.5);	//Top left
-	glVertex2f(-0.75, 0.5); //Bottom left
-	glEnd();	//Defines the end of the polygon
-
-	glPopMatrix();	//Isolate matrix calculations ('}')
-}
-
-void HelloGL::DrawCube(float sf)
-{
-	glBegin(GL_TRIANGLES);
-
-	//face v0-v1-v2
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	glColor3f(1, 1, 0);			//vertex 1 colours
-	glVertex3f(-sf, sf, sf);	//vertex 1 point
-	glColor3f(1, 0, 0);			//vertex 2 colours
-	glVertex3f(-sf, -sf, sf);	//vertex 2 point
-	//face v2-v3-v0
-	glColor3f(1, 0, 0);			//vertex 2 colours
-	glVertex3f(-sf, -sf, sf);	//vertex 2 point
-	glColor3f(1, 0, 1);			//vertex 3 colours
-	glVertex3f(sf, -sf, sf);	//vertex 3 point
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	//face v0-v3-v4
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	glColor3f(1, 0, 1);			//vertex 3 colours
-	glVertex3f(sf, -sf, sf);	//vertex 3 point
-	glColor3f(0, 0, 1);			//vertex 4 colours
-	glVertex3f(sf, -sf, -sf);	//vertex 4 point
-	//face v4-v5-v0
-	glColor3f(0, 0, 1);			//vertex 4 colours
-	glVertex3f(sf, -sf, -sf);	//vertex 4 point
-	glColor3f(1, 0, 1);			//vertex 5 colours
-	glVertex3f(sf, sf, -sf);	//vertex 5 point
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	//face v0-v5-v6
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	glColor3f(1, 0, 1);			//vertex 5 colours
-	glVertex3f(sf, sf, -sf);	//vertex 5 point
-	glColor3f(0, 1, 0);			//vertex 6 colours
-	glVertex3f(-sf, sf, -sf);	//vertex 6 point
-	//face v6-v1-v0
-	glColor3f(0, 1, 0);			//vertex 6 colours
-	glVertex3f(-sf, sf, -sf);	//vertex 6 point
-	glColor3f(1, 1, 0);			//vertex 1 colours
-	glVertex3f(-sf, sf, sf);	//vertex 1 point
-	glColor3f(1, 1, 1);			//vertex 0 colours
-	glVertex3f(sf, sf, sf);		//vertex 0 point
-	//face v1-v6-v7
-	glColor3f(1, 1, 0);			//vertex 1 colours
-	glVertex3f(-sf, sf, sf);	//vertex 1 point
-	glColor3f(0, 1, 0);			//vertex 6 colours
-	glVertex3f(-sf, sf, -sf);	//vertex 6 point
-	glColor3f(0, 0, 0);			//vertex 7 colours
-	glVertex3f(-sf, -sf, -sf);	//vertex 7 point
-	//face v7-v2-v1
-	glColor3f(0, 0, 0);			//vertex 7 colours
-	glVertex3f(-sf, -sf, -sf);	//vertex 7 point
-	glColor3f(1, 0, 0);			//vertex 2 colours
-	glVertex3f(-sf, -sf, sf);	//vertex 2 point
-	glColor3f(1, 1, 0);			//vertex 1 colours
-	glVertex3f(-sf, sf, sf);	//vertex 1 point
-	//face v7-v4-v3
-	glColor3f(0, 0, 0);			//vertex 7 colours
-	glVertex3f(-sf, -sf, -sf);	//vertex 7 point
-	glColor3f(0, 0, 1);			//vertex 4 colours
-	glVertex3f(sf, -sf, -sf);	//vertex 4 point
-	glColor3f(1, 0, 1);			//vertex 3 colours
-	glVertex3f(sf, -sf, sf);	//vertex 3 point
-	//face v3-v2-v7
-	glColor3f(1, 0, 1);			//vertex 3 colours
-	glVertex3f(sf, -sf, sf);	//vertex 3 point
-	glColor3f(1, 0, 0);			//vertex 2 colours
-	glVertex3f(-sf, -sf, sf);	//vertex 2 point
-	glColor3f(0, 0, 0);			//vertex 7 colours
-	glVertex3f(-sf, -sf, -sf);	//vertex 7 point
-	//face v4-v7-v6
-	glColor3f(0, 0, 1);			//vertex 4 colours
-	glVertex3f(sf, -sf, -sf);	//vertex 4 point
-	glColor3f(0, 0, 0);			//vertex 7 colours
-	glVertex3f(-sf, -sf, -sf);	//vertex 7 point
-	glColor3f(0, 1, 0);			//vertex 6 colours
-	glVertex3f(-sf, sf, -sf);	//vertex 6 point
-	//face v6-v5-v4
-	glColor3f(0, 1, 0);			//vertex 6 colours
-	glVertex3f(-sf, sf, -sf);	//vertex 6 point
-	glColor3f(1, 0, 1);			//vertex 5 colours
-	glVertex3f(sf, sf, -sf);	//vertex 5 point
-	glColor3f(0, 0, 1);			//vertex 4 colours
-	glVertex3f(sf, -sf, -sf);	//vertex 4 point
-
-	glEnd();
-}
-
-void HelloGL::DrawCubeArray(float sf)
-{
-	glPushMatrix();
-
-	glBegin(GL_TRIANGLES);
-	for (int i = 0; i < 36; i++)
-	{
-		glColor3fv(&cube_colors[i].r);
-		glVertex3f(cube_vertices[i].x * sf, cube_vertices[i].y * sf, cube_vertices[i].z * sf);
-	}
-	glEnd();
-
-	glPopMatrix();
 }
 
 void HelloGL::DrawCubeArrayAlt(float sf)
@@ -558,23 +416,6 @@ void HelloGL::DrawCubeArrayAlt(float sf)
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-}
-
-void HelloGL::DrawIndexedCube(float sf)
-{
-	glPushMatrix();
-
-	glBegin(GL_TRIANGLES);
-
-	for (int i = 0; i < 36; i++)
-	{
-		glColor3fv(&cube_indexedColors[cube_indices[i]].r);
-		glVertex3f(cube_indexedVertices[cube_indices[i]].x * sf, cube_indexedVertices[cube_indices[i]].y * sf, cube_indexedVertices[cube_indices[i]].z * sf);
-	}
-
-	glEnd();
-
-	glPopMatrix();
 }
 
 void HelloGL::DrawIndexedCubeAlt(float sf)
@@ -626,37 +467,6 @@ void HelloGL::DrawIndexedSquareBasedPyramidAlt(float sf)
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-}
-
-void HelloGL::DrawTriangle(TriangleTypes triangleType)
-{
-	glBegin(GL_POLYGON);	//Tells GL to expect polygon vertices until the glEnd.
-	switch (triangleType)
-	{
-	case Scalene:
-		glColor4f(0.0f, 0.0f, 1.0f, 0.0f);	//Blue
-		glVertex2f(-1, 1);
-		glColor4f(0.0f, 1.0f, 0.0f, 0.0f);	//Green
-		glVertex2f(-0.4, 1);	
-		glColor4f(0.9f, 0.8f, 1.0f, 0.0f);	//Yellow
-		glVertex2f(-0.35, 0.5);	
-		break;
-	case Isoceles:
-		glColor4f(1.0f, 0.8f, 0.0f, 0.0f);	//Yellow
-		glVertex2f(1, 1);
-		glVertex2f(0.5, 1);
-		glVertex2f(0.75, 0.25);
-		break;
-	case Equilateral:
-		glColor4f(1.0f, 0.7f, 0.7f, 0.0f);	//Pink
-		glVertex2f(-0.75, -1);
-		glVertex2f(-1, -0.567);
-		glVertex2f(-0.5, -0.567);
-		break;
-	default:
-		break;
-	}
-	glEnd();
 }
 
 HelloGL::~HelloGL(void)
