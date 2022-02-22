@@ -43,40 +43,6 @@ Color HelloGL::cube_colors[] = {
 	 0, 1, 0,	 1, 1, 0,	 1, 0, 0,	//v6-v5-v4
 };
 
-/// <summary>All 8 indexed vertices in the cube</summary>
-Vertex HelloGL::cube_indexedVertices[] = {
-	 1, 1, 1,	//vertex 0
-	-1, 1, 1,	//vertex 1
-	-1,-1, 1,	//vertex 2
-	 1,-1, 1,	//vertex 3
-	 1,-1,-1,	//vertex 4
-	 1, 1,-1,	//vertex 5
-	-1, 1,-1,	//vertex 6
-	-1,-1,-1	//vertex 7
-};	//8 vertices
-
-/// <summary>The color associated with each vertex</summary>
-Color HelloGL::cube_indexedColors[] = {
-	 1, 1, 1,	//vertex 0, white
-	 0, 1, 1,	//vertex 1, cyan
-	 0, 0, 1,	//vertex 2, blue
-	 1, 0, 1,	//vertex 3, magenta
-	 1, 0, 0,	//vertex 4, red
-	 1, 1, 0,	//vertex 5, yellow
-	 0, 1, 0,	//vertex 6, green
-	 0, 0, 0	//vertex 7, black
-};	//8 colours
-
-/// <summary>Defines the triangles that make up the cube, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-GLushort HelloGL::cube_indices[] = {
-	0,	1,	2,		2,	3,	0,	//Front
-	0,	3,	4,		4,	5,	0,	//Right
-	0,	5,	6,		6,	1,	0,	//Top
-	1,	6,	7,		7,	2,	1,	//Left
-	7,	4,	3,		3,	2,	7,	//Bottom
-	4,	7,	6,		6,	5,	4	//Back
-};	//12 triangles, 36 vertices overall
-
 Vertex HelloGL::hexagonalPrism_indexedVertices[] = {
 	//Front Face
 	-1,0,1,			//vertex 0
@@ -193,6 +159,9 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Create a new Vector 3 representing rotation in each axis
 	_rotationAxes = new Vector3();
 
+	//Load shapes
+	_cube = new Primitive();
+
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
 	//Loads the identity matrix, think of setting the matrix back to 1
@@ -219,14 +188,12 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		glRotatef(_rotationAxes->x, -1.0f, 0.0f, 0.0f);	//Rotate in the x by the x rotation
-		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
-		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
 		switch (_currentShape)
 		{
 		case cube:
-			DrawIndexedCubeAlt();
+			_cube->Update(_rotationAxes);
+			_cube->Draw();
 			break;
 		case hexagonalPrism:
 			DrawIndexedHexagonalPrismAlt();
@@ -315,10 +282,10 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		case 'd':	//?
 			camera->eye.x += 0.025f;
 			break;
-		case 'q':	//move camera towards origin
+		case 'q':	//move camera away from origin
 			camera->eye.z += 0.25f;
 			break;
-		case 'e':	//move camera away from origin
+		case 'e':	//move camera towards origin
 			camera->eye.z -= 0.25f;
 			break;
 		default:
@@ -448,23 +415,6 @@ void HelloGL::DrawCubeArrayAlt(float sf)
 	glDisableClientState(GL_COLOR_ARRAY);
 }
 
-void HelloGL::DrawIndexedCubeAlt(float sf)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, cube_indexedVertices);
-	glColorPointer(3, GL_FLOAT, 0, cube_indexedColors);
-
-	glPushMatrix();
-
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, cube_indices);
-
-	glPopMatrix();
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-}
-
 void HelloGL::DrawIndexedHexagonalPrismAlt(float sf)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -502,4 +452,6 @@ void HelloGL::DrawIndexedSquareBasedPyramidAlt(float sf)
 HelloGL::~HelloGL(void)
 {
 	delete camera;
+	delete _oldMousePos;
+	delete _rotationAxes;
 }

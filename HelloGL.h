@@ -9,6 +9,8 @@
 #include "GLUTCallbacks.h"
 #include "Structures.h"
 #include "Enums.h"
+#include "Primitive.h"
+
 
 
 //Defs
@@ -36,10 +38,6 @@ public:
 	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
 	/// <param name="sf">The scale factor. Defaults to 0.1</param>
 
-	/// <summary>Draws indexed cube using alternative built in method included. DOes not support scale factor yet.</summary>
-	/// <param name="sf">Nonfuctional</param>
-	void DrawIndexedCubeAlt(float sf = 1.0f);
-
 	/// <summary>Draws indexed hexagonal prism using alternative built in method included. Does not support scale factoring yet</summary>
 	/// <param name="sf">Nonfunctional</param>
 	void DrawIndexedHexagonalPrismAlt(float sf = 1.0f);
@@ -65,6 +63,8 @@ private:
 	/// <summary>Vector3 representing the rotation in each axis</summary>
 	Vector3* _rotationAxes;
 
+	Primitive* _cube;
+
 	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
 	static Vertex cube_vertices[];
 	static Color cube_colors[];
@@ -86,6 +86,7 @@ private:
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;
+
 };
 
 
