@@ -223,7 +223,21 @@ void HelloGL::Display()
 		glRotatef(_rotationAxes->y, 0.0f, -1.0f, 0.0f);	//Rotate in the y by the y rotation
 		glRotatef(_rotationAxes->z, 0.0f, 0.0f, -1.0f);	//Rotate in the z by the z rotation
 		//glutWireTeapot(0.1);
-		DrawIndexedSquareBasedPyramidAlt();
+		switch (_currentShape)
+		{
+		case cube:
+			DrawIndexedCubeAlt();
+			break;
+		case hexagonalPrism:
+			DrawIndexedHexagonalPrismAlt();
+			break;
+		case squareBasedPyramid:
+			DrawIndexedSquareBasedPyramidAlt();
+			break;
+		default:
+			break;
+		}
+		
 	glPopMatrix();
 
 	//And ends here:
@@ -243,6 +257,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 			viewMode = 1;
 		}
 	}
+
+	switch (key)
+	{
+	case '1':
+		_currentShape = cube;
+		break;
+	case '2':
+		_currentShape = hexagonalPrism;
+		break;
+	case '3':
+		_currentShape = squareBasedPyramid;
+		break;
+	default:
+		break;
+	}
+
 	switch (viewMode)
 	{
 	case 1:

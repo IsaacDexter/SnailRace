@@ -22,6 +22,14 @@ enum MouseButtons
 	MiddleMouseButton,
 };
 
+/// <summary>Simple enum used to toggle the currently rendered shape</summary>
+enum Shapes
+{
+	cube,
+	hexagonalPrism,
+	squareBasedPyramid
+};
+
 /// <summary>A 3D vector represeting a single point in space</summary>
 struct Vector3
 {
@@ -148,4 +156,5 @@ private:
 	static GLushort squareBasedPyramid_indices[];
 
 	MouseButtons _mouseButtonPressed = none;
+	Shapes _currentShape = cube;
 };
