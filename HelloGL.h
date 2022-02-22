@@ -1,10 +1,14 @@
-#pragma once
+#ifndef _HELLOGL_H
+#define _HELLOGL_H
+
 #include <Windows.h>		//Required for OpenGl on Windows
 #include <gl/GL.h>			//OpenGL
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
 
 #include "GLUTCallbacks.h"
+#include "Structures.h"
+#include "Enums.h"
 
 
 //Defs
@@ -13,81 +17,6 @@
 #define SCREEN_HEIGHT 800
 
 
-/// <summary>Simple enum used to store currently pressed mouse buttons</summary>
-enum MouseButtons
-{
-	none,
-	LeftMouseButton,
-	RightMouseButton,
-	MiddleMouseButton,
-};
-
-/// <summary>Simple enum used to toggle the currently rendered shape</summary>
-enum Shapes
-{
-	cube,
-	hexagonalPrism,
-	squareBasedPyramid
-};
-
-/// <summary>A 3D vector represeting a single point in space</summary>
-struct Vector3
-{
-	float x;
-	float y;
-	float z;
-	//Defines default constructiors, to allows to create an object of this type in function calls.
-	Vector3()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	//Allows us to take parameters, so we can construct with any values
-	Vector3(float initial_x, float initial_y, float initial_z)
-	{
-		x = initial_x;
-		y = initial_y;
-		z = initial_z;
-	}
-};
-
-struct Vector2
-{
-	float x;
-	float y;
-	//Defines default constructiors, to allows to create an object of this type in function calls.
-	Vector2()
-	{
-		x = 0.0f;
-		y = 0.0f;
-	}
-	//Allows us to take parameters, so we can construct with any values
-	Vector2(float initial_x, float initial_y)
-	{
-		x = initial_x;
-		y = initial_y;
-	}
-};
-
-struct Camera
-{
-	Vector3 eye;
-	Vector3 center;
-	Vector3 up;
-};
-
-/// <summary>Used to store colours for each vertex in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
-struct Color
-{
-	GLfloat r, g, b;
-};
-
-/// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
-struct Vertex
-{
-	GLfloat x, y, z;
-};
 
 class HelloGL
 {
@@ -158,3 +87,7 @@ private:
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;
 };
+
+
+
+#endif // !_HELLOGL_H

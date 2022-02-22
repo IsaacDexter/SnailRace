@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _GLUTCALLBACKS_H
+#define _GLUTCALLBACKS_H
+
 class HelloGL;
 
 namespace GLUTCallbacks
@@ -17,3 +19,7 @@ namespace GLUTCallbacks
 
 	void Timer(int prefferedRefresh);
 }
+
+
+
+#endif // !_GLUTCALLBACKS_H
