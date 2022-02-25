@@ -160,7 +160,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	_rotationAxes = new Vector3();
 
 	//Load shapes
-	_cube = new Primitive();
+	_cube = new Cube();
 
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);

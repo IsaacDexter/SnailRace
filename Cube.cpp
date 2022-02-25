@@ -33,3 +33,30 @@ GLushort Cube::indices[] = {
 	7,	4,	3,		3,	2,	7,	//Bottom
 	4,	7,	6,		6,	5,	4	//Back
 };	//12 triangles, 36 vertices overall
+
+Cube::Cube() : Primitive()
+{
+	m_numberOfTriangles = NUM(indices);
+}
+
+Cube::~Cube()
+{
+
+}
+
+void Cube::Draw()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, indexedVertices);
+	glColorPointer(3, GL_FLOAT, 0, indexedColors);
+
+	glPushMatrix();
+
+	glDrawElements(GL_TRIANGLES, m_numberOfTriangles, GL_UNSIGNED_SHORT, indices);
+
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+}

@@ -9,7 +9,7 @@
 #include "GLUTCallbacks.h"
 #include "Structures.h"
 #include "Enums.h"
-#include "Primitive.h"
+#include "Cube.h"
 
 
 //Defs
@@ -62,16 +62,11 @@ private:
 	/// <summary>Vector3 representing the rotation in each axis</summary>
 	Vector3* _rotationAxes;
 
-	Primitive* _cube;
+	Cube* _cube;
 
 	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
 	static Vertex cube_vertices[];
 	static Color cube_colors[];
-
-	/// <summary>Less memory footprint than previous versions, uses indices</summary>
-	static Vertex cube_indexedVertices[];
-	static Color cube_indexedColors[];
-	static GLushort cube_indices[];
 
 	/// <summary>Similar to the way draw indexedcube handles drawing, only for hexagonal prism</summary>
 	static Vertex hexagonalPrism_indexedVertices[];
