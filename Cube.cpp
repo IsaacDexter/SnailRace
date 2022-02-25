@@ -36,7 +36,7 @@ GLushort Cube::indices[] = {
 
 Cube::Cube() : Primitive()
 {
-	m_numberOfTriangles = NUM(indices);
+	m_numberOfVertices = NUM(indices);
 }
 
 Cube::~Cube()
@@ -53,7 +53,7 @@ void Cube::Draw()
 
 	glPushMatrix();
 
-	glDrawElements(GL_TRIANGLES, m_numberOfTriangles, GL_UNSIGNED_SHORT, indices);
+	glDrawElements(GL_TRIANGLES, m_numberOfVertices, GL_UNSIGNED_SHORT, indices);
 
 	glPopMatrix();
 

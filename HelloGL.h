@@ -9,7 +9,11 @@
 #include "GLUTCallbacks.h"
 #include "Structures.h"
 #include "Enums.h"
+
+//Shape class includes
 #include "Cube.h"
+#include "HexagonalPrism.h"
+#include "SquareBasedPyramid.h"
 
 
 //Defs
@@ -25,7 +29,6 @@ public:
 	//Constructor def
 	HelloGL(int argc, char* argv[]);
 
-
 	//Destructor def
 	~HelloGL(void);
 
@@ -36,14 +39,6 @@ public:
 	void DrawCubeArrayAlt(float sf = 1.0f);
 	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
 	/// <param name="sf">The scale factor. Defaults to 0.1</param>
-
-	/// <summary>Draws indexed hexagonal prism using alternative built in method included. Does not support scale factoring yet</summary>
-	/// <param name="sf">Nonfunctional</param>
-	void DrawIndexedHexagonalPrismAlt(float sf = 1.0f);
-
-	/// <summary>Draws indexed square based pyramid using alternative built in method included. Does not support scale factoring yet</summary>
-	/// <param name="sf">Nonfunctional</param>
-	void DrawIndexedSquareBasedPyramidAlt(float sf = 1.0f);
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
@@ -62,21 +57,15 @@ private:
 	/// <summary>Vector3 representing the rotation in each axis</summary>
 	Vector3* _rotationAxes;
 
+	//3D shapes
 	Cube* _cube;
+	HexagonalPrism* _hexagonalPrism;
+	SquareBasedPyramid* _squareBasedPyramid;
+
 
 	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
 	static Vertex cube_vertices[];
 	static Color cube_colors[];
-
-	/// <summary>Similar to the way draw indexedcube handles drawing, only for hexagonal prism</summary>
-	static Vertex hexagonalPrism_indexedVertices[];
-	static Color hexagonalPrism_indexedColors[];
-	static GLushort hexagonalPrism_indices[];
-
-	/// <summary>Similar to the way draw indexedcube handles drawing, only for square based pyramid</summary>
-	static Vertex squareBasedPyramid_indexedVertices[];
-	static Color squareBasedPyramid_indexedColors[];
-	static GLushort squareBasedPyramid_indices[];
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;

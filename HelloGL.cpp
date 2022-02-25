@@ -43,77 +43,6 @@ Color HelloGL::cube_colors[] = {
 	 0, 1, 0,	 1, 1, 0,	 1, 0, 0,	//v6-v5-v4
 };
 
-Vertex HelloGL::hexagonalPrism_indexedVertices[] = {
-	//Front Face
-	-1,0,1,			//vertex 0
-	-0.5,0.866,1,	//vertex 1
-	0.5,0.866,1,	//vertex 2
-	1,0,1,			//vertex 3
-	0.5,-0.866,1,	//vertex 4
-	-0.5,-0.866,1,	//vertex 5
-
-	//Back Face
-	-1,0,-1,		//vertex 6
-	-0.5,0.866,-1,	//vertex 7
-	0.5,0.866,-1,	//vertex 8
-	1,0,-1,			//vertex 9
-	0.5,-0.866,-1,	//vertex 10
-	-0.5,-0.866,-1	//vertex 11
-};	//12 Vertices
-
-Color HelloGL::hexagonalPrism_indexedColors[] = {
-	1,		0,		0,		//red
-	1,		0.25,	0,
-	1,		0.5,	0.25,
-	1,		0.5,	0.5,	//pink
-	1,		0.25,	0.5,
-	1,		0,		0.25,
-
-	
-	0.5,	0.5,	1,		//pale blue
-	0.5,	0.25,	1,
-	0.25,	0,		1,
-	0,		0,		1,		//blue
-	0,		0.25,	1,
-	0.25,	0.5,	1
-};	//12 colours
-
-GLushort HelloGL::hexagonalPrism_indices[] = {
-	2,	1,	0,		0,	5,	4,		4,	3,	2,		2,	0,	4,	//Front Face
-	9,	10,	11,		11,	6,	7,			7,	8,	9,		9,	11,	7,	//Rear Face
-	1,	2,	8,		8,	7,	1,	//top side
-	2,	3,	9,		9,	8,	2,	//top right side
-	3,	4,	10,		10,	9,	3,	//bottom right side
-	4,	5,	11,		11,	10,	4,	//bottom side
-	5,	0,	6,		6,	11,	5,	//bottom left side
-	0,	1,	7,		7,	6,	0	//top left side
-};	//20 triangles, 60 vertices overall
-
-Vertex HelloGL::squareBasedPyramid_indexedVertices[] = {
-	 0,	 1,	 0,	//vertex 0 (Point)
-	 1,	-1,	 1,	//vertex 1
-	-1,	-1,	 1,	//vertex 2
-	-1,	-1,	-1,	//vertex 3
-	 1,	-1,	-1,	//vertex 4
-};	//5 vertices
-
-Color HelloGL::squareBasedPyramid_indexedColors[] = {
-	1,	1,	1,	//white, point
-	1,	0,	0,	//red
-	0,	0,	1,	//blue
-	1,	1,	0,	//yellow
-	0,	1,	0	//green
-};	//5 colors
-
-GLushort HelloGL::squareBasedPyramid_indices[] = {
-	2,	1,	0,	//face 1
-	3,	2,	0,	//face 2
-	4,	3,	0,	//face 3
-	1,	4,	0,	//face 4
-	2,	3,	1,	//base 1
-	4,	1,	3,	//base 2
-};	//6 triangles,	18 vertices overall.
-
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialises Glut
@@ -161,6 +90,8 @@ HelloGL::HelloGL(int argc, char* argv[])
 
 	//Load shapes
 	_cube = new Cube();
+	_hexagonalPrism = new HexagonalPrism();
+	_squareBasedPyramid = new SquareBasedPyramid();
 
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
@@ -196,10 +127,12 @@ void HelloGL::Display()
 			_cube->Draw();
 			break;
 		case hexagonalPrism:
-			DrawIndexedHexagonalPrismAlt();
+			_hexagonalPrism->Update(_rotationAxes);
+			_hexagonalPrism->Draw();
 			break;
 		case squareBasedPyramid:
-			DrawIndexedSquareBasedPyramidAlt();
+			_squareBasedPyramid->Update(_rotationAxes);
+			_squareBasedPyramid->Draw();
 			break;
 		default:
 			break;
@@ -408,40 +341,6 @@ void HelloGL::DrawCubeArrayAlt(float sf)
 	glPushMatrix();
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-
-	glPopMatrix();
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-}
-
-void HelloGL::DrawIndexedHexagonalPrismAlt(float sf)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, hexagonalPrism_indexedVertices);
-	glColorPointer(3, GL_FLOAT, 0, hexagonalPrism_indexedColors);
-
-	glPushMatrix();
-
-	glDrawElements(GL_TRIANGLES, 60, GL_UNSIGNED_SHORT, hexagonalPrism_indices);
-
-	glPopMatrix();
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-}
-
-void HelloGL::DrawIndexedSquareBasedPyramidAlt(float sf)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, squareBasedPyramid_indexedVertices);
-	glColorPointer(3, GL_FLOAT, 0, squareBasedPyramid_indexedColors);
-
-	glPushMatrix();
-
-	glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_SHORT, squareBasedPyramid_indices);
 
 	glPopMatrix();
 

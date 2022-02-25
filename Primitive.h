@@ -19,13 +19,22 @@ protected:
 	static Color indexedColors[];
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
 	static GLushort indices[];
+	
+	/// <summary>The number of vertices. Generated automatically with the NUM macro</summary>
+	GLushort m_numberOfVertices;
+	/// <summary>The rotation of the shape, stored as an x, y and z value.</summary>
+	Vector3* m_rotationAxes;
 public:
 	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses</summary>
 	Primitive();
 	~Primitive();
 
-	/// <summary>The number of triangles. Generated automatically with the NUM macro</summary>
-	GLushort m_numberOfTriangles;
+	/// <summary>Getter for the rotation</summary>
+	/// <returns>The Rotation</returns>
+	Vector3* GetRotation();
+	/// <summary>Setter for the rotation</summary>
+	/// <param name="newRotation">the new rotation</param>
+	void SetRotation(Vector3* newRotation);
 
 	/// <summary>Kept blank as needs replacing in child classes. As a result of a non-thorough understanding of classes</summary>
 	virtual void Draw();
