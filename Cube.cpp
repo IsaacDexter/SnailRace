@@ -36,12 +36,14 @@ GLushort Cube::indices[] = {
 
 Cube::Cube() : Primitive()
 {
+	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 
 Cube::~Cube()
 {
-
+	delete m_rotationAxes;
+	m_rotationAxes = nullptr;
 }
 
 void Cube::Draw()

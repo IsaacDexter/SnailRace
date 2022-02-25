@@ -123,15 +123,15 @@ void HelloGL::Display()
 		switch (_currentShape)
 		{
 		case cube:
-			_cube->Update(_rotationAxes);
+			_cube->Update();
 			_cube->Draw();
 			break;
 		case hexagonalPrism:
-			_hexagonalPrism->Update(_rotationAxes);
+			_hexagonalPrism->Update();
 			_hexagonalPrism->Draw();
 			break;
 		case squareBasedPyramid:
-			_squareBasedPyramid->Update(_rotationAxes);
+			_squareBasedPyramid->Update();
 			_squareBasedPyramid->Draw();
 			break;
 		default:
@@ -162,12 +162,15 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	{
 	case '1':
 		_currentShape = cube;
+		_rotationAxes = _cube->GetRotation();
 		break;
 	case '2':
 		_currentShape = hexagonalPrism;
+		_rotationAxes = _hexagonalPrism->GetRotation();
 		break;
 	case '3':
 		_currentShape = squareBasedPyramid;
+		_rotationAxes = _squareBasedPyramid->GetRotation();
 		break;
 	default:
 		break;
@@ -328,6 +331,22 @@ void HelloGL::Update()
 	//move the camera
 	gluLookAt(camera->eye.x, camera->eye.y, camera->eye.z, camera->center.x, camera->center.y, camera->center.z, camera->up.x, camera->up.y, camera->up.z);
 	
+	//Rotate the current shape
+	switch (_currentShape)
+	{
+	case cube:
+		_cube->SetRotation(_rotationAxes);
+		break;
+	case hexagonalPrism:
+		_hexagonalPrism->SetRotation(_rotationAxes);
+		break;
+	case squareBasedPyramid:
+		_squareBasedPyramid->SetRotation(_rotationAxes);
+		break;
+	default:
+		break;
+	}
+
 	glutPostRedisplay();
 }
 

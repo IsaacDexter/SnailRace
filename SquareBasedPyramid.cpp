@@ -27,11 +27,14 @@ GLushort SquareBasedPyramid::indices[] = {
 
 SquareBasedPyramid::SquareBasedPyramid()
 {
+	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 
 SquareBasedPyramid::~SquareBasedPyramid()
 {
+	delete m_rotationAxes;
+	m_rotationAxes = nullptr;
 }
 
 void SquareBasedPyramid::Draw()

@@ -48,12 +48,14 @@ GLushort HexagonalPrism::indices[] = {
 
 HexagonalPrism::HexagonalPrism()
 {
+	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 
 HexagonalPrism::~HexagonalPrism()
 {
-
+	delete m_rotationAxes;
+	m_rotationAxes = nullptr;
 }
 
 void HexagonalPrism::Draw()

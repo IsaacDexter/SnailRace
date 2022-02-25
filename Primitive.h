@@ -38,8 +38,8 @@ public:
 
 	/// <summary>Kept blank as needs replacing in child classes. As a result of a non-thorough understanding of classes</summary>
 	virtual void Draw();
-	/// <summary>Updates the shape, namely the rotation with the axes given.</summary>
-	void Update(Vector3* _rotationAxes);
+	/// <summary>Updates the shape, namely the rotation with the m_rotationAxes variable.</summary>
+	void Update();
 };
 
 #endif // !_PRIMITIVE_H
