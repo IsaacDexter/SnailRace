@@ -12,7 +12,6 @@
 #include "Primitive.h"
 
 
-
 //Defs
 #define REFRESHRATE 16
 #define SCREEN_WIDTH 800

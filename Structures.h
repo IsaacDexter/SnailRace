@@ -1,6 +1,9 @@
 #ifndef _STRUCTURES_H
 #define _STRUCTURES_H
 
+//Macro used to find the number of elements in a list.
+#define NUM(a) (sizeof(a) / sizeof(*a))
+
 /// <summary>A 3D vector represeting a single point in space</summary>
 struct Vector3
 {

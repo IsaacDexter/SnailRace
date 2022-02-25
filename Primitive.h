@@ -12,7 +12,7 @@
 
 class Primitive
 {
-private:
+protected:
 	static Vertex indexedVertices[];
 	static Color indexedColors[];
 	static GLushort indices[];
@@ -20,7 +20,7 @@ public:
 	Primitive();
 	~Primitive();
 
-	GLushort numberOfTriangles = 36;
+	GLushort m_numberOfTriangles;
 
 	void Draw();
 	void Update(Vector3* _rotationAxes);
