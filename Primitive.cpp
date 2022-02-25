@@ -21,6 +21,11 @@ Primitive::Primitive()
 	m_numberOfTriangles = NUM(indices);
 }
 
+Primitive::~Primitive()
+{
+
+}
+
 /// <summary>Rotates the shape during the update.</summary>
 /// <param name="_rotationAxes"> The _rotationAxes is a vector 3 representing how much to rotate the shape by in each axis.</param>
 void Primitive::Update(Vector3* _rotationAxes)
