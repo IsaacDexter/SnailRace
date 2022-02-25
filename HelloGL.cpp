@@ -1,48 +1,6 @@
 #include "HelloGL.h"
 #include <iostream>
 
-/// <summary> static array containing all the vertices of a 1*1*1 cube</summary>
-Vertex HelloGL::cube_vertices[] = { 
-	 1, 1, 1,	-1, 1, 1,	-1,-1, 1,	//v0-v1-v2 (front)
-	-1,-1, 1,	 1,-1, 1,	 1, 1, 1,	//v2-v3-v0
-
-	 1, 1, 1,	 1,-1, 1,	 1,-1,-1,	//v0-v3-v4 (right)
-	 1,-1,-1,	 1, 1,-1,	 1, 1, 1,	//v4-v5-v0
-
-	 1, 1, 1,	 1, 1,-1,	-1, 1,-1,	//v0-v5-v6 (top)
-	-1, 1,-1,	-1, 1, 1,	 1, 1, 1,	//v6-v1-v0
-
-	-1, 1, 1,	-1, 1,-1,	-1,-1,-1,	//v1-v6-v7 (left)
-	-1,-1,-1,	-1,-1, 1,	-1, 1, 1,	//v7-v2-v1
-
-	-1,-1,-1,	 1,-1,-1,	 1,-1, 1,	//v7-v4-v3 (bottom)
-	 1,-1, 1,	-1,-1, 1,	-1,-1,-1,	//v3-v2-v7
-
-	 1,-1,-1,	-1,-1,-1,	-1, 1,-1,	//v4-v7-v6 (back)
-	-1, 1,-1,	 1, 1,-1,	 1,-1,-1,	//v6-v5-v4
-};
-
-/// <summary>Array containing all the colours at each vertex. Different to tutorial as simply recycled old values cuz lazy</summary>
-Color HelloGL::cube_colors[] = {
-	 1, 1, 1,	 0, 1, 1,	 0, 0, 1,	//v0-v1-v2 (front)
-	 0, 0, 1,	 1, 0, 1,	 1, 1, 1,	//v2-v3-v0
-
-	 1, 1, 1,	 1, 0, 1,	 1, 0, 0,	//v0-v3-v4 (right)
-	 1, 0, 0,	 1, 1, 0,	 1, 1, 1,	//v4-v5-v0
-
-	 1, 1, 1,	 1, 1, 0,	 0, 1, 0,	//v0-v5-v6 (top)
-	 0, 1, 0,	 0, 1, 1,	 1, 1, 1,	//v6-v1-v0
-
-	 0, 1, 1,	 0, 1, 0,	 0, 0, 0,	//v1-v6-v7 (left)
-	 0, 0, 0,	 0, 0, 1,	 0, 1, 1,	//v7-v2-v1
-
-	 0, 0, 0,	 1, 0, 0,	 1, 0, 1,	//v7-v4-v3 (bottom)
-	 1, 0, 1,	 0, 0, 1,	 0, 0, 0,	//v3-v2-v7
-
-	 1, 0, 0,	 0, 0, 0,	 0, 1, 0,	//v4-v7-v6 (back)
-	 0, 1, 0,	 1, 1, 0,	 1, 0, 0,	//v6-v5-v4
-};
-
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	//Initialises Glut
@@ -348,23 +306,6 @@ void HelloGL::Update()
 	}
 
 	glutPostRedisplay();
-}
-
-void HelloGL::DrawCubeArrayAlt(float sf)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, cube_vertices);
-	glColorPointer(3, GL_FLOAT, 0, cube_colors);
-
-	glPushMatrix();
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-
-	glPopMatrix();
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 HelloGL::~HelloGL(void)

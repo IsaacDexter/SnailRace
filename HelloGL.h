@@ -36,10 +36,6 @@ public:
 	///<summary></summary>
 	void Display();
 
-	void DrawCubeArrayAlt(float sf = 1.0f);
-	/// <summary>The most memory and line efficient of the 3 methods. Uses indexed vertices and colors, as well as an indices array</summary>
-	/// <param name="sf">The scale factor. Defaults to 0.1</param>
-
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
 	void MouseButton(int button, int state, int x, int y);
@@ -61,11 +57,6 @@ private:
 	Cube* _cube;
 	HexagonalPrism* _hexagonalPrism;
 	SquareBasedPyramid* _squareBasedPyramid;
-
-
-	/// <summary>Static for now to allow for easy initialisation, but this will most likely be changed when starting to load files</summary>
-	static Vertex cube_vertices[];
-	static Color cube_colors[];
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;

@@ -35,6 +35,8 @@ public:
 	/// <summary>Setter for the rotation</summary>
 	/// <param name="newRotation">the new rotation</param>
 	void SetRotation(Vector3* newRotation);
+	/// <summary> Translates the rotation of the shape to be up to date with m_rotationAxes</summary>
+	void UpdateRotation();
 
 	/// <summary>Kept blank as needs replacing in child classes. As a result of a non-thorough understanding of classes</summary>
 	virtual void Draw();
