@@ -37,7 +37,5 @@ Vector3* Primitive::GetRotation()
 
 void Primitive::SetRotation(Vector3* newRotation)
 {
-	m_rotationAxes->x = newRotation->x;
-	m_rotationAxes->y = newRotation->y;
-	m_rotationAxes->z = newRotation->z;
+	m_rotationAxes = newRotation;
 }
