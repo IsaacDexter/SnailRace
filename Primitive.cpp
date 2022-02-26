@@ -58,8 +58,8 @@ Vector3* Primitive::GetPosition()
 void Primitive::SetPosition(float x, float y, float z)
 {
 	m_position->x = x;
-	m_position->x = y;
-	m_position->x = z;
+	m_position->y = y;
+	m_position->z = z;
 
 }
 

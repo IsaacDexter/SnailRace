@@ -27,10 +27,12 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//glutMouseFunc used to handle click events
 	glutMouseFunc(GLUTCallbacks::MouseButton);
 
-	//Sets display mode to double buffering, which eliminates 'flickering'.
-	glutInitDisplayMode(GLUT_DOUBLE);
+	//Sets display mode to double buffering, which eliminates 'flickering'. | GLUT_DEPTH adds z-buffering, so objects can appear to obscure as opposed to overlap eachother
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
 	//Enables back face culling, which obscures back faces of shapes that are not in view, giving a true perspective
 	glEnable(GL_CULL_FACE);
+	//Enables depth testing, with obscures shapes that are hidden from view by shapes in front of them.
+	glEnable(GL_DEPTH_TEST);
 	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
 	glCullFace(GL_BACK);
 
@@ -53,7 +55,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//set the viewport to take the entirity of the window
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	//Set up the camera. Parameters are F.O.V. , Aspect ratio, near clipping distance, far clipping distance
-	gluPerspective(45, 1, 0, 1000);
+	gluPerspective(45, 1, 1, 1000);
 	//Switch back to the model view matrix to work with models again
 	glMatrixMode(GL_MODELVIEW);
 
@@ -73,7 +75,7 @@ void HelloGL::Display()
 {
 	//Steps: clear existing scene, begin drawing, draw object, end drwaing, flush to graphics card.
 	//Draw simple rectangle
-	glClear(GL_COLOR_BUFFER_BIT);	//Clears the scene
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clears the scene
 	
 	//Drawing code goes here:
 	glPushMatrix();
