@@ -14,14 +14,14 @@ class Primitive
 {
 protected:
 	///<summary>All indexed vertices in the shape</summary>
-	static Vertex indexedVertices[];
+	static Vertex* m_indexedVertices;
 	/// <summary>The color associated with each vertex</summary>
-	static Color indexedColors[];
+	static Color* m_indexedColors;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	static GLushort indices[];
-	
-	/// <summary>The number of vertices. Generated automatically with the NUM macro</summary>
-	GLushort m_numberOfVertices;
+	static GLushort* m_indices;
+
+	//ints used in the loading of files.
+	static int numVertices, numColors, numIndices;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;

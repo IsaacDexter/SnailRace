@@ -1,6 +1,15 @@
 #include "Primitive.h"
 
 //Vertexes cannot be included as they cannot be virtual. Vertexes and drawing code is unique to each child class.
+Vertex* Primitive::m_indexedVertices = nullptr;
+Color* Primitive::m_indexedColors = nullptr;
+GLushort* Primitive::m_indices = nullptr;
+
+//initialises loading integers
+int Primitive::numVertices = 0;
+int Primitive::numColors = 0;
+int Primitive::numIndices = 0;
+
 
 Primitive::Primitive(float x, float y, float z)
 {
@@ -26,7 +35,22 @@ void Primitive::Update()
 /// <summary>Uses the 'DrawIndexed___Alt method as set out in older variations of the code. The most line and memory efficient.</summary>
 void Primitive::Draw()
 {
-	//Leave blank as virtual so will be overriden
+	if (m_indexedVertices != nullptr && m_indexedColors != nullptr && m_indices != nullptr)
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, m_indexedVertices);
+		glColorPointer(3, GL_FLOAT, 0, m_indexedColors);
+
+		glPushMatrix();
+
+		glDrawElements(GL_TRIANGLES, numVertices, GL_UNSIGNED_SHORT, m_indices);
+
+		glPopMatrix();
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+	}
 }
 
 Vector3* Primitive::GetRotation()
