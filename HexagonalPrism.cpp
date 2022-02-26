@@ -46,9 +46,8 @@ GLushort HexagonalPrism::indices[] = {
 	0,	1,	7,		7,	6,	0	//top left side
 };	//20 triangles, 60 vertices overall
 
-HexagonalPrism::HexagonalPrism()
+HexagonalPrism::HexagonalPrism(float x, float y, float z) : Primitive(x, y, z)
 {
-	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 

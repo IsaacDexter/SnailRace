@@ -46,11 +46,6 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Create a new Vector 3 representing rotation in each axis
 	_rotationAxes = new Vector3();
 
-	//Load shapes
-	_cube = new Cube();
-	_hexagonalPrism = new HexagonalPrism();
-	_squareBasedPyramid = new SquareBasedPyramid();
-
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
 	//Loads the identity matrix, think of setting the matrix back to 1
@@ -61,6 +56,11 @@ HelloGL::HelloGL(int argc, char* argv[])
 	gluPerspective(45, 1, 0, 1000);
 	//Switch back to the model view matrix to work with models again
 	glMatrixMode(GL_MODELVIEW);
+
+	//Load shapes
+	_cube = new Cube(1.0f, 1.0f, 1.0f);
+	_hexagonalPrism = new HexagonalPrism(-0.5f, -0.5f, -0.5f);
+	_squareBasedPyramid = new SquareBasedPyramid();
 
 	//start the main loop
 	glutMainLoop();
@@ -293,13 +293,13 @@ void HelloGL::Update()
 	switch (_currentShape)
 	{
 	case cube:
-		_cube->SetRotation(_rotationAxes);
+		_cube->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	case hexagonalPrism:
-		_hexagonalPrism->SetRotation(_rotationAxes);
+		_hexagonalPrism->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	case squareBasedPyramid:
-		_squareBasedPyramid->SetRotation(_rotationAxes);
+		_squareBasedPyramid->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	default:
 		break;

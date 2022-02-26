@@ -34,9 +34,8 @@ GLushort Cube::indices[] = {
 	4,	7,	6,		6,	5,	4	//Back
 };	//12 triangles, 36 vertices overall
 
-Cube::Cube() : Primitive()
+Cube::Cube(float x, float y, float z) : Primitive(x, y, z)
 {
-	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 

@@ -25,9 +25,8 @@ GLushort SquareBasedPyramid::indices[] = {
 	4,	1,	3,	//base 2
 };	//6 triangles,	18 vertices overall.
 
-SquareBasedPyramid::SquareBasedPyramid()
+SquareBasedPyramid::SquareBasedPyramid(float x, float y, float z) : Primitive(x, y, z)
 {
-	m_rotationAxes = new Vector3();
 	m_numberOfVertices = NUM(indices);
 }
 

@@ -11,7 +11,7 @@ protected:
 	static Color indexedColors[];
 	static GLushort indices[];
 public:
-	Cube();
+	Cube(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Cube();
 
 	void Draw() override;
