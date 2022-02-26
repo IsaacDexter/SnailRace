@@ -94,6 +94,14 @@ void HelloGL::Display()
 			_squareBasedPyramid->Update();
 			_squareBasedPyramid->Draw();
 			break;
+		case all:
+			_cube->Update();
+			_cube->Draw();
+			_hexagonalPrism->Update();
+			_hexagonalPrism->Draw();
+			_squareBasedPyramid->Update();
+			_squareBasedPyramid->Draw();
+			break;
 		default:
 			break;
 		}
@@ -131,6 +139,9 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	case '3':
 		_currentShape = squareBasedPyramid;
 		_rotationAxes = _squareBasedPyramid->GetRotation();
+		break;
+	case '4':
+		_currentShape = all;
 		break;
 	default:
 		break;

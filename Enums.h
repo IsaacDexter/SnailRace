@@ -15,7 +15,8 @@ enum Shapes
 {
 	cube,
 	hexagonalPrism,
-	squareBasedPyramid
+	squareBasedPyramid,
+	all
 };
 
 #endif // !_ENUMS_H
