@@ -60,6 +60,8 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	//Load shapes
+	//Static method so can be called before an instance of the class.
+	Primitive::Load((char*)"Models/cube.txt");
 	_cube = new Cube(1.0f, 1.0f, 1.0f);
 	_hexagonalPrism = new HexagonalPrism(-0.5f, -0.5f, -0.5f);
 	_squareBasedPyramid = new SquareBasedPyramid();

@@ -26,7 +26,7 @@ protected:
 	static GLushort* m_indices;
 
 	//ints used in the loading of files.
-	static int numVertices, numColors, numIndices;
+	static int m_numVertices, m_numColors, m_numIndices;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;

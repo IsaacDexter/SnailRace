@@ -6,9 +6,11 @@ Color* Primitive::m_indexedColors = nullptr;
 GLushort* Primitive::m_indices = nullptr;
 
 //initialises loading integers
-int Primitive::numVertices = 0;
-int Primitive::numColors = 0;
-int Primitive::numIndices = 0;
+int Primitive::m_numVertices = 0;
+int Primitive::m_numColors = 0;
+int Primitive::m_numIndices = 0;
+
+
 
 
 Primitive::Primitive(float x, float y, float z)
@@ -44,7 +46,7 @@ void Primitive::Draw()
 
 		glPushMatrix();
 
-		glDrawElements(GL_TRIANGLES, numVertices, GL_UNSIGNED_SHORT, m_indices);
+		glDrawElements(GL_TRIANGLES, m_numVertices, GL_UNSIGNED_SHORT, m_indices);
 
 		glPopMatrix();
 
@@ -68,25 +70,21 @@ bool Primitive::Load(char* path)
 		return false;
 	}
 	
-	inFile >> numVertices;
-	m_indexedVertices = new Vertex[numVertices];
-	for (int i = 0; i < numVertices; i++)
+	inFile >> m_numVertices;
+	m_indexedVertices = new Vertex[m_numVertices];
+	std::string fileValue;
+	for (int i = 0; i < m_numVertices; i++)
 	{
-		std::string line;
-		std::getline(inFile, line);
-		//gets first character, converts it to int and sets x.
-		m_indexedVertices[i].x = std::stoi(line.substr(0, line.find_first_of(' ')));
-		//removes start of line so the process can continue.
-		line.erase(0, line.find_first_of(' '));
-		//gets first character, converts it to int and sets x.
-		m_indexedVertices[i].y = std::stoi(line.substr(0, line.find_first_of(' ')));
-		//removes start of line so the process can continue.
-		line.erase(0, line.find_first_of(' '));
-		//gets first character, converts it to int and sets x.
-		m_indexedVertices[i].z = std::stoi(line.substr(0, line.find_first_of(' ')));	
-		//std::cout << "x: " << m_indexedVertices[i].x << ", y: " << m_indexedVertices[i].y << ", z: " << m_indexedVertices[i].z << std::endl;
+		inFile >> fileValue;
+		m_indexedVertices[i].x = stof(fileValue);
+		inFile >> fileValue;
+		m_indexedVertices[i].y = stof(fileValue);
+		inFile >> fileValue;
+		m_indexedVertices[i].z = stof(fileValue);
+		std::cout << "x: " << m_indexedVertices[i].x << ", y: " << m_indexedVertices[i].y << ", z: " << m_indexedVertices[i].z << std::endl;
 	}
-
+	inFile.close();
+	return true;
 }
 
 void Primitive::SetRotation(float pitch, float yaw, float roll)
