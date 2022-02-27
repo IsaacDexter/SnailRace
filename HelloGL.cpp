@@ -65,6 +65,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	_cube = new Cube(1.0f, 1.0f, 1.0f);
 	_hexagonalPrism = new HexagonalPrism(-0.5f, -0.5f, -0.5f);
 	_squareBasedPyramid = new SquareBasedPyramid();
+	_primitive = new Primitive(0.0f, 0.0f, 0.0f);
 
 	//start the main loop
 	glutMainLoop();
@@ -85,8 +86,8 @@ void HelloGL::Display()
 		switch (_currentShape)
 		{
 		case cube:
-			_cube->Update();
-			_cube->Draw();
+			_primitive->Update();
+			_primitive->Draw();
 			break;
 		case hexagonalPrism:
 			_hexagonalPrism->Update();
@@ -308,7 +309,7 @@ void HelloGL::Update()
 	switch (_currentShape)
 	{
 	case cube:
-		_cube->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		_primitive->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	case hexagonalPrism:
 		_hexagonalPrism->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
