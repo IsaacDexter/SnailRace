@@ -83,7 +83,8 @@ bool Primitive::Load(char* path)
 		//removes start of line so the process can continue.
 		line.erase(0, line.find_first_of(' '));
 		//gets first character, converts it to int and sets x.
-		m_indexedVertices[i].z = std::stoi(line.substr(0, line.find_first_of(' ')));
+		m_indexedVertices[i].z = std::stoi(line.substr(0, line.find_first_of(' ')));	
+		//std::cout << "x: " << m_indexedVertices[i].x << ", y: " << m_indexedVertices[i].y << ", z: " << m_indexedVertices[i].z << std::endl;
 	}
 
 }
