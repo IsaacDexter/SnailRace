@@ -58,6 +58,36 @@ Vector3* Primitive::GetRotation()
 	return(m_rotationAxes);
 }
 
+bool Primitive::Load(char* path)
+{
+	std::ifstream inFile;
+	inFile.open(path);
+	if (!inFile.good())
+	{
+		std::cerr << "Can't open text file " << path << std::endl;
+		return false;
+	}
+	
+	inFile >> numVertices;
+	m_indexedVertices = new Vertex[numVertices];
+	for (int i = 0; i < numVertices; i++)
+	{
+		std::string line;
+		std::getline(inFile, line);
+		//gets first character, converts it to int and sets x.
+		m_indexedVertices[i].x = std::stoi(line.substr(0, line.find_first_of(' ')));
+		//removes start of line so the process can continue.
+		line.erase(0, line.find_first_of(' '));
+		//gets first character, converts it to int and sets x.
+		m_indexedVertices[i].y = std::stoi(line.substr(0, line.find_first_of(' ')));
+		//removes start of line so the process can continue.
+		line.erase(0, line.find_first_of(' '));
+		//gets first character, converts it to int and sets x.
+		m_indexedVertices[i].z = std::stoi(line.substr(0, line.find_first_of(' ')));
+	}
+
+}
+
 void Primitive::SetRotation(float pitch, float yaw, float roll)
 {
 	m_rotationAxes->x = pitch;

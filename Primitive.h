@@ -7,12 +7,17 @@
 #include <gl/GLU.h>
 #include "GL\freeglut.h"
 #include "Structures.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 
 
 class Primitive
 {
 protected:
+	//Static variables only exist once in memory over every instance of the object we make.
+
 	///<summary>All indexed vertices in the shape</summary>
 	static Vertex* m_indexedVertices;
 	/// <summary>The color associated with each vertex</summary>
@@ -31,6 +36,11 @@ public:
 	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses, as well as rotation and position. Takes the starting position as params.</summary>
 	Primitive(float x, float y, float z);
 	~Primitive();
+
+	/// <summary>Load method which loads data into the num variables and m_ind variables.</summary>
+	/// <param name="path">Path to the .txt file to load the object from. Should Start with Models/_____</param>
+	/// <returns>Whether the load was a success.</returns>
+	static bool Load(char* path);
 
 	/// <summary>Getter for the rotation</summary>
 	/// <returns>The Rotation</returns>
