@@ -95,7 +95,14 @@ bool Primitive::Load(char* path)
 		m_indexedColors[i].b = stof(fileValue);
 		std::cout << "r: " << m_indexedColors[i].r << ", g: " << m_indexedColors[i].g << ", b: " << m_indexedColors[i].b << std::endl;
 	}
-
+	inFile >> m_numIndices;
+	m_indices = new GLushort[m_numIndices];
+	for (int i = 0; i < m_numIndices; i++)
+	{
+		inFile >> fileValue;
+		m_indices[i] = stoi(fileValue);
+		std::cout << "Index " << i << ": " << m_indices[i] << std::endl;
+	}
 	inFile.close();
 	return true;
 }
