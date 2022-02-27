@@ -81,7 +81,6 @@ bool Primitive::Load(char* path)
 		m_indexedVertices[i].y = stof(fileValue);
 		inFile >> fileValue;
 		m_indexedVertices[i].z = stof(fileValue);
-		std::cout << "x: " << m_indexedVertices[i].x << ", y: " << m_indexedVertices[i].y << ", z: " << m_indexedVertices[i].z << std::endl;
 	}
 	inFile >> m_numColors;
 	m_indexedColors = new Color[m_numColors];
@@ -93,7 +92,6 @@ bool Primitive::Load(char* path)
 		m_indexedColors[i].g = stof(fileValue);
 		inFile >> fileValue;
 		m_indexedColors[i].b = stof(fileValue);
-		std::cout << "r: " << m_indexedColors[i].r << ", g: " << m_indexedColors[i].g << ", b: " << m_indexedColors[i].b << std::endl;
 	}
 	inFile >> m_numIndices;
 	m_indices = new GLushort[m_numIndices];
@@ -101,7 +99,6 @@ bool Primitive::Load(char* path)
 	{
 		inFile >> fileValue;
 		m_indices[i] = stoi(fileValue);
-		std::cout << "Index " << i << ": " << m_indices[i] << std::endl;
 	}
 	inFile.close();
 	return true;
