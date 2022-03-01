@@ -18,15 +18,7 @@ class Primitive
 protected:
 	//Static variables only exist once in memory over every instance of the object we make.
 
-	///<summary>All indexed vertices in the shape</summary>
-	static Vertex* m_indexedVertices;
-	/// <summary>The color associated with each vertex</summary>
-	static Color* m_indexedColors;
-	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	static GLushort* m_indices;
-
-	//ints used in the loading of files.
-	static int m_numVertices, m_numColors, m_numIndices;
+	Mesh* _mesh;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;

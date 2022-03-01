@@ -63,4 +63,19 @@ struct Vertex
 	GLfloat x, y, z;
 };
 
+/// <summary>
+/// Structure used to load 3D shapes, contains each vertex, color and a lkist of indeces
+/// </summary>
+struct Mesh
+{
+	///<summary>All indexed vertices in the shape</summary>
+	Vertex* Vertices;
+	/// <summary>The color associated with each vertex</summary>
+	Color* Colors;
+	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
+	GLushort* Indices;
+	//ints used in the loading of files.
+	int VertexCount, ColorCount, IndexCount;
+};
+
 #endif // !_STRUCTURES_H

@@ -26,6 +26,9 @@ class HelloGL
 public:
 	//Constructor def
 	HelloGL(int argc, char* argv[]);
+	//Initialisation methods
+	void InitObjects();
+	void InitGL(int argc, char* argv[]);
 
 	//Destructor def
 	~HelloGL(void);

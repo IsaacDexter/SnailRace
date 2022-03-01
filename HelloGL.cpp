@@ -3,6 +3,14 @@
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
+	srand(time(NULL));
+	InitGL(argc, argv);
+	InitObjects();
+	glutMainLoop();
+}
+
+void HelloGL::InitGL(int argc, char* argv[])
+{
 	//Initialises Glut
 	glutInit(&argc, argv);
 	//Initialise everything else
@@ -36,12 +44,6 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
 	glCullFace(GL_BACK);
 
-	//Create a new camera and initialise it
-	camera = new Camera();
-	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
-	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
-	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
-
 	//Create a new vector2 representing the mouse location and initialise it
 	_oldMousePos = new Vector2();
 
@@ -59,13 +61,24 @@ HelloGL::HelloGL(int argc, char* argv[])
 	//Switch back to the model view matrix to work with models again
 	glMatrixMode(GL_MODELVIEW);
 
+	
+}
+void HelloGL::InitObjects()
+{
+	//Create a new camera and initialise it
+	camera = new Camera();
+	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
+	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
+	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+
 	//Load shapes
 	//Static method so can be called before an instance of the class.
 	Primitive::Load((char*)"Models/cube.txt");
-	_primitive = new Primitive();
+	_primitive = new Primitive(0.0f, 0.0f, -1.0f);
 	//start the main loop
-	glutMainLoop();
 }
+
+
 
 /// <summary>
 /// Place drawing code in here. Not called automatically, only when requested (including automatic initial request
