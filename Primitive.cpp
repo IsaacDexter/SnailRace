@@ -46,7 +46,7 @@ void Primitive::Draw()
 
 		glPushMatrix();
 
-		glDrawElements(GL_TRIANGLES, m_numVertices, GL_UNSIGNED_SHORT, m_indices);
+		glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_SHORT, m_indices);
 
 		glPopMatrix();
 
