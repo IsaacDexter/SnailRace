@@ -11,9 +11,7 @@
 #include "Enums.h"
 
 //Shape class includes
-#include "Cube.h"
-#include "HexagonalPrism.h"
-#include "SquareBasedPyramid.h"
+#include "Primitive.h"
 
 
 //Defs
@@ -54,9 +52,7 @@ private:
 	Vector3* _rotationAxes;
 
 	//3D shapes
-	Cube* _cube;
-	HexagonalPrism* _hexagonalPrism;
-	SquareBasedPyramid* _squareBasedPyramid;
+	Primitive* _primitive;
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;

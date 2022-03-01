@@ -61,11 +61,8 @@ HelloGL::HelloGL(int argc, char* argv[])
 
 	//Load shapes
 	//Static method so can be called before an instance of the class.
-	Cube::Load((char*)"Models/cube.txt");
-	_cube = new Cube(0.0f, 0.0f, 0.0f);
-	_hexagonalPrism = new HexagonalPrism(-0.5f, -0.5f, -0.5f);
-	_squareBasedPyramid = new SquareBasedPyramid();
-
+	Primitive::Load((char*)"Models/cube.txt");
+	_primitive = new Primitive();
 	//start the main loop
 	glutMainLoop();
 }
@@ -85,24 +82,8 @@ void HelloGL::Display()
 		switch (_currentShape)
 		{
 		case cube:
-			_cube->Update();
-			_cube->Draw();
-			break;
-		case hexagonalPrism:
-			_hexagonalPrism->Update();
-			_hexagonalPrism->Draw();
-			break;
-		case squareBasedPyramid:
-			_squareBasedPyramid->Update();
-			_squareBasedPyramid->Draw();
-			break;
-		case all:
-			_cube->Update();
-			_cube->Draw();
-			_hexagonalPrism->Update();
-			_hexagonalPrism->Draw();
-			_squareBasedPyramid->Update();
-			_squareBasedPyramid->Draw();
+			_primitive->Update();
+			_primitive->Draw();
 			break;
 		default:
 			break;
@@ -132,18 +113,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	{
 	case '1':
 		_currentShape = cube;
-		_rotationAxes = _cube->GetRotation();
-		break;
-	case '2':
-		_currentShape = hexagonalPrism;
-		_rotationAxes = _hexagonalPrism->GetRotation();
-		break;
-	case '3':
-		_currentShape = squareBasedPyramid;
-		_rotationAxes = _squareBasedPyramid->GetRotation();
-		break;
-	case '4':
-		_currentShape = all;
+		_rotationAxes = _primitive->GetRotation();
 		break;
 	default:
 		break;
@@ -308,13 +278,7 @@ void HelloGL::Update()
 	switch (_currentShape)
 	{
 	case cube:
-		_cube->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
-		break;
-	case hexagonalPrism:
-		_hexagonalPrism->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
-		break;
-	case squareBasedPyramid:
-		_squareBasedPyramid->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		_primitive->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	default:
 		break;

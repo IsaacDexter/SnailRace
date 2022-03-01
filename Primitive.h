@@ -34,7 +34,7 @@ protected:
 	Vector3* m_position;
 public:
 	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses, as well as rotation and position. Takes the starting position as params.</summary>
-	Primitive(float x, float y, float z);
+	Primitive(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Primitive();
 
 	/// <summary>Load method which loads data into the num variables and m_ind variables.</summary>
