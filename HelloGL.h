@@ -57,7 +57,6 @@ private:
 	Cube* _cube;
 	HexagonalPrism* _hexagonalPrism;
 	SquareBasedPyramid* _squareBasedPyramid;
-	Primitive* _primitive;
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;
