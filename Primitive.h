@@ -18,7 +18,7 @@ class Primitive
 protected:
 	//Static variables only exist once in memory over every instance of the object we make.
 
-	Mesh* _mesh;
+	Mesh* m_mesh;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;
@@ -26,13 +26,13 @@ protected:
 	Vector3* m_position;
 public:
 	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses, as well as rotation and position. Takes the starting position as params.</summary>
-	Primitive(float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	Primitive(Mesh* mesh, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Primitive();
 
 	/// <summary>Load method which loads data into the num variables and m_ind variables.</summary>
 	/// <param name="path">Path to the .txt file to load the object from. Should Start with Models/_____</param>
 	/// <returns>Whether the load was a success.</returns>
-	static bool Load(char* path);
+	//static bool Load(char* path);
 
 	/// <summary>Getter for the rotation</summary>
 	/// <returns>The Rotation</returns>

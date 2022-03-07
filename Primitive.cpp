@@ -1,20 +1,17 @@
 #include "Primitive.h"
 
 //Vertexes cannot be included as they cannot be virtual. Vertexes and drawing code is unique to each child class.
-Vertex* Primitive::m_indexedVertices = nullptr;
-Color* Primitive::m_indexedColors = nullptr;
-GLushort* Primitive::m_indices = nullptr;
+
 
 //initialises loading integers
-int Primitive::m_numVertices = 0;
-int Primitive::m_numColors = 0;
-int Primitive::m_numIndices = 0;
 
 
 
 
-Primitive::Primitive(float x, float y, float z)
+
+Primitive::Primitive(Mesh* mesh, float x, float y, float z)
 {
+	m_mesh = mesh;
 	m_rotationAxes = new Vector3();
 	m_position = new Vector3();
 	SetPosition(x, y, z);
@@ -37,16 +34,16 @@ void Primitive::Update()
 /// <summary>Uses the 'DrawIndexed___Alt method as set out in older variations of the code. The most line and memory efficient.</summary>
 void Primitive::Draw()
 {
-	if (m_indexedVertices != nullptr && m_indexedColors != nullptr && m_indices != nullptr)
+	if (m_mesh != nullptr)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, m_indexedVertices);
-		glColorPointer(3, GL_FLOAT, 0, m_indexedColors);
+		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
+		glColorPointer(3, GL_FLOAT, 0, m_mesh->Colors);
 
 		glPushMatrix();
 
-		glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_SHORT, m_indices);
+		glDrawElements(GL_TRIANGLES, m_mesh->IndexCount, GL_UNSIGNED_SHORT, m_mesh->Indices);
 
 		glPopMatrix();
 
@@ -60,49 +57,49 @@ Vector3* Primitive::GetRotation()
 	return(m_rotationAxes);
 }
 
-bool Primitive::Load(char* path)
-{
-	std::ifstream inFile;
-	inFile.open(path);
-	if (!inFile.good())
-	{
-		std::cerr << "Can't open text file " << path << std::endl;
-		return false;
-	}
-	
-	inFile >> m_numVertices;
-	m_indexedVertices = new Vertex[m_numVertices];
-	std::string fileValue;
-	for (int i = 0; i < m_numVertices; i++)
-	{
-		inFile >> fileValue;
-		m_indexedVertices[i].x = stof(fileValue);
-		inFile >> fileValue;
-		m_indexedVertices[i].y = stof(fileValue);
-		inFile >> fileValue;
-		m_indexedVertices[i].z = stof(fileValue);
-	}
-	inFile >> m_numColors;
-	m_indexedColors = new Color[m_numColors];
-	for (int i = 0; i < m_numColors; i++)
-	{
-		inFile >> fileValue;
-		m_indexedColors[i].r = stof(fileValue);
-		inFile >> fileValue;
-		m_indexedColors[i].g = stof(fileValue);
-		inFile >> fileValue;
-		m_indexedColors[i].b = stof(fileValue);
-	}
-	inFile >> m_numIndices;
-	m_indices = new GLushort[m_numIndices];
-	for (int i = 0; i < m_numIndices; i++)
-	{
-		inFile >> fileValue;
-		m_indices[i] = stoi(fileValue);
-	}
-	inFile.close();
-	return true;
-}
+//bool Primitive::Load(char* path)
+//{
+//	std::ifstream inFile;
+//	inFile.open(path);
+//	if (!inFile.good())
+//	{
+//		std::cerr << "Can't open text file " << path << std::endl;
+//		return false;
+//	}
+//	
+//	inFile >> m_numVertices;
+//	m_indexedVertices = new Vertex[m_numVertices];
+//	std::string fileValue;
+//	for (int i = 0; i < m_numVertices; i++)
+//	{
+//		inFile >> fileValue;
+//		m_indexedVertices[i].x = stof(fileValue);
+//		inFile >> fileValue;
+//		m_indexedVertices[i].y = stof(fileValue);
+//		inFile >> fileValue;
+//		m_indexedVertices[i].z = stof(fileValue);
+//	}
+//	inFile >> m_numColors;
+//	m_indexedColors = new Color[m_numColors];
+//	for (int i = 0; i < m_numColors; i++)
+//	{
+//		inFile >> fileValue;
+//		m_indexedColors[i].r = stof(fileValue);
+//		inFile >> fileValue;
+//		m_indexedColors[i].g = stof(fileValue);
+//		inFile >> fileValue;
+//		m_indexedColors[i].b = stof(fileValue);
+//	}
+//	inFile >> m_numIndices;
+//	m_indices = new GLushort[m_numIndices];
+//	for (int i = 0; i < m_numIndices; i++)
+//	{
+//		inFile >> fileValue;
+//		m_indices[i] = stoi(fileValue);
+//	}
+//	inFile.close();
+//	return true;
+//}
 
 void Primitive::SetRotation(float pitch, float yaw, float roll)
 {

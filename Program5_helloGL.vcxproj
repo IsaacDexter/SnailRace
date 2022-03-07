@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="GLUTCallbacks.cpp" />
     <ClCompile Include="HelloGL.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GLUTCallbacks.h" />

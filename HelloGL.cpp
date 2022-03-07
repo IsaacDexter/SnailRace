@@ -73,8 +73,8 @@ void HelloGL::InitObjects()
 
 	//Load shapes
 	//Static method so can be called before an instance of the class.
-	Primitive::Load((char*)"Models/cube.txt");
-	_primitive = new Primitive(0.0f, 0.0f, -1.0f);
+	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
+	_primitive = new Primitive(cubeMesh, 0.0f, 0.0f, -1.0f);
 	//start the main loop
 }
 

@@ -13,6 +13,8 @@
 //Shape class includes
 #include "Primitive.h"
 
+#include "MeshLoader.h"
+
 
 //Defs
 #define REFRESHRATE 16
