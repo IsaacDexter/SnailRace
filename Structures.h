@@ -54,13 +54,13 @@ struct Camera
 /// <summary>Used to store colours for each vertex in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Color
 {
-	GLfloat r, g, b;
+	float r, g, b;
 };
 
 /// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Vertex
 {
-	GLfloat x, y, z;
+	float x, y, z;
 };
 
 /// <summary>
@@ -73,7 +73,7 @@ struct Mesh
 	/// <summary>The color associated with each vertex</summary>
 	Color* Colors;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	GLushort* Indices;
+	unsigned short* Indices;
 	//ints used in the loading of files.
 	int VertexCount, ColorCount, IndexCount;
 };
