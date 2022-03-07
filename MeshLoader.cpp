@@ -48,9 +48,9 @@ namespace MeshLoader
 
 		if (mesh.IndexCount > 0)
 		{
-			mesh.Indices = new unsigned short [mesh.VertexCount];
+			mesh.Indices = new unsigned short [mesh.IndexCount];
 
-			for (int i = 0; i < mesh.VertexCount; i++)
+			for (int i = 0; i < mesh.IndexCount; i++)
 			{
 				inFile >> mesh.Indices[i];
 			}
@@ -71,7 +71,9 @@ namespace MeshLoader
 			return nullptr;
 		}
 
-		//LOAD DATA USING METHODS ABOVE
+		LoadVertices(inFile, *mesh);
+		LoadColours(inFile, *mesh);
+		LoadIndices(inFile, *mesh);
 
 		return mesh;
 	}
