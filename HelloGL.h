@@ -57,7 +57,9 @@ private:
 	Vector3* _rotationAxes;
 
 	//3D shapes
-	Primitive* _primitive;
+	Primitive* _cube;
+	Primitive* _hexagonalPrism;
+	Primitive* _squareBasedPyramid;
 
 	MouseButtons _mouseButtonPressed = none;
 	Shapes _currentShape = cube;

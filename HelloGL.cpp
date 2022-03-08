@@ -74,7 +74,11 @@ void HelloGL::InitObjects()
 	//Load shapes
 	//Static method so can be called before an instance of the class.
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-	_primitive = new Primitive(cubeMesh, 0.0f, 0.0f, -1.0f);
+	_cube = new Primitive(cubeMesh, 0.0f, 0.0f, -1.0f);
+	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
+	_hexagonalPrism = new Primitive(hexagonalPrismMesh, 0.0f, 0.5f, -1.0f);
+	Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
+	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, 0.0f, 0.5f, -1.0f);
 	//start the main loop
 }
 
@@ -95,8 +99,16 @@ void HelloGL::Display()
 		switch (_currentShape)
 		{
 		case cube:
-			_primitive->Update();
-			_primitive->Draw();
+			_cube->Update();
+			_cube->Draw();
+			break;
+		case hexagonalPrism:
+			_hexagonalPrism->Update();
+			_hexagonalPrism->Draw();
+			break;
+		case squareBasedPyramid:
+			_squareBasedPyramid->Update();
+			_squareBasedPyramid->Draw();
 			break;
 		default:
 			break;
@@ -126,7 +138,15 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	{
 	case '1':
 		_currentShape = cube;
-		_rotationAxes = _primitive->GetRotation();
+		_rotationAxes = _cube->GetRotation();
+		break;
+	case '2':
+		_currentShape = hexagonalPrism;
+		_rotationAxes = _hexagonalPrism->GetRotation();
+		break;
+	case '3':
+		_currentShape = squareBasedPyramid;
+		_rotationAxes = _squareBasedPyramid->GetRotation();
 		break;
 	default:
 		break;
@@ -291,7 +311,13 @@ void HelloGL::Update()
 	switch (_currentShape)
 	{
 	case cube:
-		_primitive->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		_cube->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		break;
+	case hexagonalPrism:
+		_hexagonalPrism->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		break;
+	case squareBasedPyramid:
+		_squareBasedPyramid->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
 		break;
 	default:
 		break;
