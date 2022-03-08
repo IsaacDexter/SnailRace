@@ -48,7 +48,7 @@ namespace MeshLoader
 
 		if (mesh.IndexCount > 0)
 		{
-			mesh.Indices = new unsigned short [mesh.IndexCount];
+			mesh.Indices = new GLushort [mesh.IndexCount];
 
 			for (int i = 0; i < mesh.IndexCount; i++)
 			{

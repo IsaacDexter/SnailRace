@@ -76,9 +76,9 @@ void HelloGL::InitObjects()
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
 	_cube = new Primitive(cubeMesh, 0.0f, 0.0f, -1.0f);
 	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
-	_hexagonalPrism = new Primitive(hexagonalPrismMesh, 0.0f, 0.5f, -1.0f);
+	_hexagonalPrism = new Primitive(hexagonalPrismMesh, 0.0f, 2.0f, -1.0f);
 	Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, 0.0f, 0.5f, -1.0f);
+	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, 0.0f, -2.0f, -1.0f);
 	//start the main loop
 }
 
@@ -107,6 +107,14 @@ void HelloGL::Display()
 			_hexagonalPrism->Draw();
 			break;
 		case squareBasedPyramid:
+			_squareBasedPyramid->Update();
+			_squareBasedPyramid->Draw();
+			break;
+		case all:
+			_cube->Update();
+			_cube->Draw();
+			_hexagonalPrism->Update();
+			_hexagonalPrism->Draw();
 			_squareBasedPyramid->Update();
 			_squareBasedPyramid->Draw();
 			break;
@@ -148,6 +156,8 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		_currentShape = squareBasedPyramid;
 		_rotationAxes = _squareBasedPyramid->GetRotation();
 		break;
+	case '4':
+		_currentShape = all;
 	default:
 		break;
 	}

@@ -1,6 +1,11 @@
 #ifndef _STRUCTURES_H
 #define _STRUCTURES_H
 
+#include <Windows.h>		//Required for OpenGl on Windows
+#include <gl/GL.h>			//OpenGL
+#include <gl/GLU.h>			//OpenGL Utilities
+#include "GL/freeglut.h"	//freeGLUT library
+
 //Macro used to find the number of elements in a list.
 #define NUM(a) (sizeof(a) / sizeof(*a))
 
@@ -54,13 +59,13 @@ struct Camera
 /// <summary>Used to store colours for each vertex in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Color
 {
-	float r, g, b;
+	GLfloat r, g, b;
 };
 
 /// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Vertex
 {
-	float x, y, z;
+	GLfloat x, y, z;
 };
 
 /// <summary>
@@ -73,7 +78,7 @@ struct Mesh
 	/// <summary>The color associated with each vertex</summary>
 	Color* Colors;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	unsigned short* Indices;
+	GLushort* Indices;
 	//ints used in the loading of files.
 	int VertexCount, ColorCount, IndexCount;
 };

@@ -1,14 +1,5 @@
 #include "Primitive.h"
 
-//Vertexes cannot be included as they cannot be virtual. Vertexes and drawing code is unique to each child class.
-
-
-//initialises loading integers
-
-
-
-
-
 Primitive::Primitive(Mesh* mesh, float x, float y, float z)
 {
 	m_mesh = mesh;
@@ -57,50 +48,6 @@ Vector3* Primitive::GetRotation()
 	return(m_rotationAxes);
 }
 
-//bool Primitive::Load(char* path)
-//{
-//	std::ifstream inFile;
-//	inFile.open(path);
-//	if (!inFile.good())
-//	{
-//		std::cerr << "Can't open text file " << path << std::endl;
-//		return false;
-//	}
-//	
-//	inFile >> m_numVertices;
-//	m_indexedVertices = new Vertex[m_numVertices];
-//	std::string fileValue;
-//	for (int i = 0; i < m_numVertices; i++)
-//	{
-//		inFile >> fileValue;
-//		m_indexedVertices[i].x = stof(fileValue);
-//		inFile >> fileValue;
-//		m_indexedVertices[i].y = stof(fileValue);
-//		inFile >> fileValue;
-//		m_indexedVertices[i].z = stof(fileValue);
-//	}
-//	inFile >> m_numColors;
-//	m_indexedColors = new Color[m_numColors];
-//	for (int i = 0; i < m_numColors; i++)
-//	{
-//		inFile >> fileValue;
-//		m_indexedColors[i].r = stof(fileValue);
-//		inFile >> fileValue;
-//		m_indexedColors[i].g = stof(fileValue);
-//		inFile >> fileValue;
-//		m_indexedColors[i].b = stof(fileValue);
-//	}
-//	inFile >> m_numIndices;
-//	m_indices = new GLushort[m_numIndices];
-//	for (int i = 0; i < m_numIndices; i++)
-//	{
-//		inFile >> fileValue;
-//		m_indices[i] = stoi(fileValue);
-//	}
-//	inFile.close();
-//	return true;
-//}
-
 void Primitive::SetRotation(float pitch, float yaw, float roll)
 {
 	m_rotationAxes->x = pitch;
@@ -127,7 +74,6 @@ void Primitive::SetPosition(float x, float y, float z)
 	m_position->x = x;
 	m_position->y = y;
 	m_position->z = z;
-
 }
 
 void Primitive::UpdatePosition()
