@@ -68,8 +68,14 @@ struct Vertex
 	GLfloat x, y, z;
 };
 
+struct TexCoord
+{
+	GLfloat u;
+	GLfloat v;
+};
+
 /// <summary>
-/// Structure used to load 3D shapes, contains each vertex, color and a lkist of indeces
+/// Structure used to load 3D shapes, contains each vertex, color and a lkist of indeces. Also contains texturing
 /// </summary>
 struct Mesh
 {
@@ -79,8 +85,10 @@ struct Mesh
 	Color* Colors;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
 	GLushort* Indices;
+	/// <summary>The coordinates of the texture to be loaded onto the mesh</summary>
+	TexCoord* TexCoords;
 	//ints used in the loading of files.
-	int VertexCount, ColorCount, IndexCount;
+	int VertexCount, ColorCount, IndexCount, TexCoordCount;
 };
 
 #endif // !_STRUCTURES_H

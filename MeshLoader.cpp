@@ -8,7 +8,7 @@ namespace MeshLoader
 	void LoadColours(ifstream& inFile, Mesh& mesh);
 	void LoadIndices(ifstream& inFile, Mesh& mesh);
 
-	void LoadVertices(ifstream& inFile, Mesh& mesh)
+	void LoadVertices(ifstream& inFile, Mesh& mesh)	//Load the vertices from the file
 	{
 		inFile >> mesh.VertexCount;
 
@@ -25,7 +25,7 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadColours(ifstream& inFile, Mesh& mesh)
+	void LoadColours(ifstream& inFile, Mesh& mesh)	//Load the colours for each vertex from the file
 	{
 		inFile >> mesh.ColorCount;
 
@@ -42,7 +42,23 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadIndices(ifstream& inFile, Mesh& mesh)
+	void LoadTexCoords(ifstream& inFile, Mesh& mesh) //load the texture coords from the file.
+	{
+		inFile >> mesh.TexCoordCount;
+
+		if (mesh.TexCoordCount > 0)
+		{
+			mesh.TexCoords = new TexCoord[mesh.TexCoordCount];
+
+			for (int i = 0; i < mesh.TexCoordCount; i++)
+			{
+				inFile >> mesh.TexCoords[i].u;
+				inFile >> mesh.TexCoords[i].v;
+			}
+		}
+	}
+
+	void LoadIndices(ifstream& inFile, Mesh& mesh)	//Lastly, load the indeces from the file which tell how the vertexes are spaced.
 	{
 		inFile >> mesh.IndexCount;
 
@@ -73,6 +89,7 @@ namespace MeshLoader
 
 		LoadVertices(inFile, *mesh);
 		LoadColours(inFile, *mesh);
+		LoadTexCoords(inFile, *mesh);
 		LoadIndices(inFile, *mesh);
 
 		return mesh;

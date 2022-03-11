@@ -1,8 +1,9 @@
 #include "Primitive.h"
 
-Primitive::Primitive(Mesh* mesh, float x, float y, float z)
+Primitive::Primitive(Mesh* mesh, Texture2D* texture, float x, float y, float z)
 {
 	m_mesh = mesh;
+	m_texture = texture;
 	m_rotationAxes = new Vector3();
 	m_position = new Vector3();
 	SetPosition(x, y, z);
@@ -27,11 +28,16 @@ void Primitive::Draw()
 {
 	if (m_mesh != nullptr)
 	{
+		glBindTexture(GL_TEXTURE_2D, m_texture->GetID());	//Bind the texture.
+		
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
 		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
 		glColorPointer(3, GL_FLOAT, 0, m_mesh->Colors);
-
+		glTexCoordPointer(3, GL_FLOAT, 0, m_mesh->TexCoords);
+		
 		glPushMatrix();
 
 		glDrawElements(GL_TRIANGLES, m_mesh->IndexCount, GL_UNSIGNED_SHORT, m_mesh->Indices);
@@ -40,6 +46,7 @@ void Primitive::Draw()
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 

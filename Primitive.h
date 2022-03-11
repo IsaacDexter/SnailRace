@@ -2,14 +2,19 @@
 #define _PRIMITIVE_H
 
 //includes
+//open gl includes
 #include <Windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
+//Homemade includes
 #include "GL\freeglut.h"
 #include "Structures.h"
+#include "Texture2D.h"
+//file handling incldues
 #include <fstream>
 #include <iostream>
 #include <string>
+
 
 
 
@@ -19,6 +24,7 @@ protected:
 	//Static variables only exist once in memory over every instance of the object we make.
 
 	Mesh* m_mesh;
+	Texture2D* m_texture;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;
@@ -26,7 +32,7 @@ protected:
 	Vector3* m_position;
 public:
 	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses, as well as rotation and position. Takes the starting position as params.</summary>
-	Primitive(Mesh* mesh, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	Primitive(Mesh* mesh, Texture2D* texture, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Primitive();
 
 	/// <summary>Load method which loads data into the num variables and m_ind variables.</summary>

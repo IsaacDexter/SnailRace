@@ -37,6 +37,8 @@ void HelloGL::InitGL(int argc, char* argv[])
 
 	//Sets display mode to double buffering, which eliminates 'flickering'. | GLUT_DEPTH adds z-buffering, so objects can appear to obscure as opposed to overlap eachother
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+	//Without this nothing witll be textured, and you will be left with white faces.
+	glEnable(GL_TEXTURE_2D);
 	//Enables back face culling, which obscures back faces of shapes that are not in view, giving a true perspective
 	glEnable(GL_CULL_FACE);
 	//Enables depth testing, with obscures shapes that are hidden from view by shapes in front of them.
@@ -74,11 +76,13 @@ void HelloGL::InitObjects()
 	//Load shapes
 	//Static method so can be called before an instance of the class.
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-	_cube = new Primitive(cubeMesh, 0.0f, 0.0f, -1.0f);
+	Texture2D* penguinTexture = new Texture2D();
+	penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
+	_cube = new Primitive(cubeMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
 	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
-	_hexagonalPrism = new Primitive(hexagonalPrismMesh, 0.0f, 2.0f, -1.0f);
+	_hexagonalPrism = new Primitive(hexagonalPrismMesh, nullptr, 0.0f, 2.0f, -1.0f);
 	Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, 0.0f, -2.0f, -1.0f);
+	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, nullptr, 0.0f, -2.0f, -1.0f);
 	//start the main loop
 }
 
