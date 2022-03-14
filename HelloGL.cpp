@@ -73,16 +73,24 @@ void HelloGL::InitObjects()
 	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
 
-	//Load shapes
-	//Static method so can be called before an instance of the class.
-	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
+	//Load Textures
 	Texture2D* penguinTexture = new Texture2D();
 	penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
-	_cube = new Primitive(cubeMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
+
+	Texture2D* brickTexture = new Texture2D();
+	brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
+	
+
+	//Load Meshes
+	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
+	_cube = new Primitive(cubeMesh, brickTexture, 0.0f, 0.0f, -1.0f);
+
 	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
-	_hexagonalPrism = new Primitive(hexagonalPrismMesh, nullptr, 0.0f, 2.0f, -1.0f);
+	_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
+
 	Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, nullptr, 0.0f, -2.0f, -1.0f);
+	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
+	
 	//start the main loop
 }
 
