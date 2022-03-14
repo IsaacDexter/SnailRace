@@ -64,4 +64,4 @@ int Texture2D::GetWidth() const
 int Texture2D::GetHeight() const
 {
 	return m_height;
-}
+}//
