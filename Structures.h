@@ -118,12 +118,29 @@ struct Lighting
 	Vector4 Specular;
 };
 
+/// <summary>Contains required components for calculating how light interacts with a surface.</summary>
 struct Material
 {
 	Vector4 Ambient;
 	Vector4 Diffuse;
 	Vector4 Specular;
 	GLfloat Roughness;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	Material()
+	{
+		Ambient = Vector4();
+		Diffuse = Vector4();
+		Specular = Vector4();
+		Roughness = 0.0f;
+	}
+	//Allows us to take parameters, so we can construct with any values
+	Material(Vector4 initial_ambient, Vector4 initial_diffuse, Vector4 initial_specular, GLfloat initial_roughness)
+	{
+		Ambient = initial_ambient;
+		Diffuse = initial_diffuse;
+		Specular = initial_specular;
+		Roughness = initial_roughness;
+	}
 };
 
 #endif // !_STRUCTURES_H

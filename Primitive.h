@@ -22,9 +22,12 @@ class Primitive
 {
 protected:
 	//Static variables only exist once in memory over every instance of the object we make.
-
+	//the shapes mesh, containing each vertex, The texture coordinates, Normal values and the indices
 	Mesh* m_mesh;
+	//The shapes texture
 	Texture2D* m_texture;
+	//The shaoes material, which dictates how light interacts with the surface of the object.
+	Material* m_material;
 
 	/// <summary>The rotation of the shape, stored as an pitch, yaw and roll value.</summary>
 	Vector3* m_rotationAxes;
@@ -32,7 +35,7 @@ protected:
 	Vector3* m_position;
 public:
 	/// <summary>Constructor. Sets The mesh, the texture, and position. Takes these starting values as params.</summary>
-	Primitive(Mesh* mesh, Texture2D* texture, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Primitive();
 
 	/// <summary>Getter for the rotation</summary>

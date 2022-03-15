@@ -1,9 +1,10 @@
 #include "Primitive.h"
 
-Primitive::Primitive(Mesh* mesh, Texture2D* texture, float x, float y, float z)
+Primitive::Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x, float y, float z)
 {
 	m_mesh = mesh;
 	m_texture = texture;
+	m_material = material;
 	m_rotationAxes = new Vector3();
 	m_position = new Vector3();
 	SetPosition(x, y, z);
@@ -37,7 +38,7 @@ void Primitive::Draw()
 		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
 		glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
 		glNormalPointer(GL_FLOAT, 0, m_mesh->Normals);
-		
+
 		glPushMatrix();
 
 		glDrawElements(GL_TRIANGLES, m_mesh->IndexCount, GL_UNSIGNED_SHORT, m_mesh->Indices);

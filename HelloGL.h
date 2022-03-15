@@ -31,6 +31,7 @@ public:
 	//Initialisation methods
 	void InitObjects();
 	void InitLighting(Vector3 lightPosition, Vector4 ambient, Vector4 diffuse, Vector4 specular);
+	void InitMaterials();
 	void InitGL(int argc, char* argv[]);
 
 	//Destructor def
