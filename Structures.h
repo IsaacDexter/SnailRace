@@ -107,7 +107,7 @@ struct Mesh
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
 	GLushort* Indices;
 	//ints used in the loading of files.
-	int VertexCount, ColorCount, IndexCount, TexCoordCount;
+	int VertexCount, NormalCount, IndexCount, TexCoordCount;
 };
 
 /// <summary>Vector containing the required components for lighting</summary>

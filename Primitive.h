@@ -31,14 +31,9 @@ protected:
 	/// <summary>The position of the shape, stored as an x, y and z value.</summary>
 	Vector3* m_position;
 public:
-	/// <summary>Constructor. Sets m_numberOfTriangles in subclasses, as well as rotation and position. Takes the starting position as params.</summary>
+	/// <summary>Constructor. Sets The mesh, the texture, and position. Takes these starting values as params.</summary>
 	Primitive(Mesh* mesh, Texture2D* texture, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Primitive();
-
-	/// <summary>Load method which loads data into the num variables and m_ind variables.</summary>
-	/// <param name="path">Path to the .txt file to load the object from. Should Start with Models/_____</param>
-	/// <returns>Whether the load was a success.</returns>
-	//static bool Load(char* path);
 
 	/// <summary>Getter for the rotation</summary>
 	/// <returns>The Rotation</returns>

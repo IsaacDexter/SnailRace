@@ -31,12 +31,12 @@ void Primitive::Draw()
 		glBindTexture(GL_TEXTURE_2D, m_texture->GetID());	//Bind the texture.
 		
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 
 		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
-		glColorPointer(3, GL_FLOAT, 0, m_mesh->Colors);
 		glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
+		glNormalPointer(GL_FLOAT, 0, m_mesh->Normals);
 		
 		glPushMatrix();
 
@@ -45,8 +45,8 @@ void Primitive::Draw()
 		glPopMatrix();
 
 		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 }
 
