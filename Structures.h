@@ -9,6 +9,31 @@
 //Macro used to find the number of elements in a list.
 #define NUM(a) (sizeof(a) / sizeof(*a))
 
+/// <summary>Vector 4 allowing us to represent our data as Homogeneous Coordinates, which we need to perform transformations correctly as a fourth component is required for matrix mulitplications.</summary>
+struct Vector4
+{
+	float x;
+	float y;
+	float z;
+	float w;
+	//Defines default constructors, to allows to create an object of this type in function calls.
+	Vector4()
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+		w = 0.0f;
+	}
+	//Allows us to take parameters, so we can construct with any values
+	Vector4(float initial_x, float initial_y, float initial_z, float initial_w)
+	{
+		x = initial_x;
+		y = initial_y;
+		z = initial_z;
+		w = initial_w;
+	}
+};
+
 /// <summary>A 3D vector represeting a single point in space</summary>
 struct Vector3
 {
@@ -75,20 +100,36 @@ struct TexCoord
 };
 
 /// <summary>
-/// Structure used to load 3D shapes, contains each vertex, color and a lkist of indeces. Also contains texturing
+/// Structure used to load 3D shapes, contains each vertex, normals and a lkist of indeces. Also contains texturing coords.
 /// </summary>
 struct Mesh
 {
 	///<summary>All indexed vertices in the shape</summary>
 	Vertex* Vertices;
-	/// <summary>The color associated with each vertex</summary>
-	Color* Colors;
+	/// <summary>The Normals, which are used in giving a shape the illusion of texture. Can either be calculated automatically or loaded from a file.</summary>
+	Vector3* Normals;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
 	GLushort* Indices;
 	/// <summary>The coordinates of the texture to be loaded onto the mesh</summary>
 	TexCoord* TexCoords;
 	//ints used in the loading of files.
 	int VertexCount, ColorCount, IndexCount, TexCoordCount;
+};
+
+/// <summary>Vector containing the required components for lighting</summary>
+struct Lighting
+{
+	Vector4 Ambient;
+	Vector4 Diffuse;
+	Vector4 Specular;
+};
+
+struct Material
+{
+	Vector4 Ambient;
+	Vector4 Diffuse;
+	Vector4 Specular;
+	GLfloat Roughness;
 };
 
 #endif // !_STRUCTURES_H
