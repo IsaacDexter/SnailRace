@@ -30,6 +30,7 @@ public:
 	HelloGL(int argc, char* argv[]);
 	//Initialisation methods
 	void InitObjects();
+	void InitLighting(Vector3 lightPosition, Vector4 ambient, Vector4 diffuse, Vector4 specular);
 	void InitGL(int argc, char* argv[]);
 
 	//Destructor def
@@ -49,21 +50,23 @@ public:
 	void Update();
 private:
 	/// <summary>1 for center, 2 for eye, 3 for up</summary>
-	int viewMode = 1;
-	Camera* camera;
+	int g_viewMode = 1;
+	Camera* g_camera;
 	/// <summary>Vector2 storing mouse position</summary>
-	Vector2* _oldMousePos;
+	Vector2* g_oldMousePos;
 	/// <summary>Vector3 representing the rotation in each axis</summary>
-	Vector3* _rotationAxes;
+	Vector3* g_rotationAxes;
+
+	Vector4* g_lightPosition;
+	Lighting* g_lightData;
 
 	//3D shapes
-	Primitive* _cube;
-	Primitive* _hexagonalPrism;
-	Primitive* _squareBasedPyramid;
+	Primitive* g_cube;
+	Primitive* g_hexagonalPrism;
+	Primitive* g_squareBasedPyramid;
 
-	MouseButtons _mouseButtonPressed = none;
-	Shapes _currentShape = cube;
-
+	MouseButtons g_mouseButtonPressed = none;
+	Shapes g_currentShape = cube;
 };
 
 

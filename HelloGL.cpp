@@ -6,6 +6,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	srand(time(NULL));
 	InitGL(argc, argv);
 	InitObjects();
+	InitLighting(Vector3(0.0f, 0.0f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
 	glutMainLoop();
 }
 
@@ -43,14 +44,18 @@ void HelloGL::InitGL(int argc, char* argv[])
 	glEnable(GL_CULL_FACE);
 	//Enables depth testing, with obscures shapes that are hidden from view by shapes in front of them.
 	glEnable(GL_DEPTH_TEST);
+	//Enables the lighting mode, which lets us light shapes
+	glEnable(GL_LIGHTING);
+	//enables the first of the 8 lights.
+	glEnable(GL_LIGHT0);
 	//Tells OpenGL which faces to cull, in this case, (and most cases,) back.
 	glCullFace(GL_BACK);
 
 	//Create a new vector2 representing the mouse location and initialise it
-	_oldMousePos = new Vector2();
+	g_oldMousePos = new Vector2();
 
 	//Create a new Vector 3 representing rotation in each axis
-	_rotationAxes = new Vector3();
+	g_rotationAxes = new Vector3();
 
 	//Tell openGl to switch to a different set of matrixes, to work with a different part of the transformation pipleine
 	glMatrixMode(GL_PROJECTION);
@@ -65,13 +70,14 @@ void HelloGL::InitGL(int argc, char* argv[])
 
 	
 }
+/// <summary>Initialises the camera, textures and any meshes in the scene</summary>
 void HelloGL::InitObjects()
 {
 	//Create a new camera and initialise it
-	camera = new Camera();
-	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
-	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
-	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+	g_camera = new Camera();
+	g_camera->eye.x = 0.0f; g_camera->eye.y = 0.0f; g_camera->eye.z = 1.0f;
+	g_camera->center.x = 0.0f; g_camera->center.y = 0.0f; g_camera->center.z = 0.0f;
+	g_camera->up.x = 0.0f; g_camera->up.y = 1.0f; g_camera->up.z = 0.0f;
 
 	//Load Textures
 	Texture2D* penguinTexture = new Texture2D();
@@ -83,15 +89,27 @@ void HelloGL::InitObjects()
 
 	//Load Meshes
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-	_cube = new Primitive(cubeMesh, brickTexture, 0.0f, 0.0f, -1.0f);
+	g_cube = new Primitive(cubeMesh, brickTexture, 0.0f, 0.0f, -1.0f);
 
 	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
-	_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
+	g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
 
 	Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-	_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
-	
-	//start the main loop
+	g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
+}
+
+/// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
+/// <param name="lightPosition">The position of the light as a vector3</param>
+/// <param name="ambient">The ambient value of the light, as a vector4</param>
+/// <param name="diffuse">The diffuse value of the light, as a vector4</param>
+/// <param name="specular">The specular value of the light, as a vector4</param>
+void HelloGL::InitLighting(Vector3 lightPosition, Vector4 ambient, Vector4 diffuse, Vector4 specular)
+{
+	g_lightPosition = new Vector4(lightPosition.x, lightPosition.y, lightPosition.z, 0.0f);
+	g_lightData = new Lighting();
+	g_lightData->Ambient = ambient;
+	g_lightData->Diffuse = diffuse;
+	g_lightData->Specular = specular;
 }
 
 
@@ -108,27 +126,27 @@ void HelloGL::Display()
 	//Drawing code goes here:
 	glPushMatrix();
 		//glutWireTeapot(0.1);
-		switch (_currentShape)
+		switch (g_currentShape)
 		{
 		case cube:
-			_cube->Update();
-			_cube->Draw();
+			g_cube->Update();
+			g_cube->Draw();
 			break;
 		case hexagonalPrism:
-			_hexagonalPrism->Update();
-			_hexagonalPrism->Draw();
+			g_hexagonalPrism->Update();
+			g_hexagonalPrism->Draw();
 			break;
 		case squareBasedPyramid:
-			_squareBasedPyramid->Update();
-			_squareBasedPyramid->Draw();
+			g_squareBasedPyramid->Update();
+			g_squareBasedPyramid->Draw();
 			break;
 		case all:
-			_cube->Update();
-			_cube->Draw();
-			_hexagonalPrism->Update();
-			_hexagonalPrism->Draw();
-			_squareBasedPyramid->Update();
-			_squareBasedPyramid->Draw();
+			g_cube->Update();
+			g_cube->Draw();
+			g_hexagonalPrism->Update();
+			g_hexagonalPrism->Draw();
+			g_squareBasedPyramid->Update();
+			g_squareBasedPyramid->Draw();
 			break;
 		default:
 			break;
@@ -147,55 +165,55 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	//Toggles between various camera view modes. These are used to experiment with the camera, as I do not understand how it works
 	if (key == ' ')
 	{
-		viewMode += 1;
-		if (viewMode > 3)
+		g_viewMode += 1;
+		if (g_viewMode > 3)
 		{
-			viewMode = 1;
+			g_viewMode = 1;
 		}
 	}
 
 	switch (key)
 	{
 	case '1':
-		_currentShape = cube;
-		_rotationAxes = _cube->GetRotation();
+		g_currentShape = cube;
+		g_rotationAxes = g_cube->GetRotation();
 		break;
 	case '2':
-		_currentShape = hexagonalPrism;
-		_rotationAxes = _hexagonalPrism->GetRotation();
+		g_currentShape = hexagonalPrism;
+		g_rotationAxes = g_hexagonalPrism->GetRotation();
 		break;
 	case '3':
-		_currentShape = squareBasedPyramid;
-		_rotationAxes = _squareBasedPyramid->GetRotation();
+		g_currentShape = squareBasedPyramid;
+		g_rotationAxes = g_squareBasedPyramid->GetRotation();
 		break;
 	case '4':
-		_currentShape = all;
+		g_currentShape = all;
 	default:
 		break;
 	}
 
-	switch (viewMode)
+	switch (g_viewMode)
 	{
 	case 1:
 		switch (key)
 		{
 		case 'w':	//Pan camera up
-			camera->center.y -= 0.0125f;
+			g_camera->center.y -= 0.0125f;
 			break;
 		case 'a':	//pan camera left
-			camera->center.x -= 0.0125f;
+			g_camera->center.x -= 0.0125f;
 			break;
 		case 's':	//pan camera down
-			camera->center.y += 0.0125f;
+			g_camera->center.y += 0.0125f;
 			break;
 		case 'd':	//Pan camera right
-			camera->center.x += 0.0125f;
+			g_camera->center.x += 0.0125f;
 			break;
 		case 'q':	//?
-			camera->center.z += 0.0125f;
+			g_camera->center.z += 0.0125f;
 			break;
 		case 'e':	//?
-			camera->center.z -= 0.0125f;
+			g_camera->center.z -= 0.0125f;
 			break;
 		default:
 			break;
@@ -205,22 +223,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		switch (key)
 		{
 		case 'w':	//?
-			camera->eye.y -= 0.025f;
+			g_camera->eye.y -= 0.025f;
 			break;
 		case 'a':	//?
-			camera->eye.x -= 0.025f;
+			g_camera->eye.x -= 0.025f;
 			break;
 		case 's':	//?
-			camera->eye.y += 0.025f;
+			g_camera->eye.y += 0.025f;
 			break;
 		case 'd':	//?
-			camera->eye.x += 0.025f;
+			g_camera->eye.x += 0.025f;
 			break;
 		case 'q':	//move camera away from origin
-			camera->eye.z += 0.25f;
+			g_camera->eye.z += 0.25f;
 			break;
 		case 'e':	//move camera towards origin
-			camera->eye.z -= 0.25f;
+			g_camera->eye.z -= 0.25f;
 			break;
 		default:
 			break;
@@ -230,22 +248,22 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		switch (key)
 		{
 		case 'w':	//?
-			camera->up.y -= 0.05f;
+			g_camera->up.y -= 0.05f;
 			break;
 		case 'a':	//?
-			camera->up.x -= 0.05f;
+			g_camera->up.x -= 0.05f;
 			break;
 		case 's':	//?
-			camera->up.y += 0.05f;
+			g_camera->up.y += 0.05f;
 			break;
 		case 'd':	//?
-			camera->up.x += 0.05f;
+			g_camera->up.x += 0.05f;
 			break;
 		case 'q':	//?
-			camera->up.z += 0.05f;
+			g_camera->up.z += 0.05f;
 			break;
 		case 'e':	//?
-			camera->up.z -= 0.05f;
+			g_camera->up.z -= 0.05f;
 			break;
 		default:
 			break;
@@ -259,28 +277,28 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 ///<summary>Calls the mouses position when a mouse button is held. Used to rotate the teapot<\summary>
 void HelloGL::MouseMotion(int x, int y)
 {
-	switch (_mouseButtonPressed)
+	switch (g_mouseButtonPressed)
 	{
 	case none:
 		break;
 	case LeftMouseButton:
-		_rotationAxes->x += _oldMousePos->y - y;	//In lmb mode, pitch object forward/back
-		_rotationAxes->y += _oldMousePos->x - x;	//Yaw object to the left and right
+		g_rotationAxes->x += g_oldMousePos->y - y;	//In lmb mode, pitch object forward/back
+		g_rotationAxes->y += g_oldMousePos->x - x;	//Yaw object to the left and right
 		break;
 	case RightMouseButton:
-		_rotationAxes->z += _oldMousePos->x - x;	//roll object starboard and port
+		g_rotationAxes->z += g_oldMousePos->x - x;	//roll object starboard and port
 		break;
 	default:
 		break;
 	}
 	//Update mouse position, as passive does not call when motion is called
-	_oldMousePos->x = x, _oldMousePos->y = y;
+	g_oldMousePos->x = x, g_oldMousePos->y = y;
 }
 
 /// <summary>Calls whenever the mouse moves. Used to update the mouse's position</summary>
 void HelloGL::PassiveMouseMotion(int x, int y)
 {
-	_oldMousePos->x = x, _oldMousePos->y = y;
+	g_oldMousePos->x = x, g_oldMousePos->y = y;
 	//std::cout << "Mouse Pos: x = " << _oldMousePos->x << ", y = " << _oldMousePos->y << std::endl;
 }
 
@@ -292,28 +310,28 @@ void HelloGL::MouseButton(int button, int state, int x, int y)
 		switch (button)
 		{
 		case GLUT_LEFT_BUTTON:
-			_mouseButtonPressed = LeftMouseButton;
+			g_mouseButtonPressed = LeftMouseButton;
 			break;
 		case GLUT_RIGHT_BUTTON:
-			_mouseButtonPressed = RightMouseButton;
+			g_mouseButtonPressed = RightMouseButton;
 			break;
 		case GLUT_MIDDLE_BUTTON:
-			_mouseButtonPressed = MiddleMouseButton;
+			g_mouseButtonPressed = MiddleMouseButton;
 			//Reset Rotation
-			_rotationAxes->x = 0.0f; //Reset pitch as mmb mode
-			_rotationAxes->y = 0.0f; //Reset yaw as mmb mode
-			_rotationAxes->z = 0.0f; //Reset roll as mmb mode
+			g_rotationAxes->x = 0.0f; //Reset pitch as mmb mode
+			g_rotationAxes->y = 0.0f; //Reset yaw as mmb mode
+			g_rotationAxes->z = 0.0f; //Reset roll as mmb mode
 			//Reset Camera Position
-			camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
-			camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
-			camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+			g_camera->eye.x = 0.0f; g_camera->eye.y = 0.0f; g_camera->eye.z = 1.0f;
+			g_camera->center.x = 0.0f; g_camera->center.y = 0.0f; g_camera->center.z = 0.0f;
+			g_camera->up.x = 0.0f; g_camera->up.y = 1.0f; g_camera->up.z = 0.0f;
 			break;
 		default:
 			break;
 		}
 		break;
 	case GLUT_UP:
-		_mouseButtonPressed = none;
+		g_mouseButtonPressed = none;
 		break;
 	default:
 		break;
@@ -327,19 +345,26 @@ void HelloGL::Update()
 	glLoadIdentity();
 
 	//move the camera
-	gluLookAt(camera->eye.x, camera->eye.y, camera->eye.z, camera->center.x, camera->center.y, camera->center.z, camera->up.x, camera->up.y, camera->up.z);
+	gluLookAt(g_camera->eye.x, g_camera->eye.y, g_camera->eye.z, g_camera->center.x, g_camera->center.y, g_camera->center.z, g_camera->up.x, g_camera->up.y, g_camera->up.z);
 	
+	//Sets the lighting data for light0. Dne every frame in the update function, so if the light changes on runtime, the program handles accordingly (e.g. light turns off, etc.)
+	glLightfv(GL_LIGHT0, GL_AMBIENT, &(g_lightData->Ambient.x));
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, &(g_lightData->Diffuse.x));
+	glLightfv(GL_LIGHT0, GL_SPECULAR, &(g_lightData->Specular.x));
+	//Sets light0's position.
+	glLightfv(GL_LIGHT0, GL_POSITION, &(g_lightPosition->x));
+
 	//Rotate the current shape
-	switch (_currentShape)
+	switch (g_currentShape)
 	{
 	case cube:
-		_cube->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		g_cube->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 		break;
 	case hexagonalPrism:
-		_hexagonalPrism->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		g_hexagonalPrism->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 		break;
 	case squareBasedPyramid:
-		_squareBasedPyramid->SetRotation(_rotationAxes->x, _rotationAxes->y, _rotationAxes->z);
+		g_squareBasedPyramid->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 		break;
 	default:
 		break;
@@ -350,7 +375,7 @@ void HelloGL::Update()
 
 HelloGL::~HelloGL(void)
 {
-	delete camera;
-	delete _oldMousePos;
-	delete _rotationAxes;
+	delete g_camera;
+	delete g_oldMousePos;
+	delete g_rotationAxes;
 }
