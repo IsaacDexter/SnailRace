@@ -36,7 +36,7 @@ void Primitive::Draw()
 
 		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
 		glColorPointer(3, GL_FLOAT, 0, m_mesh->Colors);
-		glTexCoordPointer(3, GL_FLOAT, 0, m_mesh->TexCoords);
+		glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
 		
 		glPushMatrix();
 
