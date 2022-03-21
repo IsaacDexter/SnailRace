@@ -24,6 +24,14 @@ void Primitive::Update()
 	UpdateRotation();
 }
 
+void Primitive::DrawMaterial()
+{
+	glMaterialfv(GL_FRONT, GL_AMBIENT, &(m_material->Ambient.x));
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, &(m_material->Diffuse.x));
+	glMaterialfv(GL_FRONT, GL_SPECULAR, &(m_material->Specular.x));
+	glMaterialfv(GL_FRONT, GL_SHININESS, &(m_material->Shininess));
+}
+
 /// <summary>Uses the 'DrawIndexed___Alt method as set out in older variations of the code. The most line and memory efficient.</summary>
 void Primitive::Draw()
 {
@@ -38,6 +46,8 @@ void Primitive::Draw()
 		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
 		glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
 		glNormalPointer(GL_FLOAT, 0, m_mesh->Normals);
+
+		DrawMaterial();
 
 		glPushMatrix();
 

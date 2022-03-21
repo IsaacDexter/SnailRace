@@ -22,9 +22,13 @@ struct Vector4
 		x = 0.0f;
 		y = 0.0f;
 		z = 0.0f;
-		w = 0.0f;
+		w = 1.0f;
 	}
-	//Allows us to take parameters, so we can construct with any values
+	/// <summary>Vector 4 allowing us to represent our data as Homogeneous Coordinates, which we need to perform transformations correctly as a fourth component is required for matrix mulitplications.</summary>
+	/// <param name="initial_x">The initial x value. Defaults to 0.0f</param>
+	/// <param name="initial_y">The initial y value. Defaults to 0.0f</param>
+	/// <param name="initial_z">The initial z value. Defaults to 0.0f</param>
+	/// <param name="initial_w">The initial w value, used in calculations. Defaults to 1.0f</param>
 	Vector4(float initial_x, float initial_y, float initial_z, float initial_w)
 	{
 		x = initial_x;
@@ -47,7 +51,10 @@ struct Vector3
 		y = 0.0f;
 		z = 0.0f;
 	}
-	//Allows us to take parameters, so we can construct with any values
+	/// <summary>A 3D vector represeting a single point in space.</summary>
+	/// <param name="initial_x">The initial x value. Defaults to 0.0f</param>
+	/// <param name="initial_y">The initial y value. Defaults to 0.0f</param>
+	/// <param name="initial_z">The initial z value. Defaults to 0.0f</param>
 	Vector3(float initial_x, float initial_y, float initial_z)
 	{
 		x = initial_x;
@@ -56,6 +63,7 @@ struct Vector3
 	}
 };
 
+/// <summary>A vector 2 representing a single point in 2D space.</summary>
 struct Vector2
 {
 	float x;
@@ -67,6 +75,9 @@ struct Vector2
 		y = 0.0f;
 	}
 	//Allows us to take parameters, so we can construct with any values
+	/// <summary>A vector 2 representing a single point in 2D space.</summary>
+	/// <param name="initial_x">The initial x value. Defaults to 0.0f</param>
+	/// <param name="initial_y">The initial y value. Defaults to 0.0f</param>
 	Vector2(float initial_x, float initial_y)
 	{
 		x = initial_x;
@@ -87,6 +98,9 @@ struct Vertex
 	GLfloat x, y, z;
 };
 
+/// <summary>
+/// A texutre coordinate, with a u and v value. Used in loading textures from files.
+/// </summary>
 struct TexCoord
 {
 	GLfloat u;
@@ -124,22 +138,26 @@ struct Material
 	Vector4 Ambient;
 	Vector4 Diffuse;
 	Vector4 Specular;
-	GLfloat Roughness;
+	GLfloat Shininess;
 	//Defines default constructiors, to allows to create an object of this type in function calls.
 	Material()
 	{
 		Ambient = Vector4();
 		Diffuse = Vector4();
 		Specular = Vector4();
-		Roughness = 0.0f;
+		Shininess = 0.0f;
 	}
-	//Allows us to take parameters, so we can construct with any values
-	Material(Vector4 initial_ambient, Vector4 initial_diffuse, Vector4 initial_specular, GLfloat initial_roughness)
+	/// <summary>A Material, representing a textured surface. Determines how light interacts with a surface. All variables will default to 0.0f unless otherwise stated.</summary>
+	/// <param name="initial_ambient">The ambient, as a vector4, representing the r, g, b and w. Advise setting w to 1.0f for all. The ambient represents uniform colour, resulting in a matte object.</param>
+	/// <param name="initial_diffuse">The diffuse as a v4, repping the rgb and w, which should most likely be set to 1.0f. Diffuse represents how photons will bounce off of the surface, (which colour lights will be absorbed).</param>
+	/// <param name="initial_specular">The diffuse as a v4, repping the rgb and w, which should most likely be set to 1.0f. Specular lighting is considering direct reflection. This affects a highlight and makes it shinier and more 'finished'.</param>
+	/// <param name="initial_shininess">How matte, or course, the object apperars. The more shine, the more polished it will apear.</param>
+	Material(Vector4 initial_ambient, Vector4 initial_diffuse, Vector4 initial_specular, GLfloat initial_shininess)
 	{
 		Ambient = initial_ambient;
 		Diffuse = initial_diffuse;
 		Specular = initial_specular;
-		Roughness = initial_roughness;
+		Shininess = initial_shininess;
 	}
 };
 

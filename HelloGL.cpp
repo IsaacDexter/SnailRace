@@ -85,12 +85,12 @@ void HelloGL::InitObjects()
 
 	Texture2D* brickTexture = new Texture2D();
 	brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
-	Material* brickMaterial = new Material(Vector4(), Vector4(), Vector4(), 100.0f);
+	Material* brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 	
 
 	//Load Meshes
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-	g_cube = new Primitive(cubeMesh, brickTexture, 0.0f, 0.0f, -1.0f);
+	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
 
 	//Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);

@@ -33,6 +33,9 @@ protected:
 	Vector3* m_rotationAxes;
 	/// <summary>The position of the shape, stored as an x, y and z value.</summary>
 	Vector3* m_position;
+
+	/// <summary>To keep code segmented. Handles the material code.</summary>
+	void DrawMaterial();
 public:
 	/// <summary>Constructor. Sets The mesh, the texture, and position. Takes these starting values as params.</summary>
 	Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x = 0.0f, float y = 0.0f, float z = 0.0f);
