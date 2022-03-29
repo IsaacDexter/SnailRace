@@ -12,8 +12,10 @@
 
 //Shape class includes
 #include "Primitive.h"
-
 #include "MeshLoader.h"
+
+//Linked List includes
+#include "LinkedLists.h"
 
 
 //Defs
@@ -65,6 +67,10 @@ private:
 	Primitive* g_cube;
 	Primitive* g_hexagonalPrism;
 	Primitive* g_squareBasedPyramid;
+
+	//List containing 3D shapes
+	LinkedLists* g_sceneObjectsList;
+	ListNode* g_head;
 
 	MouseButtons g_mouseButtonPressed = none;
 	Shapes g_currentShape = cube;

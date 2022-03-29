@@ -6,6 +6,8 @@
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
 
+class Primitive;
+
 //Macro used to find the number of elements in a list.
 #define NUM(a) (sizeof(a) / sizeof(*a))
 
@@ -159,6 +161,13 @@ struct Material
 		Specular = initial_specular;
 		Shininess = initial_shininess;
 	}
+};
+
+/// <summary>Used in linked lists, containing a scene object pointer, and the next node in the linked lists. Allows for a dynamic collection of objects that can be added to/ removed from at runtim,e.</summary>
+struct ListNode
+{
+	Primitive* sceneObject;
+	ListNode* next;
 };
 
 #endif // !_STRUCTURES_H

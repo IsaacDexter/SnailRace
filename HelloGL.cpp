@@ -73,6 +73,10 @@ void HelloGL::InitGL(int argc, char* argv[])
 /// <summary>Initialises the camera, textures and any meshes in the scene</summary>
 void HelloGL::InitObjects()
 {
+	//Initialise the linked list to contain the scene objects
+	g_sceneObjectsList = new LinkedLists();
+	g_head = nullptr;
+
 	//Create a new camera and initialise it
 	g_camera = new Camera();
 	g_camera->eye.x = 0.0f; g_camera->eye.y = 0.0f; g_camera->eye.z = 1.0f;
@@ -85,18 +89,25 @@ void HelloGL::InitObjects()
 
 	Texture2D* brickTexture = new Texture2D();
 	brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
+
+	//Loads Materials
 	Material* brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
-	
 
 	//Load Meshes
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
 
 	//Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
-	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
 
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
+	
+
+	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
+	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
+	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
 	//g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
+
+	//Adds scene objects / primitives into the linked list.
+	g_sceneObjectsList->AppendNode(&g_head, g_cube);
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -131,32 +142,34 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		//glutWireTeapot(0.1);
-		switch (g_currentShape)
-		{
-		case cube:
-			g_cube->Update();
-			g_cube->Draw();
-			break;
-		case hexagonalPrism:
-			g_hexagonalPrism->Update();
-			g_hexagonalPrism->Draw();
-			break;
-		case squareBasedPyramid:
-			g_squareBasedPyramid->Update();
-			g_squareBasedPyramid->Draw();
-			break;
-		case all:
-			g_cube->Update();
-			g_cube->Draw();
-			g_hexagonalPrism->Update();
-			g_hexagonalPrism->Draw();
-			g_squareBasedPyramid->Update();
-			g_squareBasedPyramid->Draw();
-			break;
-		default:
-			break;
-		}
+		//switch (g_currentShape)
+		//{
+		//case cube:
+		//	g_cube->Update();
+		//	g_cube->Draw();
+		//	break;
+		//case hexagonalPrism:
+		//	g_hexagonalPrism->Update();
+		//	g_hexagonalPrism->Draw();
+		//	break;
+		//case squareBasedPyramid:
+		//	g_squareBasedPyramid->Update();
+		//	g_squareBasedPyramid->Draw();
+		//	break;
+		//case all:
+		//	g_cube->Update();
+		//	g_cube->Draw();
+		//	g_hexagonalPrism->Update();
+		//	g_hexagonalPrism->Draw();
+		//	g_squareBasedPyramid->Update();
+		//	g_squareBasedPyramid->Draw();
+		//	break;
+		//default:
+		//	break;
+		//}
+	
+	//draw all the objects in the g_sceneObjectsList
+	g_sceneObjectsList->RenderList(g_head);
 		
 	glPopMatrix();
 
@@ -361,20 +374,23 @@ void HelloGL::Update()
 	glLightfv(GL_LIGHT0, GL_POSITION, &(g_lightPosition->x));
 
 	//Rotate the current shape
-	switch (g_currentShape)
-	{
-	case cube:
-		g_cube->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-		break;
-	case hexagonalPrism:
-		g_hexagonalPrism->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-		break;
-	case squareBasedPyramid:
-		g_squareBasedPyramid->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-		break;
-	default:
-		break;
-	}
+	//switch (g_currentShape)
+	//{
+	//case cube:
+	//	g_cube->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
+	//	break;
+	//case hexagonalPrism:
+	//	g_hexagonalPrism->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
+	//	break;
+	//case squareBasedPyramid:
+	//	g_squareBasedPyramid->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
+	//	break;
+	//default:
+	//	break;
+	//}
+
+	//Update all of the sceneObjects
+	g_sceneObjectsList->UpdateList(g_head);
 
 	glutPostRedisplay();
 }

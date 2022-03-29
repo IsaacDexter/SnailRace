@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LinkedLists.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="GLUTCallbacks.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Enums.h" />
