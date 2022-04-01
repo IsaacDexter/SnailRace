@@ -93,6 +93,7 @@ void HelloGL::InitObjects()
 
 	//Loads Materials
 	Material* brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
+	Material* penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
@@ -102,9 +103,9 @@ void HelloGL::InitObjects()
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
 	
 	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
-	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, 0.0f);
+	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
 	g_sceneObjectsList->AppendNode(&g_head, g_cube);
-	g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, brickMaterial, 0.0f, 1.0f, 0.0f);
+	g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, penguinMaterial, 0.0f, 1.0f, 0.0f);
 	//g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
 
 	//Adds scene objects / primitives into the linked list.

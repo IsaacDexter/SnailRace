@@ -6,8 +6,7 @@ Primitive::Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x
 	m_texture = texture;
 	m_material = material;
 	m_rotationAxes = new Vector3();
-	m_position = new Vector3();
-	SetPosition(x, y, z);
+	m_position = new Vector3(x, y, z);
 }
 
 Primitive::~Primitive()
