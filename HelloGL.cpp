@@ -97,18 +97,19 @@ void HelloGL::InitObjects()
 	//Load Meshes
 	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
 
-	//Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
+	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
 	
-
 	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
-	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
-	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, 0.0f, 2.0f, -1.0f);
+	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, 0.0f);
+	g_sceneObjectsList->AppendNode(&g_head, g_cube);
+	g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, brickMaterial, 0.0f, 1.0f, 0.0f);
 	//g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
 
 	//Adds scene objects / primitives into the linked list.
-	g_sceneObjectsList->AppendNode(&g_head, g_cube);
+	
+	g_sceneObjectsList->AppendNode(&g_head, g_hexagonalPrism);
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -171,6 +172,7 @@ void HelloGL::Display()
 	
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
+	//g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->Draw();
 		
 	glPopMatrix();
 
