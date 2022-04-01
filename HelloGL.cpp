@@ -193,8 +193,14 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		}
 	}
 
+	//Code for switching between 10 shapes.
 	if (isdigit(key))
 	{
+		//Treat 0 as a 10.
+		if (key == '0')
+		{
+			key += 10;
+		}
 		//Allows the user to switch between objects in the list, but makes sure they cannot exceed the length of the list.
 		g_currentSceneObjectLocation = min(int(key) - 49, g_sceneObjectsList->GetListLength(g_head) - 1);
 		//Get the rotation axes of the current shape in the list. Allows different shapes in the linked list to have different rotations.
@@ -398,4 +404,5 @@ HelloGL::~HelloGL(void)
 	delete g_camera;
 	delete g_oldMousePos;
 	delete g_rotationAxes;
+
 }
