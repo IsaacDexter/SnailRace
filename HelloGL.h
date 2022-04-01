@@ -73,7 +73,7 @@ private:
 	ListNode* g_head;
 
 	MouseButtons g_mouseButtonPressed = none;
-	Shapes g_currentShape = cube;
+	int g_currentSceneObjectLocation;
 };
 
 

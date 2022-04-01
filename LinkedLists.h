@@ -29,6 +29,8 @@ public:
 
 	void UpdateList(ListNode* node);
 	void RenderList(ListNode* node);
+
+	int GetListLength(ListNode* head);
 };
 
 

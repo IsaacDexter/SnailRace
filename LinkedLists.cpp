@@ -197,3 +197,21 @@ void LinkedLists::RenderList(ListNode* node)
 		return;
 	}
 }
+
+/// <summary>Performs a while loop through the list, incrementing a counter variable</summary>
+/// <param name="node">The starting (head) node.</param>
+/// <returns>the length of the list.</returns>
+int LinkedLists::GetListLength(ListNode* node)
+{
+	int length = 0;
+	while (node != nullptr)
+	{
+		node = node->next;
+		length++;
+	}
+	
+	if (node == nullptr)
+	{
+		return length;
+	}
+}

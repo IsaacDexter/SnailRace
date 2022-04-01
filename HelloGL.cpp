@@ -73,9 +73,10 @@ void HelloGL::InitGL(int argc, char* argv[])
 /// <summary>Initialises the camera, textures and any meshes in the scene</summary>
 void HelloGL::InitObjects()
 {
-	//Initialise the linked list to contain the scene objects
+	//Initialise the linked list to contain the scene objects, and set us to be using the first object in the list.
 	g_sceneObjectsList = new LinkedLists();
 	g_head = nullptr;
+	g_currentSceneObjectLocation = 0;
 
 	//Create a new camera and initialise it
 	g_camera = new Camera();
@@ -191,24 +192,12 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		}
 	}
 
-	switch (key)
+	if (isdigit(key))
 	{
-	case '1':
-		g_currentShape = cube;
-		g_rotationAxes = g_cube->GetRotation();
-		break;
-	case '2':
-		g_currentShape = hexagonalPrism;
-		g_rotationAxes = g_hexagonalPrism->GetRotation();
-		break;
-	case '3':
-		g_currentShape = squareBasedPyramid;
-		g_rotationAxes = g_squareBasedPyramid->GetRotation();
-		break;
-	case '4':
-		g_currentShape = all;
-	default:
-		break;
+		//Allows the user to switch between objects in the list, but makes sure they cannot exceed the length of the list.
+		g_currentSceneObjectLocation = min(int(key) - 49, g_sceneObjectsList->GetListLength(g_head) - 1);
+		//Get the rotation axes of the current shape in the list. Allows different shapes in the linked list to have different rotations.
+		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
 
 	switch (g_viewMode)
@@ -389,6 +378,7 @@ void HelloGL::Update()
 	//	break;
 	//}
 
+	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 	//Update all of the sceneObjects
 	g_sceneObjectsList->UpdateList(g_head);
 
