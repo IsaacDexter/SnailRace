@@ -85,32 +85,30 @@ void HelloGL::InitObjects()
 	g_camera->up.x = 0.0f; g_camera->up.y = 1.0f; g_camera->up.z = 0.0f;
 
 	//Load Textures
-	Texture2D* penguinTexture = new Texture2D();
-	penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
+	g_penguinTexture = new Texture2D();
+	g_penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
 
-	Texture2D* brickTexture = new Texture2D();
-	brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
+	g_brickTexture = new Texture2D();
+	g_brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
 
 	//Loads Materials
-	Material* brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
-	Material* penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
+	g_brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
+	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
-	Mesh* cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
-
-	Mesh* hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
+	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
+	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
 	
 	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
-	g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
-	g_sceneObjectsList->AppendNode(&g_head, g_cube);
-	g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, penguinMaterial, 0.0f, 1.0f, 0.0f);
+	//g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
+	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, penguinMaterial, 0.0f, 1.0f, 0.0f);
 	//g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
 
 	//Adds scene objects / primitives into the linked list.
-	
-	g_sceneObjectsList->AppendNode(&g_head, g_hexagonalPrism);
+	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -200,6 +198,13 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		//Allows the user to switch between objects in the list, but makes sure they cannot exceed the length of the list.
 		g_currentSceneObjectLocation = min(int(key) - 49, g_sceneObjectsList->GetListLength(g_head) - 1);
 		//Get the rotation axes of the current shape in the list. Allows different shapes in the linked list to have different rotations.
+		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
+	}
+
+	if (key == 'n')
+	{
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.0f));
+		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
 

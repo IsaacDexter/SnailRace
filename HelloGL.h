@@ -63,10 +63,17 @@ private:
 	Vector4* g_lightPosition;
 	Lighting* g_lightData;
 
-	//3D shapes
-	Primitive* g_cube;
-	Primitive* g_hexagonalPrism;
-	Primitive* g_squareBasedPyramid;
+	//Meshes
+	Mesh* g_cubeMesh;
+	Mesh* g_hexagonalPrismMesh;
+
+	//Textures
+	Texture2D* g_brickTexture;
+	Texture2D* g_penguinTexture;
+
+	//Materials
+	Material* g_brickMaterial;
+	Material* g_penguinMaterial;
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
