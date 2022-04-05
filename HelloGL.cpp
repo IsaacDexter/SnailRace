@@ -6,7 +6,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	srand(time(NULL));
 	InitGL(argc, argv);
 	InitObjects();
-	InitLighting(Vector3(1.4f, 0.0f, 0.0f), Vector4(0.2f, 0.2f, 0.4f, 1.0f), Vector4(0.3f, 0.3f, 0.6f, 1.0f), Vector4(0.4f, 0.4f, 0.8f, 1.0f));
+	InitLighting(Vector3(1.4f, 0.0f, 0.0f), Vector4(0.4f, 0.4f, 0.4f, 1.0f), Vector4(0.9f, 0.9f, 0.9f, 1.0f), Vector4(0.4f, 0.4f, 0.4f, 1.0f));
 	glutMainLoop();
 }
 
@@ -187,6 +187,7 @@ void HelloGL::DrawString(const char* text, Vector3* position, Color* color)
 {
 	glPushMatrix();
 
+	glColor3f(color->r, color->g, color->b);
 	glTranslatef(position->x, position->y, position->z);
 	glRasterPos2f(0.0f, 0.0f);	//The raster position on the screen which we manupulate with the translate
 	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (unsigned char*)text);	//Thakes the font type and the string to display
