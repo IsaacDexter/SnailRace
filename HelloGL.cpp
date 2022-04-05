@@ -99,6 +99,9 @@ void HelloGL::InitObjects()
 	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
+	//Load text
+	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
+
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
 	
 	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
@@ -141,9 +144,6 @@ void HelloGL::Display()
 	//Draw simple rectangle
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clears the scene
 	
-	Vector3 v = { -1.4f, 0.7f, -1.0f };
-	Color c = { 197.0f, 5.0f, 255.0f };
-	DrawString((char*)"I LOVE LEAN!!!!!", &v, &c);
 	//Drawing code goes here:
 	glPushMatrix();
 		//switch (g_currentShape)
@@ -174,6 +174,10 @@ void HelloGL::Display()
 	
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
+
+	//Draw text
+	g_string->Draw();
+
 	//g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->Draw();
 	glPopMatrix();
 
@@ -181,18 +185,6 @@ void HelloGL::Display()
 
 	glFlush();	//Flushes scene to the graphics card
 	glutSwapBuffers();	//Tell freeGLut to swap the buffers.
-}
-
-void HelloGL::DrawString(const char* text, Vector3* position, Color* color)
-{
-	glPushMatrix();
-
-	glColor3f(color->r, color->g, color->b);
-	glTranslatef(position->x, position->y, position->z);
-	glRasterPos2f(0.0f, 0.0f);	//The raster position on the screen which we manupulate with the translate
-	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (unsigned char*)text);	//Thakes the font type and the string to display
-
-	glPopMatrix();
 }
 
 void HelloGL::Keyboard(unsigned char key, int x, int y)

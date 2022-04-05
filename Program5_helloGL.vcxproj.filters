@@ -36,6 +36,9 @@
     <ClCompile Include="LinkedLists.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="String2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelloGL.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LinkedLists.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

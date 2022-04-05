@@ -14,6 +14,9 @@
 #include "Primitive.h"
 #include "MeshLoader.h"
 
+//Text includes
+#include "String2D.h"
+
 //Linked List includes
 #include "LinkedLists.h"
 
@@ -42,7 +45,6 @@ public:
 	//Display methods
 	///<summary></summary>
 	void Display();
-	void DrawString(const char* text, Vector3* position, Color* color);
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);
@@ -75,6 +77,9 @@ private:
 	//Materials
 	Material* g_brickMaterial;
 	Material* g_penguinMaterial;
+
+	//Text
+	String2D* g_string;
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
