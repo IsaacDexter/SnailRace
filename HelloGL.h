@@ -42,7 +42,7 @@ public:
 	//Display methods
 	///<summary></summary>
 	void Display();
-	void DrawSting(const char* text, Vector3* position, Color* color);
+	void DrawString(const char* text, Vector3* position, Color* color);
 
 	//Input Methods
 	void Keyboard(unsigned char key, int x, int y);

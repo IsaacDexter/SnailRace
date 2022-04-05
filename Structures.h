@@ -84,9 +84,9 @@ struct Color
 	/// <param name="initial_z">The initial b value. Defaults to 0.0f</param>
 	Color(float initial_r, float initial_g, float initial_b)
 	{
-		r = initial_r;
-		g = initial_g;
-		b = initial_b;
+		r = initial_r/255.0f;
+		g = initial_g/255.0f;
+		b = initial_b/255.0f;
 	}
 };
 

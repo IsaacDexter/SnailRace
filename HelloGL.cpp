@@ -6,7 +6,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	srand(time(NULL));
 	InitGL(argc, argv);
 	InitObjects();
-	InitLighting(Vector3(0.0f, 0.0f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f), Vector4(0.8f, 0.8f, 0.8f, 1.0f), Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+	InitLighting(Vector3(1.4f, 0.0f, 0.0f), Vector4(0.2f, 0.2f, 0.4f, 1.0f), Vector4(0.3f, 0.3f, 0.6f, 1.0f), Vector4(0.4f, 0.4f, 0.8f, 1.0f));
 	glutMainLoop();
 }
 
@@ -141,6 +141,9 @@ void HelloGL::Display()
 	//Draw simple rectangle
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clears the scene
 	
+	Vector3 v = { -1.4f, 0.7f, -1.0f };
+	Color c = { 197.0f, 5.0f, 255.0f };
+	DrawString((char*)"I LOVE LEAN!!!!!", &v, &c);
 	//Drawing code goes here:
 	glPushMatrix();
 		//switch (g_currentShape)
@@ -172,13 +175,23 @@ void HelloGL::Display()
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
 	//g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->Draw();
-		
 	glPopMatrix();
 
 	//And ends here:
 
 	glFlush();	//Flushes scene to the graphics card
 	glutSwapBuffers();	//Tell freeGLut to swap the buffers.
+}
+
+void HelloGL::DrawString(const char* text, Vector3* position, Color* color)
+{
+	glPushMatrix();
+
+	glTranslatef(position->x, position->y, position->z);
+	glRasterPos2f(0.0f, 0.0f);	//The raster position on the screen which we manupulate with the translate
+	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (unsigned char*)text);	//Thakes the font type and the string to display
+
+	glPopMatrix();
 }
 
 void HelloGL::Keyboard(unsigned char key, int x, int y)
