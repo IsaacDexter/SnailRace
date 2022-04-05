@@ -65,6 +65,31 @@ struct Vector3
 	}
 };
 
+/// <summary>A 3D vector represeting an RGB color</summary>
+struct Color
+{
+	float r;
+	float g;
+	float b;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	Color()
+	{
+		r = 0.0f;
+		g = 0.0f;
+		b = 0.0f;
+	}
+	/// <summary>A 3D vector represeting an RGB color.</summary>
+	/// <param name="initial_x">The initial r value. Defaults to 0.0f</param>
+	/// <param name="initial_y">The initial g value. Defaults to 0.0f</param>
+	/// <param name="initial_z">The initial b value. Defaults to 0.0f</param>
+	Color(float initial_r, float initial_g, float initial_b)
+	{
+		r = initial_r;
+		g = initial_g;
+		b = initial_b;
+	}
+};
+
 /// <summary>A vector 2 representing a single point in 2D space.</summary>
 struct Vector2
 {

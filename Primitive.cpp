@@ -19,8 +19,8 @@ Primitive::~Primitive()
 
 void Primitive::Update()
 {
-	UpdatePosition();
-	UpdateRotation();
+	//UpdatePosition();
+	//UpdateRotation();
 }
 
 void Primitive::DrawMaterial()
@@ -50,6 +50,8 @@ void Primitive::Draw()
 
 		glPushMatrix();
 
+		UpdatePosition();
+		UpdateRotation();
 		glDrawElements(GL_TRIANGLES, m_mesh->IndexCount, GL_UNSIGNED_SHORT, m_mesh->Indices);
 
 		glPopMatrix();
