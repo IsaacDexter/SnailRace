@@ -96,7 +96,7 @@ void HelloGL::InitObjects()
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
-	g_cubeMesh = MeshLoader::LoadObj((char*)"Models/cube.obj");
+	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.obj");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Load text

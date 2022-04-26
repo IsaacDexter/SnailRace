@@ -152,7 +152,7 @@ struct Mesh
 	/// <summary>The Normals, which are used in giving a shape the illusion of texture. Can either be calculated automatically or loaded from a file.</summary>
 	Vector3* Normals;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	Index* Indices;
+	GLushort* Indices;
 	//ints used in the loading of files.
 	int VertexCount, NormalCount, IndexCount, TexCoordCount;
 };

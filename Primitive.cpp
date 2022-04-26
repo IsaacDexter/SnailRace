@@ -55,9 +55,9 @@ void Primitive::Draw()
 		glBegin(GL_TRIANGLES);
 		for (int i = 0; i < m_mesh->IndexCount; i++)
 		{
-			glNormal3f(m_mesh->Normals[m_mesh->Indices[i].normal - 1].x, m_mesh->Normals[m_mesh->Indices[i].normal - 1].y, m_mesh->Normals[m_mesh->Indices[i].normal - 1].z);
-			glTexCoord2f(m_mesh->TexCoords[m_mesh->Indices[i].uv - 1].u, m_mesh->TexCoords[m_mesh->Indices[i].uv - 1].v);
-			glVertex3f(m_mesh->Vertices[m_mesh->Indices[i].vertex - 1].x, m_mesh->Vertices[m_mesh->Indices[i].vertex - 1].y, m_mesh->Vertices[m_mesh->Indices[i].vertex - 1].z);
+			glNormal3f(m_mesh->Normals[m_mesh->Indices[i]- 1].x, m_mesh->Normals[m_mesh->Indices[i] - 1].y, m_mesh->Normals[m_mesh->Indices[i] - 1].z);
+			glTexCoord2f(m_mesh->TexCoords[m_mesh->Indices[i]- 1].u, m_mesh->TexCoords[m_mesh->Indices[i]- 1].v);
+			glVertex3f(m_mesh->Vertices[m_mesh->Indices[i] - 1].x, m_mesh->Vertices[m_mesh->Indices[i] - 1].y, m_mesh->Vertices[m_mesh->Indices[i] - 1].z);
 		}
 		glEnd();
 		glPopMatrix();
