@@ -145,6 +145,7 @@
     <ClCompile Include="GLUTCallbacks.cpp" />
     <ClCompile Include="HelloGL.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="String2D.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
