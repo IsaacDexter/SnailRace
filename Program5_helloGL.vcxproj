@@ -146,6 +146,7 @@
     <ClCompile Include="HelloGL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="String2D.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GLUTCallbacks.h" />
     <ClInclude Include="HelloGL.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="String2D.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Texture2D.h" />

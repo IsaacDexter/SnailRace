@@ -12,6 +12,7 @@
 
 //Shape class includes
 #include "Primitive.h"
+#include "SceneObject.h"
 #include "MeshLoader.h"
 
 //Text includes
@@ -84,6 +85,7 @@ private:
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
 	ListNode* g_head;
+	SceneObject* g_cube;
 
 	MouseButtons g_mouseButtonPressed = none;
 	int g_currentSceneObjectLocation;

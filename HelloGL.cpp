@@ -96,7 +96,7 @@ void HelloGL::InitObjects()
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
-	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.obj");
+	g_cubeMesh = MeshLoader::LoadObj((char*)"Models/cube.obj");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Load text
@@ -112,6 +112,7 @@ void HelloGL::InitObjects()
 	//Adds scene objects / primitives into the linked list.
 	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
 	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
+	g_cube = new SceneObject(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -174,6 +175,7 @@ void HelloGL::Display()
 	
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
+	g_cube->Draw();
 
 	//Draw text
 	g_string->Draw();
@@ -215,7 +217,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 
 	if (key == 'n')
 	{
-		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.0f));
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new SceneObject(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
@@ -401,6 +403,7 @@ void HelloGL::Update()
 	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 	//Update all of the sceneObjects
 	g_sceneObjectsList->UpdateList(g_head);
+	g_cube->Update();
 
 	glutPostRedisplay();
 }
