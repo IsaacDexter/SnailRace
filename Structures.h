@@ -134,6 +134,12 @@ struct TexCoord
 	GLfloat v;
 };
 
+struct Index
+{
+	GLushort vertex;
+	GLushort uv;
+	GLushort normal;
+};
 /// <summary>
 /// Structure used to load 3D shapes, contains each vertex, normals and a lkist of indeces. Also contains texturing coords.
 /// </summary>
@@ -146,7 +152,7 @@ struct Mesh
 	/// <summary>The Normals, which are used in giving a shape the illusion of texture. Can either be calculated automatically or loaded from a file.</summary>
 	Vector3* Normals;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	GLushort* Indices;
+	Index* Indices;
 	//ints used in the loading of files.
 	int VertexCount, NormalCount, IndexCount, TexCoordCount;
 };
