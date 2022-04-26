@@ -19,5 +19,12 @@ A word on .obj files:
 		-	6/10/7 describes the third vertex of the triangle
 
 When in blender:
-	-	apply 
+	-	apply modifers
+
 */
+//for (unsigned int i = 0; i < vertexIndices.size(); i++)	//For each vertex of each triangle
+//{
+//	unsigned int vertexIndex = vertexIndices[i];
+//	Vector3 vertex = tempVertices[vertexIndex - 1];	//The position of the vertex (c++ indexing starts at 0 unlike obj's 1, hence the -1
+//	outVertices.push_back(vertex);
+//}

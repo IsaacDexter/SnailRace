@@ -94,4 +94,9 @@ namespace MeshLoader
 
 		return mesh;
 	}
+
+	Mesh* MeshLoader::LoadObj(char* path)
+	{
+
+	}
 }
