@@ -86,17 +86,17 @@ void HelloGL::InitObjects()
 
 	//Load Textures
 	g_penguinTexture = new Texture2D();
-	g_penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
+	g_penguinTexture->LoadRAW((char*)"Textures/penguins.raw", 512, 512);
 
 	g_brickTexture = new Texture2D();
-	g_brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
+	g_brickTexture->LoadBMP((char*)"Textures/Battlefield.bmp");
 
 	//Loads Materials
 	g_brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
-	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.obj");
+	g_cubeMesh = MeshLoader::Load((char*)"Models/texCube.obj");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Load text
@@ -190,7 +190,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 
 	if (key == 'n')
 	{
-		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 		
@@ -303,7 +303,6 @@ void HelloGL::MouseMotion(int x, int y)
 void HelloGL::PassiveMouseMotion(int x, int y)
 {
 	g_oldMousePos->x = x, g_oldMousePos->y = y;
-	//std::cout << "Mouse Pos: x = " << _oldMousePos->x << ", y = " << _oldMousePos->y << std::endl;
 }
 
 void HelloGL::MouseButton(int button, int state, int x, int y)

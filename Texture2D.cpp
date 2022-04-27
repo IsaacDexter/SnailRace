@@ -18,7 +18,7 @@ Texture2D::~Texture2D()
 /// <param name="width">width in pixels of the texture.</param>
 /// <param name="height">height in pixels of the texure.</param>
 /// <returns>True for a successful load, false for an error.</returns>
-bool Texture2D::Load(char* path, int width, int height)
+bool Texture2D::LoadRAW(char* path, int width, int height)
 {
 	char* tempTextureData;
 	int fileSize;

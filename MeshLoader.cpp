@@ -70,7 +70,7 @@ namespace MeshLoader
 	{
 		unsigned int indexCount;
 		inFile >> indexCount;
-		cout << "indexCount: " << indexCount << endl;
+		
 
 		if (indexCount > 0)
 		{
@@ -79,7 +79,6 @@ namespace MeshLoader
 				GLushort index;
 				inFile >> index;
 				mesh.Indices.push_back(Index(index + 1, index + 1, index + 1));	//beacuse of how ive updated the indeces, to work with .objs, simply use the same coordinate 3 times.
-				cout << "mesh.Indices.at(i).Vertex: " << mesh.Indices.at(i).Vertex << ", mesh.Indices.at(i).TexCoord: " << mesh.Indices.at(i).TexCoord << ", mesh.Indices.at(i).Normal: " << mesh.Indices.at(i).Normal << endl;
 			}
 		}
 	}
@@ -181,9 +180,6 @@ namespace MeshLoader
 						cerr << "File could not be read by parser. Only " << matches << "/9 matches made. See readme for instructions on exporting .obj s." << endl;
 						return nullptr;
 					}
-					//cout << "File was read by parser. \nvertexIndex[0] = " << vertexIndex[0] << ", vertexIndex[1] = " << vertexIndex[1] << ", vertexIndex[2] = " << vertexIndex[2] << endl;
-					//cout << "uvIndex[0] = " << uvIndex[0] << ", uvIndex[1] = " << uvIndex[1] << ", uvIndex[2] = " << uvIndex[2] << endl;
-					//cout << "normalIndex[0] = " << normalIndex[0] << ", normalIndex[1] = " << normalIndex[1] << ", normalIndex[2] = " << normalIndex[2] << endl;
 					mesh->Indices.push_back(Index(vertexIndex[0], uvIndex[0], normalIndex[0]));
 					mesh->Indices.push_back(Index(vertexIndex[1], uvIndex[1], normalIndex[1]));
 					mesh->Indices.push_back(Index(vertexIndex[2], uvIndex[2], normalIndex[2]));

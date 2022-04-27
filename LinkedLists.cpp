@@ -138,7 +138,6 @@ ListNode* LinkedLists::GetNode(ListNode* node, int pos)
 	{
 		if (count == pos)	//If we have reached the position specified...
 		{
-			//std::cout << "Data stored at position " << pos << " is " << node->data << std::endl;
 			return node;
 		}
 		count++;
