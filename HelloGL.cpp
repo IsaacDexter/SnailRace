@@ -86,7 +86,7 @@ void HelloGL::InitObjects()
 
 	//Load Textures
 	g_penguinTexture = new Texture2D();
-	g_penguinTexture->LoadBMP((char*)"Textures/Battlefield.bmp");
+	g_penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
 
 	g_brickTexture = new Texture2D();
 	g_brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
