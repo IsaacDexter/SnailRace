@@ -12,7 +12,6 @@
 
 //Shape class includes
 #include "Primitive.h"
-#include "SceneObject.h"
 #include "MeshLoader.h"
 
 //Text includes

@@ -8,98 +8,105 @@ using namespace std;
 
 namespace MeshLoader
 {
-	//void LoadVertices(ifstream& inFile, Mesh& mesh);
-	//void LoadColours(ifstream& inFile, Mesh& mesh);
-	//void LoadIndices(ifstream& inFile, Mesh& mesh);
+	void LoadVertices(ifstream& inFile, Mesh& mesh);
+	void LoadTexCoords(ifstream& inFile, Mesh& mesh);
+	void LoadNormals(ifstream& inFile, Mesh& mesh);
+	void LoadIndices(ifstream& inFile, Mesh& mesh);
 
-	//void LoadVertices(ifstream& inFile, Mesh& mesh)	//Load the vertices from the file
-	//{
-	//	inFile >> mesh.VertexCount;
+	void LoadVertices(ifstream& inFile, Mesh& mesh)	//Load the vertices from the file
+	{
+		unsigned int vertexCount;
+		inFile >> vertexCount;
 
-	//	if (mesh.VertexCount > 0)
-	//	{
-	//		mesh.Vertices = new Vertex[mesh.VertexCount];
+		if (vertexCount > 0)
+		{
+			for (int i = 0; i < vertexCount; i++)
+			{
+				Vertex vertex;
+				inFile >> vertex.x;
+				inFile >> vertex.y;
+				inFile >> vertex.z;
+				mesh.Vertices.push_back(vertex);
+			}
+		}
+	}
 
-	//		for (int i = 0; i < mesh.VertexCount; i++)
-	//		{
-	//			inFile >> mesh.Vertices[i].x;
-	//			inFile >> mesh.Vertices[i].y;
-	//			inFile >> mesh.Vertices[i].z;
-	//		}
-	//	}
-	//}
+	void LoadTexCoords(ifstream& inFile, Mesh& mesh) //load the texture coords from the file.
+	{
+		unsigned int texCount;
+		inFile >> texCount;
 
-	//void LoadTexCoords(ifstream& inFile, Mesh& mesh) //load the texture coords from the file.
-	//{
-	//	inFile >> mesh.TexCoordCount;
+		if (texCount > 0)
+		{
+			for (int i = 0; i < texCount; i++)
+			{
+				TexCoord uv;
+				inFile >> uv.u;
+				inFile >> uv.v;
+				mesh.TexCoords.push_back(uv);
+			}
+		}
+	}
 
-	//	if (mesh.TexCoordCount > 0)
-	//	{
-	//		mesh.TexCoords = new TexCoord[mesh.TexCoordCount];
+	void LoadNormals(ifstream& inFile, Mesh& mesh)	//Load the Normals for each vertex from the file
+	{
+		unsigned int normalCount;
+		inFile >> normalCount;
 
-	//		for (int i = 0; i < mesh.TexCoordCount; i++)
-	//		{
-	//			inFile >> mesh.TexCoords[i].u;
-	//			inFile >> mesh.TexCoords[i].v;
-	//		}
-	//	}
-	//}
+		if (normalCount > 0)
+		{
+			for (int i = 0; i < normalCount; i++)
+			{
+				Vector3 normal;
+				inFile >> normal.x;
+				inFile >> normal.y;
+				inFile >> normal.z;
+				mesh.Normals.push_back(normal);
+			}
+		}
+	}
 
-	//void LoadNormals(ifstream& inFile, Mesh& mesh)	//Load the Normals for each vertex from the file
-	//{
-	//	inFile >> mesh.NormalCount;
+	void LoadIndices(ifstream& inFile, Mesh& mesh)	//Lastly, load the indeces from the file which tell how the vertexes are spaced.
+	{
+		unsigned int indexCount;
+		inFile >> indexCount;
+		cout << "indexCount: " << indexCount << endl;
 
-	//	if (mesh.NormalCount > 0)
-	//	{
-	//		mesh.Normals = new Vector3[mesh.NormalCount];
+		if (indexCount > 0)
+		{
+			for (int i = 0; i < indexCount; i++)
+			{
+				GLushort index;
+				inFile >> index;
+				mesh.Indices.push_back(Index(index + 1, index + 1, index + 1));	//beacuse of how ive updated the indeces, to work with .objs, simply use the same coordinate 3 times.
+				cout << "mesh.Indices.at(i).Vertex: " << mesh.Indices.at(i).Vertex << ", mesh.Indices.at(i).TexCoord: " << mesh.Indices.at(i).TexCoord << ", mesh.Indices.at(i).Normal: " << mesh.Indices.at(i).Normal << endl;
+			}
+		}
+	}
 
-	//		for (int i = 0; i < mesh.NormalCount; i++)
-	//		{
-	//			inFile >> mesh.Normals[i].x;
-	//			inFile >> mesh.Normals[i].y;
-	//			inFile >> mesh.Normals[i].z;
-	//		}
-	//	}
-	//}
+	Mesh* LoadTxt(char* path)
+	{
+		Mesh* mesh = new Mesh();
 
-	//void LoadIndices(ifstream& inFile, Mesh& mesh)	//Lastly, load the indeces from the file which tell how the vertexes are spaced.
-	//{
-	//	inFile >> mesh.IndexCount;
+		ifstream inFile;
 
-	//	if (mesh.IndexCount > 0)
-	//	{
-	//		mesh.Indices = new GLushort[mesh.IndexCount];
+		inFile.open(path);
 
-	//		for (int i = 0; i < mesh.IndexCount; i++)
-	//		{
-	//			inFile >> mesh.Indices[i];
-	//		}
-	//	}
-	//}
+		if (!inFile.good())
+		{
+			cerr << "Can't open texture file " << path << endl;
+			return nullptr;
+		}
 
-	//Mesh* MeshLoader::Load(char* path)
-	//{
-	//	Mesh* mesh = new Mesh();
+		LoadVertices(inFile, *mesh);
+		LoadTexCoords(inFile, *mesh);
+		LoadNormals(inFile, *mesh);
+		LoadIndices(inFile, *mesh);
 
-	//	ifstream inFile;
+		return mesh;
+	}
 
-	//	inFile.open(path);
-
-	//	if (!inFile.good())
-	//	{
-	//		cerr << "Can't open texture file " << path << endl;
-	//		return nullptr;
-	//	}
-
-	//	LoadVertices(inFile, *mesh);
-	//	LoadTexCoords(inFile, *mesh);
-	//	LoadNormals(inFile, *mesh);
-	//	LoadIndices(inFile, *mesh);
-
-	//	return mesh;
-	//}
-
-	Mesh* MeshLoader::LoadObj(char* path)
+	Mesh* LoadObj(char* path)
 	{
 		/*
 		A word on .obj files:
@@ -184,5 +191,21 @@ namespace MeshLoader
 			}
 		}
 		return mesh;
+	}
+	Mesh* MeshLoader::Load(char* path)
+	{
+		if (((string)path).find(".txt") != -1)
+		{
+			return(LoadTxt(path));
+		}
+		else if (((string)path).find(".obj") != -1)
+		{
+			return(LoadObj(path));
+		}
+		else
+		{
+			cerr << "Could not load object file, as it was not a .txt or .obj." << endl;
+			return nullptr;
+		}
 	}
 }

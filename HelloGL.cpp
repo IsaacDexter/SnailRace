@@ -96,7 +96,8 @@ void HelloGL::InitObjects()
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
-	g_cubeMesh = MeshLoader::LoadObj((char*)"Models/cube.obj");
+	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.txt");
+	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Load text
 	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
@@ -110,7 +111,7 @@ void HelloGL::InitObjects()
 
 	//Adds scene objects / primitives into the linked list.
 	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
-	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -145,31 +146,6 @@ void HelloGL::Display()
 	
 	//Drawing code goes here:
 	glPushMatrix();
-		//switch (g_currentShape)
-		//{
-		//case cube:
-		//	g_cube->Update();
-		//	g_cube->Draw();
-		//	break;
-		//case hexagonalPrism:
-		//	g_hexagonalPrism->Update();
-		//	g_hexagonalPrism->Draw();
-		//	break;
-		//case squareBasedPyramid:
-		//	g_squareBasedPyramid->Update();
-		//	g_squareBasedPyramid->Draw();
-		//	break;
-		//case all:
-		//	g_cube->Update();
-		//	g_cube->Draw();
-		//	g_hexagonalPrism->Update();
-		//	g_hexagonalPrism->Draw();
-		//	g_squareBasedPyramid->Update();
-		//	g_squareBasedPyramid->Draw();
-		//	break;
-		//default:
-		//	break;
-		//}
 	
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
@@ -214,9 +190,10 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 
 	if (key == 'n')
 	{
-		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new SceneObject(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
+		
 	}
 
 	switch (g_viewMode)
@@ -396,10 +373,13 @@ void HelloGL::Update()
 	//default:
 	//	break;
 	//}
-
-	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-	//Update all of the sceneObjects
-	g_sceneObjectsList->UpdateList(g_head);
+	if (g_sceneObjectsList->GetListLength(g_head) != 0)
+	{
+		g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
+		//Update all of the sceneObjects
+		g_sceneObjectsList->UpdateList(g_head);
+	}
+	
 
 	glutPostRedisplay();
 }
