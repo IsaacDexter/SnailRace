@@ -5,6 +5,7 @@
 #include <gl/GL.h>			//OpenGL
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
+#include <vector>
 
 class Primitive;
 
@@ -136,9 +137,26 @@ struct TexCoord
 
 struct Index
 {
-	GLushort vertex;
-	GLushort uv;
-	GLushort normal;
+	GLushort Vertex;
+	GLushort TexCoord;
+	GLushort Normal;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	Index()
+	{
+		Vertex = 1;
+		TexCoord = 1;
+		Normal = 1;
+	}
+	/// <summary>An Index representing a vertex index, a texcoord index and a normal index</summary>
+	/// <param name="initial_Vertex">The vertex index. Defaults to 1</param>
+	/// <param name="initial_TexCoord">The texcoord(uv) index. Defaults to 1</param>
+	/// <param name="initial_Normal">The normal index. Defaults to 1</param>
+	Index(GLushort initial_Vertex, GLushort initial_TexCoord, GLushort initial_Normal)
+	{
+		Vertex = initial_Vertex;
+		TexCoord = initial_TexCoord;
+		Normal = initial_Normal;
+	}
 };
 /// <summary>
 /// Structure used to load 3D shapes, contains each vertex, normals and a lkist of indeces. Also contains texturing coords.
@@ -146,17 +164,13 @@ struct Index
 struct Mesh
 {
 	///<summary>All indexed vertices in the shape</summary>
-	Vertex* Vertices;
+	std::vector<Vertex> Vertices;
 	/// <summary>The coordinates of the texture to be loaded onto the mesh</summary>
-	TexCoord* TexCoords;
+	std::vector<TexCoord> TexCoords;
 	/// <summary>The Normals, which are used in giving a shape the illusion of texture. Can either be calculated automatically or loaded from a file.</summary>
-	Vector3* Normals;
+	std::vector<Vector3> Normals;
 	/// <summary>Defines the triangles that make up the shape, using the indices of each of the vertices/colors.  GLuShort is an in built typedef of 16 bit unsigned binary integer.</summary>
-	GLushort* Indices;
-
-	Index* ObjIndices;
-	//ints used in the loading of files.
-	int VertexCount, NormalCount, IndexCount, TexCoordCount;
+	std::vector<Index> Indices;
 };
 
 /// <summary>Vector containing the required components for lighting</summary>

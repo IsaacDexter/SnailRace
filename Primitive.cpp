@@ -42,9 +42,9 @@ void Primitive::Draw()
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 
-		glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
-		glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
-		glNormalPointer(GL_FLOAT, 0, m_mesh->Normals);
+		//glVertexPointer(3, GL_FLOAT, 0, m_mesh->Vertices);
+		//glTexCoordPointer(2, GL_FLOAT, 0, m_mesh->TexCoords);
+		//glNormalPointer(GL_FLOAT, 0, m_mesh->Normals);
 
 		DrawMaterial();
 
@@ -52,7 +52,7 @@ void Primitive::Draw()
 
 		UpdatePosition();
 		UpdateRotation();
-		glDrawElements(GL_TRIANGLES, m_mesh->IndexCount, GL_UNSIGNED_SHORT, m_mesh->Indices);
+//		glDrawElements(GL_TRIANGLES, m_mesh->Indices.size(), GL_UNSIGNED_SHORT, m_mesh->Indices);
 
 		glPopMatrix();
 

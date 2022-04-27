@@ -86,7 +86,7 @@ void HelloGL::InitObjects()
 
 	//Load Textures
 	g_penguinTexture = new Texture2D();
-	g_penguinTexture->Load((char*)"Textures/penguins.raw", 512, 512);
+	g_penguinTexture->LoadBMP((char*)"Textures/Battlefield.bmp");
 
 	g_brickTexture = new Texture2D();
 	g_brickTexture->LoadBMP((char*)"Textures/Brick.bmp");
@@ -97,7 +97,6 @@ void HelloGL::InitObjects()
 
 	//Load Meshes
 	g_cubeMesh = MeshLoader::LoadObj((char*)"Models/cube.obj");
-	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 
 	//Load text
 	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
@@ -111,7 +110,7 @@ void HelloGL::InitObjects()
 
 	//Adds scene objects / primitives into the linked list.
 	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
-	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -215,7 +214,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 
 	if (key == 'n')
 	{
-		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new SceneObject(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.5f));
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new SceneObject(g_cubeMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
