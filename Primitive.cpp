@@ -51,9 +51,10 @@ void Primitive::Draw()
 		glBegin(GL_TRIANGLES);
 		for (int i = 0; i < m_mesh->Indices.size(); i++)
 		{
-			glVertex3f(m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).x, m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).y, m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).z);
+
 			glTexCoord2f(m_mesh->TexCoords.at(m_mesh->Indices.at(i).TexCoord - 1).u, m_mesh->TexCoords.at(m_mesh->Indices.at(i).TexCoord - 1).v);
 			glNormal3f(m_mesh->Normals.at(m_mesh->Indices.at(i).Normal - 1).x, m_mesh->Normals.at(m_mesh->Indices.at(i).Normal - 1).y, m_mesh->Normals.at(m_mesh->Indices.at(i).Normal - 1).z);
+			glVertex3f(m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).x, m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).y, m_mesh->Vertices.at(m_mesh->Indices.at(i).Vertex - 1).z);
 		}
 		glEnd();
 
