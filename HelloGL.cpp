@@ -103,7 +103,7 @@ void HelloGL::InitObjects()
 	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
 
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-	
+
 	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
 	//g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
 	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, penguinMaterial, 0.0f, 1.0f, 0.0f);
@@ -112,7 +112,6 @@ void HelloGL::InitObjects()
 	//Adds scene objects / primitives into the linked list.
 	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
 	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
-	g_cube = new SceneObject(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -175,7 +174,6 @@ void HelloGL::Display()
 	
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
-	g_cube->Draw();
 
 	//Draw text
 	g_string->Draw();
@@ -403,7 +401,6 @@ void HelloGL::Update()
 	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
 	//Update all of the sceneObjects
 	g_sceneObjectsList->UpdateList(g_head);
-	g_cube->Update();
 
 	glutPostRedisplay();
 }
