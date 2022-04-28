@@ -144,7 +144,7 @@ namespace MeshLoader
 
 		while (true)
 		{
-			char lineHeader[128];	//Read the first word of the line
+			char lineHeader[1024];	//Read the first word of the line
 			int res = fscanf(file, "%s", lineHeader);	//Formats the file input to look for a word that is a string, i.e. v, vt, vn, or f.
 			if (res == EOF)
 			{

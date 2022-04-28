@@ -91,13 +91,19 @@ void HelloGL::InitObjects()
 	g_brickTexture = new Texture2D();
 	g_brickTexture->LoadBMP((char*)"Textures/Battlefield.bmp");
 
+	g_skyboxTexture = new Texture2D();
+	g_skyboxTexture->LoadBMP((char*)"Textures/skybox.bmp");
+
 	//Loads Materials
 	g_brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
+	g_skyboxMaterial = new Material(Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 0.0f), 0.0f);
 
 	//Load Meshes
-	g_cubeMesh = MeshLoader::Load((char*)"Models/texCube.obj");
+	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.obj");
+	g_skyboxMesh = MeshLoader::Load((char*)"Models/skyCube.obj");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
+	g_snailMesh = MeshLoader::Load((char*)"Models/snail.obj");
 
 	//Load text
 	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
@@ -111,7 +117,8 @@ void HelloGL::InitObjects()
 
 	//Adds scene objects / primitives into the linked list.
 	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
-	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_hexagonalPrismMesh, g_penguinTexture, g_penguinMaterial, 0.0f, 1.0f, 0.0f));
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_snailMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.0f));
+	g_skybox = new Primitive(g_skyboxMesh, g_skyboxTexture, g_skyboxMaterial, 0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -152,6 +159,10 @@ void HelloGL::Display()
 
 	//Draw text
 	g_string->Draw();
+
+	glCullFace(GL_FRONT);
+	g_skybox->Draw();
+	glCullFace(GL_BACK);
 
 	//g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->Draw();
 	glPopMatrix();
@@ -349,7 +360,10 @@ void HelloGL::Update()
 
 	//move the camera
 	gluLookAt(g_camera->eye.x, g_camera->eye.y, g_camera->eye.z, g_camera->center.x, g_camera->center.y, g_camera->center.z, g_camera->up.x, g_camera->up.y, g_camera->up.z);
-	
+	//Update the skybox to match the cameras position.
+	g_skybox->SetPosition(g_camera->eye.x, g_camera->eye.y, g_camera->eye.z);
+
+
 	//Sets the lighting data for light0. Dne every frame in the update function, so if the light changes on runtime, the program handles accordingly (e.g. light turns off, etc.)
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(g_lightData->Ambient.x));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, &(g_lightData->Diffuse.x));
@@ -358,20 +372,6 @@ void HelloGL::Update()
 	glLightfv(GL_LIGHT0, GL_POSITION, &(g_lightPosition->x));
 
 	//Rotate the current shape
-	//switch (g_currentShape)
-	//{
-	//case cube:
-	//	g_cube->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-	//	break;
-	//case hexagonalPrism:
-	//	g_hexagonalPrism->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-	//	break;
-	//case squareBasedPyramid:
-	//	g_squareBasedPyramid->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-	//	break;
-	//default:
-	//	break;
-	//}
 	if (g_sceneObjectsList->GetListLength(g_head) != 0)
 	{
 		g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);

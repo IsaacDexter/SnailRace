@@ -69,14 +69,18 @@ private:
 	//Meshes
 	Mesh* g_cubeMesh;
 	Mesh* g_hexagonalPrismMesh;
+	Mesh* g_skyboxMesh;
+	Mesh* g_snailMesh;
 
 	//Textures
 	Texture2D* g_brickTexture;
 	Texture2D* g_penguinTexture;
+	Texture2D* g_skyboxTexture;
 
 	//Materials
 	Material* g_brickMaterial;
 	Material* g_penguinMaterial;
+	Material* g_skyboxMaterial;
 
 	//Text
 	String2D* g_string;
@@ -84,6 +88,7 @@ private:
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
 	ListNode* g_head;
+	Primitive* g_skybox;
 
 	MouseButtons g_mouseButtonPressed = none;
 	int g_currentSceneObjectLocation;
