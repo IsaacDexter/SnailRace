@@ -113,13 +113,6 @@ struct Vector2
 	}
 };
 
-struct Camera
-{
-	Vector3 eye;
-	Vector3 center;
-	Vector3 up;
-};
-
 /// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Vertex
 {

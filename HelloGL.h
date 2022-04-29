@@ -5,6 +5,7 @@
 #include <gl/GL.h>			//OpenGL
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
+#
 
 #include "GLUTCallbacks.h"
 #include "Structures.h"
@@ -13,6 +14,9 @@
 //Shape class includes
 #include "Primitive.h"
 #include "MeshLoader.h"
+
+//Math Includes
+#include "Math.h"
 
 //Text includes
 #include "String2D.h"
@@ -26,6 +30,7 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
 
+class Camera;
 
 
 class HelloGL
@@ -54,9 +59,9 @@ public:
 
 	//Update methods
 	void Update();
+
 private:
-	/// <summary>1 for center, 2 for eye, 3 for up</summary>
-	int g_viewMode = 1;
+	/// <summary>The 3D camera, containing a position, a target, used to get the direction, a right axis and an up axis.</summary>
 	Camera* g_camera;
 	/// <summary>Vector2 storing mouse position</summary>
 	Vector2* g_oldMousePos;

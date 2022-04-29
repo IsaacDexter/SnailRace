@@ -1,5 +1,6 @@
 #include "HelloGL.h"
 #include <iostream>
+#include "Camera.h"
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
@@ -79,10 +80,7 @@ void HelloGL::InitObjects()
 	g_currentSceneObjectLocation = 0;
 
 	//Create a new camera and initialise it
-	g_camera = new Camera();
-	g_camera->eye.x = 0.0f; g_camera->eye.y = 0.0f; g_camera->eye.z = 1.0f;
-	g_camera->center.x = 0.0f; g_camera->center.y = 0.0f; g_camera->center.z = 0.0f;
-	g_camera->up.x = 0.0f; g_camera->up.y = 1.0f; g_camera->up.z = 0.0f;
+	g_camera = new Camera(0.0f, 0.0f, 3.0f);
 
 	//Load Textures
 	g_penguinTexture = new Texture2D();
@@ -175,16 +173,6 @@ void HelloGL::Display()
 
 void HelloGL::Keyboard(unsigned char key, int x, int y)
 {
-	//Toggles between various camera view modes. These are used to experiment with the camera, as I do not understand how it works
-	if (key == ' ')
-	{
-		g_viewMode += 1;
-		if (g_viewMode > 3)
-		{
-			g_viewMode = 1;
-		}
-	}
-
 	//Code for switching between 10 shapes.
 	if (isdigit(key))
 	{
@@ -205,87 +193,6 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		g_currentSceneObjectLocation++;
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 		
-	}
-
-	switch (g_viewMode)
-	{
-	case 1:
-		switch (key)
-		{
-		case 'w':	//Pan camera up
-			g_camera->center.y -= 0.0125f;
-			break;
-		case 'a':	//pan camera left
-			g_camera->center.x -= 0.0125f;
-			break;
-		case 's':	//pan camera down
-			g_camera->center.y += 0.0125f;
-			break;
-		case 'd':	//Pan camera right
-			g_camera->center.x += 0.0125f;
-			break;
-		case 'q':	//?
-			g_camera->center.z += 0.0125f;
-			break;
-		case 'e':	//?
-			g_camera->center.z -= 0.0125f;
-			break;
-		default:
-			break;
-		}
-		break;
-	case 2:
-		switch (key)
-		{
-		case 'w':	//?
-			g_camera->eye.y -= 0.025f;
-			break;
-		case 'a':	//?
-			g_camera->eye.x -= 0.025f;
-			break;
-		case 's':	//?
-			g_camera->eye.y += 0.025f;
-			break;
-		case 'd':	//?
-			g_camera->eye.x += 0.025f;
-			break;
-		case 'q':	//move camera away from origin
-			g_camera->eye.z += 0.25f;
-			break;
-		case 'e':	//move camera towards origin
-			g_camera->eye.z -= 0.25f;
-			break;
-		default:
-			break;
-		}
-		break;
-	case 3:
-		switch (key)
-		{
-		case 'w':	//?
-			g_camera->up.y -= 0.05f;
-			break;
-		case 'a':	//?
-			g_camera->up.x -= 0.05f;
-			break;
-		case 's':	//?
-			g_camera->up.y += 0.05f;
-			break;
-		case 'd':	//?
-			g_camera->up.x += 0.05f;
-			break;
-		case 'q':	//?
-			g_camera->up.z += 0.05f;
-			break;
-		case 'e':	//?
-			g_camera->up.z -= 0.05f;
-			break;
-		default:
-			break;
-		}
-		break;
-	default:
-		break;
 	}
 }
 
@@ -335,10 +242,6 @@ void HelloGL::MouseButton(int button, int state, int x, int y)
 			g_rotationAxes->x = 0.0f; //Reset pitch as mmb mode
 			g_rotationAxes->y = 0.0f; //Reset yaw as mmb mode
 			g_rotationAxes->z = 0.0f; //Reset roll as mmb mode
-			//Reset Camera Position
-			g_camera->eye.x = 0.0f; g_camera->eye.y = 0.0f; g_camera->eye.z = 1.0f;
-			g_camera->center.x = 0.0f; g_camera->center.y = 0.0f; g_camera->center.z = 0.0f;
-			g_camera->up.x = 0.0f; g_camera->up.y = 1.0f; g_camera->up.z = 0.0f;
 			break;
 		default:
 			break;
@@ -358,10 +261,8 @@ void HelloGL::Update()
 	//Rest our modelview matrix , so all transformations from previous frames arent included in the current one
 	glLoadIdentity();
 
-	//move the camera
-	gluLookAt(g_camera->eye.x, g_camera->eye.y, g_camera->eye.z, g_camera->center.x, g_camera->center.y, g_camera->center.z, g_camera->up.x, g_camera->up.y, g_camera->up.z);
 	//Update the skybox to match the cameras position.
-	g_skybox->SetPosition(g_camera->eye.x, g_camera->eye.y, g_camera->eye.z);
+	g_skybox->SetPosition(g_cameraPos->x, g_cameraPos->y, g_cameraPos->z);
 
 
 	//Sets the lighting data for light0. Dne every frame in the update function, so if the light changes on runtime, the program handles accordingly (e.g. light turns off, etc.)
@@ -385,8 +286,24 @@ void HelloGL::Update()
 
 HelloGL::~HelloGL(void)
 {
-	delete g_camera;
 	delete g_oldMousePos;
 	delete g_rotationAxes;
 
+	g_sceneObjectsList->Deletelist(&g_head);
+
+	delete g_brickTexture;
+	delete g_brickMaterial;
+	delete g_penguinTexture;
+	delete g_penguinMaterial;
+	delete g_skyboxTexture;
+	delete g_skyboxMaterial;
+
+
+	delete g_cubeMesh;
+	delete g_hexagonalPrismMesh;
+	delete g_skyboxMesh;
+	delete g_snailMesh;
+
+	delete g_camera;
+	delete g_lightPosition;
 }
