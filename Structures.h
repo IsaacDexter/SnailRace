@@ -9,8 +9,10 @@
 
 class Primitive;
 
+#define pi 3.14159265358979323846
 //Macro used to find the number of elements in a list.
 #define NUM(a) (sizeof(a) / sizeof(*a))
+#define RADIANS(a) (a * pi/180)
 
 /// <summary>Vector 4 allowing us to represent our data as Homogeneous Coordinates, which we need to perform transformations correctly as a fourth component is required for matrix mulitplications.</summary>
 struct Vector4

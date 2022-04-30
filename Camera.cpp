@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+
 Camera::Camera(float x, float y, float z)
 {
 	position = Vector3(x, y, z);
@@ -7,7 +8,7 @@ Camera::Camera(float x, float y, float z)
 	up = Vector3(0.0f, 1.0f, 0.0f);
 	front = Vector3(0.0f, 0.0f, -1.0f);
 
-	speed = 0.09f;
+	speed = 0.125f;
 }
 
 Camera::~Camera()
@@ -59,6 +60,15 @@ Vector3 Camera::getDirection()
 	return Vector3(Math::Normalise(Vector3(position.x - target.x, position.y - target.y, position.z - target.z)));
 }
 
+void Camera::setDirection(float pitch, float roll, float yaw)
+{
+	Vector3 direction;
+	direction.x = cos(RADIANS(-yaw)) * cos(RADIANS(pitch));
+	direction.y = sin(RADIANS(pitch));
+	direction.z = sin(RADIANS(-yaw)) * cos(RADIANS(pitch));
+	front = Math::Normalise(direction);
+}
+
 Vector3 Camera::getRight()
 {
 	return Math::Cross(up, getDirection());
@@ -68,6 +78,8 @@ Vector3 Camera::getUp()
 {
 	return Math::Cross(getDirection(), getRight());
 }
+
+
 
 float Camera::getSpeed()
 {

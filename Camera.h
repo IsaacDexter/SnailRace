@@ -22,6 +22,7 @@ public:
 	Vector3 getPosition();
 	void setPosition(Vector3 cameraPosition);
 	Vector3 getDirection();
+	void setDirection(float pitch, float roll, float yaw);
 	Vector3 getRight();
 	Vector3 getUp();
 	float getSpeed();

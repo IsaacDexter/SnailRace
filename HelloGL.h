@@ -65,6 +65,8 @@ private:
 	Camera* g_camera;
 	/// <summary>Vector2 storing mouse position</summary>
 	Vector2* g_oldMousePos;
+	/// <summary>Used to stop initial jump of the mouse</summary>
+	bool firstMouse = true;
 	/// <summary>Vector3 representing the rotation in each axis</summary>
 	Vector3* g_rotationAxes;
 

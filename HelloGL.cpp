@@ -184,7 +184,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		//Allows the user to switch between objects in the list, but makes sure they cannot exceed the length of the list.
 		g_currentSceneObjectLocation = min(int(key) - 49, g_sceneObjectsList->GetListLength(g_head) - 1);
 		//Get the rotation axes of the current shape in the list. Allows different shapes in the linked list to have different rotations.
-		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
+		//g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
 
 	if (key == 'w' || key == 'a' || key == 's' || key == 'd')
@@ -196,35 +196,33 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	{
 		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
-		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
+		//g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 		
 	}
 }
 
-///<summary>Calls the mouses position when a mouse button is held. Used to rotate the teapot<\summary>
+///<summary>Calls the mouses position when a mouse button is held. Used to rotate the camera<\summary>
 void HelloGL::MouseMotion(int x, int y)
 {
-	switch (g_mouseButtonPressed)
-	{
-	case none:
-		break;
-	case LeftMouseButton:
-		g_rotationAxes->x += g_oldMousePos->y - y;	//In lmb mode, pitch object forward/back
-		g_rotationAxes->y += g_oldMousePos->x - x;	//Yaw object to the left and right
-		break;
-	case RightMouseButton:
-		g_rotationAxes->z += g_oldMousePos->x - x;	//roll object starboard and port
-		break;
-	default:
-		break;
-	}
-	//Update mouse position, as passive does not call when motion is called
+	g_rotationAxes->x += g_oldMousePos->y - y;	//In lmb mode, pitch object forward/back
+	g_rotationAxes->y += g_oldMousePos->x - x;	//Yaw object to the left and right
+	g_camera->setDirection(g_rotationAxes->x, g_rotationAxes->z, g_rotationAxes->y);
+
 	g_oldMousePos->x = x, g_oldMousePos->y = y;
 }
 
-/// <summary>Calls whenever the mouse moves. Used to update the mouse's position</summary>
+/// <summary>Calls whenever the mouse moves. Used to update the mouse's position and rotate the camera</summary>
 void HelloGL::PassiveMouseMotion(int x, int y)
 {
+	if (firstMouse)
+	{
+		g_oldMousePos->x = x, g_oldMousePos->y = y;
+		firstMouse = false;
+	}
+	g_rotationAxes->x += g_oldMousePos->y - y;	//In lmb mode, pitch object forward/back
+	g_rotationAxes->y += g_oldMousePos->x - x;	//Yaw object to the left and right
+	g_camera->setDirection(g_rotationAxes->x, g_rotationAxes->z, g_rotationAxes->y);
+
 	g_oldMousePos->x = x, g_oldMousePos->y = y;
 }
 
@@ -279,12 +277,12 @@ void HelloGL::Update()
 	glLightfv(GL_LIGHT0, GL_POSITION, &(g_lightPosition->x));
 
 	//Rotate the current shape
-	if (g_sceneObjectsList->GetListLength(g_head) != 0)
-	{
-		g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-		//Update all of the sceneObjects
-		g_sceneObjectsList->UpdateList(g_head);
-	}
+	//if (g_sceneObjectsList->GetListLength(g_head) != 0)
+	//{
+	//	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
+	//	//Update all of the sceneObjects
+	//	g_sceneObjectsList->UpdateList(g_head);
+	//}
 	
 
 	glutPostRedisplay();
