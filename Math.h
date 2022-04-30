@@ -11,7 +11,7 @@ namespace Math
 
 	float Dot(Vector3 v1, Vector3 v2);
 
-	Matrix4& LookAt(Vector3 position, Vector3 target, Vector3 up);
+	Matrix4 LookAt(Vector3 position, Vector3 target, Vector3 up);
 };
 
 #endif // !_MATH_H

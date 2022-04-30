@@ -26,7 +26,7 @@
 
 
 //Defs
-#define REFRESHRATE 16
+#define REFRESHRATE 1000/60
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
 

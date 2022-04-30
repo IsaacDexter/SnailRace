@@ -91,32 +91,32 @@ struct Color
 	}
 };
 
-///// <summary>A matrix 4. essentially a glm::mat4</summary>
-//struct Matrix4
-//{
-//	float* matrix;
-//
-//	Matrix4()
-//	{
-//		float matrix[3][3];
-//	}
-//
-//	/// <summary>A 4 dimensional matrix. essentially a glm::mat4</summary>
-//	/// <param name="initialFloat">what to set the matrix to initially. leave blank for undefined.</param>
-//	Matrix4(float initialFloat)
-//	{
-//		float matrix[3][3];
-//		for (int x = 0; x < 3; x++)
-//		{
-//			for (int y = 0; y < 3; y++)
-//			{
-//				matrix[y][x] = initialFloat;
-//			}
-//		}
-//	}
-//};
+/// <summary>A matrix 4. essentially a glm::mat4</summary>
+struct Matrix4
+{
+	float m[4][4];
 
-typedef float Matrix4[4][4];
+	Matrix4()
+	{
+		float m[4][4];
+	}
+
+	/// <summary>A 4 dimensional matrix. essentially a glm::mat4</summary>
+	/// <param name="initialFloat">what to set the matrix to initially. leave blank for undefined.</param>
+	Matrix4(float initialFloat)
+	{
+		float m[4][4];
+		for (int x = 0; x < 4; x++)
+		{
+			for (int y = 0; y < 4; y++)
+			{
+				m[y][x] = initialFloat;
+			}
+		}
+	}
+};
+
+//typedef float Matrix4[4][4];
 
 /// <summary>A vector 2 representing a single point in 2D space.</summary>
 struct Vector2

@@ -14,11 +14,13 @@ public:
 	Camera(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Camera();
 
+	void Update(float userval, float radius);
+
 	Vector3 getPosition();
 	Vector3 getDirection();
 	Vector3 getRight();
 	Vector3 getUp();
-	Matrix4& getView();
+	Matrix4 getView();
 };
 
 #endif // !_CAMERA_H

@@ -33,7 +33,7 @@ namespace Math
 	/// <param name="target">also called the center, the point the camera looks at.</param>
 	/// <param name="up">The upwards direction in the 3d world for this camera, for example, if the camera is level, 0, 0, 1.</param>
 	/// <returns></returns>
-	Matrix4& LookAt(Vector3 position, Vector3 target, Vector3 up)
+	Matrix4 LookAt(Vector3 position, Vector3 target, Vector3 up)
 	{
 		Matrix4 matrix;
 		Vector3 X, Y, Z;
@@ -52,22 +52,22 @@ namespace Math
 		Normalise(X);
 		Normalise(Z);
 
-		matrix[0][0] = X.x;
-		matrix[1][0] = X.y;
-		matrix[2][0] = X.z;
-		matrix[3][0] = -Dot(X, position);
-		matrix[0][1] = Y.x;
-		matrix[1][1] = Y.y;
-		matrix[2][1] = Y.z;
-		matrix[3][1] = -Dot(Y, position);
-		matrix[0][2] = Z.x;
-		matrix[1][2] = Z.y;
-		matrix[2][2] = Z.z;
-		matrix[3][2] = -Dot(Z, position);
-		matrix[0][3] = 0.0f;
-		matrix[1][3] = 0.0f;
-		matrix[2][3] = 0.0f;
-		matrix[3][3] = 1.0f;
+		matrix.m[0][0] = X.x;
+		matrix.m[1][0] = X.y;
+		matrix.m[2][0] = X.z;
+		matrix.m[3][0] = -Dot(X, position);
+		matrix.m[0][1] = Y.x;
+		matrix.m[1][1] = Y.y;
+		matrix.m[2][1] = Y.z;
+		matrix.m[3][1] = -Dot(Y, position);
+		matrix.m[0][2] = Z.x;
+		matrix.m[1][2] = Z.y;
+		matrix.m[2][2] = Z.z;
+		matrix.m[3][2] = -Dot(Z, position);
+		matrix.m[0][3] = 0.0f;
+		matrix.m[1][3] = 0.0f;
+		matrix.m[2][3] = 0.0f;
+		matrix.m[3][3] = 1.0f;
 
 		return matrix;
 	}
