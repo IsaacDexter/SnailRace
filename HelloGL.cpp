@@ -262,7 +262,7 @@ void HelloGL::Update()
 	glLoadIdentity();
 
 	//Update the skybox to match the cameras position.
-	g_skybox->SetPosition(g_cameraPos->x, g_cameraPos->y, g_cameraPos->z);
+	g_skybox->SetPosition(g_camera->getPosition().x, g_camera->getPosition().y, g_camera->getPosition().z);
 
 
 	//Sets the lighting data for light0. Dne every frame in the update function, so if the light changes on runtime, the program handles accordingly (e.g. light turns off, etc.)

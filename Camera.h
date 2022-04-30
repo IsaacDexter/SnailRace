@@ -7,9 +7,9 @@
 class Camera
 {
 private:
-	Vector3* position;
-	Vector3* target;
-	Vector3* up;
+	Vector3 position;
+	Vector3 target;
+	Vector3 up;
 public:
 	Camera(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Camera();
@@ -18,6 +18,7 @@ public:
 	Vector3 getDirection();
 	Vector3 getRight();
 	Vector3 getUp();
+	Matrix4& getView();
 };
 
 #endif // !_CAMERA_H
