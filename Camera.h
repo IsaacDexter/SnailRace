@@ -10,16 +10,22 @@ private:
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
+	Vector3 front;
+	float speed;
 public:
 	Camera(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Camera();
 
-	void Update(float userval, float radius);
+	void Input(char key);
+	void Update();
 
 	Vector3 getPosition();
+	void setPosition(Vector3 cameraPosition);
 	Vector3 getDirection();
 	Vector3 getRight();
 	Vector3 getUp();
+	float getSpeed();
+	void setSpeed(float cameraSpeed);
 	Matrix4 getView();
 };
 

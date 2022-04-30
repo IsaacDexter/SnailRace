@@ -187,6 +187,11 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 	}
 
+	if (key == 'w' || key == 'a' || key == 's' || key == 'd')
+	{
+		g_camera->Input(key);
+	}
+
 	if (key == 'n')
 	{
 		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
@@ -261,7 +266,7 @@ void HelloGL::Update()
 	//Rest our modelview matrix , so all transformations from previous frames arent included in the current one
 	glLoadIdentity();
 
-	g_camera->Update(g_oldMousePos->x / 158, g_oldMousePos->y /15);
+	g_camera->Update();
 	//Update the skybox to match the cameras position.
 	g_skybox->SetPosition(g_camera->getPosition().x, g_camera->getPosition().y, g_camera->getPosition().z);
 
