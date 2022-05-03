@@ -211,7 +211,7 @@ void HelloGL::MouseMotion(int x, int y)
 	g_oldMousePos->x = x, g_oldMousePos->y = y;
 }
 
-/// <summary>Calls whenever the mouse moves. Used to update the mouse's position and rotate the camera</summary>
+/// <summary>Calls whenever the mouse moves. Used to update the mouse's position and rotate the camera.</summary>
 void HelloGL::PassiveMouseMotion(int x, int y)
 {
 	if (firstMouse)
