@@ -1,12 +1,12 @@
 #include "Primitive.h"
 
-Primitive::Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x, float y, float z)
+Primitive::Primitive(Mesh* mesh, Texture2D* texture, Material* material, Vector3 startPos)
 {
 	m_mesh = mesh;
 	m_texture = texture;
 	m_material = material;
 	m_rotationAxes = new Vector3();
-	m_position = new Vector3(x, y, z);
+	m_position = new Vector3(startPos);
 }
 
 Primitive::~Primitive()

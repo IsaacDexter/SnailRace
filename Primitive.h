@@ -38,7 +38,7 @@ protected:
 	void DrawMaterial();
 public:
 	/// <summary>Constructor. Sets The mesh, the texture, and position. Takes these starting values as params.</summary>
-	Primitive(Mesh* mesh, Texture2D* texture, Material* material, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	Primitive(Mesh* mesh, Texture2D* texture, Material* material, Vector3 startPos);
 	~Primitive();
 
 	/// <summary>Getter for the rotation</summary>
@@ -62,7 +62,7 @@ public:
 	/// <summary>Kept blank as needs replacing in child classes. As a result of a non-thorough understanding of classes</summary>
 	virtual void Draw();
 	/// <summary>Updates the shape, namely the rotation with the m_rotationAxes variable.</summary>
-	void Update();
+	virtual void Update();
 };
 
 #endif // !_PRIMITIVE_H

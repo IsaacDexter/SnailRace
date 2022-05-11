@@ -25,6 +25,7 @@ public:
 	void setDirection(float pitch, float roll, float yaw);
 	Vector3 getRight();
 	Vector3 getUp();
+	Vector3 getViewport();
 	float getSpeed();
 	void setSpeed(float cameraSpeed);
 	Matrix4 getView();

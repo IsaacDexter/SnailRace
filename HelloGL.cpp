@@ -1,6 +1,8 @@
 #include "HelloGL.h"
 #include <iostream>
 #include "Camera.h"
+#include "String2D.h"
+#include "Snail.h"
 
 HelloGL::HelloGL(int argc, char* argv[])
 {
@@ -17,9 +19,6 @@ void HelloGL::InitGL(int argc, char* argv[])
 	glutInit(&argc, argv);
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
-
-	//Initialises Freetype
-	InitFreetype();
 
 	//set the size of the window in pixels
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -82,6 +81,12 @@ void HelloGL::InitObjects()
 	g_head = nullptr;
 	g_currentSceneObjectLocation = 0;
 
+	//Sets up gameplay objects, such as the starting line
+	g_racing = false;
+	g_startLine = Vector3(-10.0f, 0.0f, 0.0f);
+	g_finishLine = Vector3(10.0f, 0.0f, 0.0f);
+	srand(time(NULL));
+
 	//Create a new camera and initialise it
 	g_camera = new Camera(0.0f, 0.0f, 3.0f);
 
@@ -94,32 +99,43 @@ void HelloGL::InitObjects()
 
 	g_skyboxTexture = new Texture2D();
 	g_skyboxTexture->LoadBMP((char*)"Textures/skybox.bmp");
+	
+	g_grassTexture = new Texture2D();
+	g_grassTexture->LoadBMP((char*)"Textures/Grass.bmp");
+
+	g_metalTexture = new Texture2D();
+	g_metalTexture->LoadBMP((char*)"Textures/Metal.bmp");
 
 	//Loads Materials
 	g_brickMaterial = new Material(Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(0.8f, 0.05f, 0.05f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 	g_penguinMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 	g_skyboxMaterial = new Material(Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 0.0f), 0.0f);
+	g_metalMaterial = new Material(Vector4(0.9f, 0.8f, 0.8f, 1.0f), Vector4(0.9f, 0.8f, 0.8f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
+	g_grassMaterial = new Material(Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(0.4f, 0.4f, 0.45f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), 100.0f);
 
 	//Load Meshes
 	g_cubeMesh = MeshLoader::Load((char*)"Models/cube.obj");
 	g_skyboxMesh = MeshLoader::Load((char*)"Models/skyCube.obj");
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 	g_snailMesh = MeshLoader::Load((char*)"Models/snail.obj");
+	g_landscapeMesh = MeshLoader::Load((char*)"Models/Terrain.obj");
+	g_racecourseMesh = MeshLoader::Load((char*)"Models/Racecourse.obj");
 
 	////Load text
-	//g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
+	g_string = new String2D("Press space to start the race!", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f), g_camera);
 
-	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
-
-	//Adds meshes textures and materials into SceneObjects/Primitives at locations specified.
-	//g_cube = new Primitive(cubeMesh, brickTexture, brickMaterial, 0.0f, 0.0f, -1.0f);
-	//g_hexagonalPrism = new Primitive(hexagonalPrismMesh, penguinTexture, penguinMaterial, 0.0f, 1.0f, 0.0f);
-	//g_squareBasedPyramid = new Primitive(squareBasedPyramidMesh, penguinTexture, 0.0f, 0.0f, -1.0f);
-
-	//Adds scene objects / primitives into the linked list.
-	//g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_cubeMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, -1.0f));
-	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_snailMesh, g_brickTexture, g_brickMaterial, 0.0f, 0.0f, 0.0f));
-	g_skybox = new Primitive(g_skyboxMesh, g_skyboxTexture, g_skyboxMaterial, 0.0f, 0.0f, 0.0f);
+	//Adds scene objects / primitives into the linked lists
+	
+	//Adds in 'static' scene objects that make up part of the world -  the racecourse, the skybox and the landscape.
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_landscapeMesh, g_grassTexture, g_grassMaterial, Vector3(0.0f, 3.5f, 0.0f)));
+	g_sceneObjectsList->AppendNode(&g_head, new Primitive(g_racecourseMesh, g_metalTexture, g_metalMaterial, Vector3(0.0f, -4.5f, 0.0f)));
+	g_skybox = new Primitive(g_skyboxMesh, g_skyboxTexture, g_skyboxMaterial, Vector3(0.0f, 0.0f, 0.0f));
+	
+	//adds more dynamic elements into the world -  the snails.
+	g_sceneObjectsList->AppendNode(&g_head, new Snail(g_snailMesh, g_brickTexture, g_brickMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z + 1.0f), g_finishLine, rand() % 20 + 10));
+	//Re-randomise the speed for the second snail.
+	srand(time(NULL));
+	g_sceneObjectsList->AppendNode(&g_head, new Snail(g_snailMesh, g_penguinTexture, g_penguinMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z - 1.0f), g_finishLine, rand() % 20 + 10));
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -163,7 +179,7 @@ void HelloGL::Display()
 	g_sceneObjectsList->RenderList(g_head);
 
 	////Draw text
-	//g_string->Draw();
+	g_string->Draw();
 
 	glCullFace(GL_FRONT);
 	g_skybox->Draw();
@@ -201,10 +217,16 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 
 	if (key == 'n')
 	{
-		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
+		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, Vector3(0.0f, 0.0f, 0.5f)));
 		g_currentSceneObjectLocation++;
 		//g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
 
+	}
+
+	//If the user wants to start the race, set those snails loose!
+	if (key == ' ')
+	{
+		g_racing = true;
 	}
 }
 
@@ -274,7 +296,13 @@ void HelloGL::Update()
 	g_camera->Update();
 	//Update the skybox to match the cameras position.
 	g_skybox->SetPosition(g_camera->getPosition().x, g_camera->getPosition().y, g_camera->getPosition().z);
+	g_string->Update();
 
+	if (g_racing)//If racing, update the snails so that they move.
+	{
+		g_sceneObjectsList->UpdateList(g_head);
+	}
+	
 
 	//Sets the lighting data for light0. Dne every frame in the update function, so if the light changes on runtime, the program handles accordingly (e.g. light turns off, etc.)
 	glLightfv(GL_LIGHT0, GL_AMBIENT, &(g_lightData->Ambient.x));
@@ -282,14 +310,6 @@ void HelloGL::Update()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, &(g_lightData->Specular.x));
 	//Sets light0's position.
 	glLightfv(GL_LIGHT0, GL_POSITION, &(g_lightPosition->x));
-
-	//Rotate the current shape
-	//if (g_sceneObjectsList->GetListLength(g_head) != 0)
-	//{
-	//	g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->SetRotation(g_rotationAxes->x, g_rotationAxes->y, g_rotationAxes->z);
-	//	//Update all of the sceneObjects
-	//	g_sceneObjectsList->UpdateList(g_head);
-	//}
 
 
 	glutPostRedisplay();

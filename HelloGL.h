@@ -34,6 +34,7 @@
 #define SCREEN_HEIGHT 800
 
 class Camera;
+class String2D;
 
 
 class HelloGL
@@ -45,7 +46,6 @@ public:
 	void InitObjects();
 	void InitLighting(Vector3 lightPosition, Vector4 ambient, Vector4 diffuse, Vector4 specular);
 	void InitMaterials();
-	bool InitFreetype();
 	void InitGL(int argc, char* argv[]);
 
 	//Destructor def
@@ -82,24 +82,35 @@ private:
 	Mesh* g_hexagonalPrismMesh;
 	Mesh* g_skyboxMesh;
 	Mesh* g_snailMesh;
+	Mesh* g_landscapeMesh;
+	Mesh* g_racecourseMesh;
 
 	//Textures
 	Texture2D* g_brickTexture;
 	Texture2D* g_penguinTexture;
 	Texture2D* g_skyboxTexture;
+	Texture2D* g_grassTexture;
+	Texture2D* g_metalTexture;
 
 	//Materials
 	Material* g_brickMaterial;
 	Material* g_penguinMaterial;
 	Material* g_skyboxMaterial;
+	Material* g_grassMaterial;
+	Material* g_metalMaterial;
 
 	//Text
-
+	String2D* g_string;
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
 	ListNode* g_head;
 	Primitive* g_skybox;
+
+	//gameplay elements 
+	Vector3 g_startLine;
+	Vector3 g_finishLine;
+	bool g_racing;
 
 	MouseButtons g_mouseButtonPressed = none;
 	int g_currentSceneObjectLocation;

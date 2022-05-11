@@ -79,6 +79,11 @@ Vector3 Camera::getUp()
 	return Math::Cross(getDirection(), getRight());
 }
 
+Vector3 Camera::getViewport()
+{
+	return Vector3(position.x + front.x, position.y + front.y, position.z + front.z);
+}
+
 
 
 float Camera::getSpeed()
