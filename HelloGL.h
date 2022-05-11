@@ -5,7 +5,10 @@
 #include <gl/GL.h>			//OpenGL
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
-#
+
+#include <ft2build.h>	//Freetype library
+#include FT_FREETYPE_H	//Freetyoe macro fo instalation specific macros
+
 
 #include "GLUTCallbacks.h"
 #include "Structures.h"
@@ -18,8 +21,8 @@
 //Math Includes
 #include "Math.h"
 
-//Text includes
-#include "String2D.h"
+////Text includes
+//#include "String2D.h"
 
 //Linked List includes
 #include "LinkedLists.h"
@@ -90,7 +93,8 @@ private:
 	Material* g_skyboxMaterial;
 
 	//Text
-	String2D* g_string;
+	//String2D* g_string;
+	FT_Library g_freetypeLibrary;
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;

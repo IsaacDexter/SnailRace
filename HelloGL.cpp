@@ -18,6 +18,12 @@ void HelloGL::InitGL(int argc, char* argv[])
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
 
+	//Initialises Freetype
+	if (FT_Init_FreeType(&g_freetypeLibrary))
+	{
+		std::cerr << "An error occurred during library initialisation" << std::endl;
+	}
+
 	//set the size of the window in pixels
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	//set the initial position of the window on the screen
@@ -69,7 +75,7 @@ void HelloGL::InitGL(int argc, char* argv[])
 	//Switch back to the model view matrix to work with models again
 	glMatrixMode(GL_MODELVIEW);
 
-	
+
 }
 /// <summary>Initialises the camera, textures and any meshes in the scene</summary>
 void HelloGL::InitObjects()
@@ -103,8 +109,8 @@ void HelloGL::InitObjects()
 	g_hexagonalPrismMesh = MeshLoader::Load((char*)"Models/hexagonalPrism.txt");
 	g_snailMesh = MeshLoader::Load((char*)"Models/snail.obj");
 
-	//Load text
-	g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
+	////Load text
+	//g_string = new String2D((char*)"Amongus", Vector3(-1.4f, 0.7f, -1.0f), Color(197.0f, 5.0f, 255.0f));
 
 	//Mesh* squareBasedPyramidMesh = MeshLoader::Load((char*)"Models/squareBasedPyramid.txt");
 
@@ -148,15 +154,15 @@ void HelloGL::Display()
 	//Steps: clear existing scene, begin drawing, draw object, end drwaing, flush to graphics card.
 	//Draw simple rectangle
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clears the scene
-	
+
 	//Drawing code goes here:
 	glPushMatrix();
-	
+
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
 
-	//Draw text
-	g_string->Draw();
+	////Draw text
+	//g_string->Draw();
 
 	glCullFace(GL_FRONT);
 	g_skybox->Draw();
@@ -197,7 +203,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		g_sceneObjectsList->InsertAfter(g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation), new Primitive(g_cubeMesh, g_brickTexture, g_penguinMaterial, 0.0f, 0.0f, 0.5f));
 		g_currentSceneObjectLocation++;
 		//g_rotationAxes = g_sceneObjectsList->GetNode(g_head, g_currentSceneObjectLocation)->sceneObject->GetRotation();
-		
+
 	}
 }
 
@@ -283,7 +289,7 @@ void HelloGL::Update()
 	//	//Update all of the sceneObjects
 	//	g_sceneObjectsList->UpdateList(g_head);
 	//}
-	
+
 
 	glutPostRedisplay();
 }

@@ -37,7 +37,7 @@ namespace Math
 	{
 		Matrix4 matrix;
 		Vector3 X, Y, Z;
-		
+
 		//Create a new coordinate system
 		Z = Vector3(position.x - target.x, position.y - target.y, position.z - target.z);
 		Normalise(Z);
@@ -72,5 +72,5 @@ namespace Math
 		return matrix;
 	}
 
-	
+
 }

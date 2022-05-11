@@ -208,7 +208,7 @@ int LinkedLists::GetListLength(ListNode* node)
 		node = node->next;
 		length++;
 	}
-	
+
 	if (node == nullptr)
 	{
 		return length;

@@ -61,13 +61,13 @@ bool Texture2D::LoadBMP(char* path)
 
 	ifstream inFile;	//construct a buffer to hold the file.
 	inFile.open(path, ios::binary);	//open up the file
-	
+
 	if (!inFile.good())	//Check if file opened correctly
 	{
 		cerr << "Can't open texture file " << path << endl;
 		return false;
 	}
-	
+
 	//Allocate memory for the headers, get the values with the data buffers.
 	//allocate byte memory that iwll hold the the two headers
 	datBuff[0] = new UINT8[sizeof(BITMAPFILEHEADER)];
@@ -77,8 +77,8 @@ bool Texture2D::LoadBMP(char* path)
 	inFile.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
 
 	//once the data is loaded, construct the loaded data into the headers.
-	bmpHeader	= (BITMAPFILEHEADER*)datBuff[0];
-	bmpInfo		= (BITMAPINFOHEADER*)datBuff[1];
+	bmpHeader = (BITMAPFILEHEADER*)datBuff[0];
+	bmpInfo = (BITMAPINFOHEADER*)datBuff[1];
 
 	//Now that is laoded, check if the file is a bmp file.
 	if (bmpHeader->bfType != 0x4D42)

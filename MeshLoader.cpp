@@ -70,7 +70,7 @@ namespace MeshLoader
 	{
 		unsigned int indexCount;
 		inFile >> indexCount;
-		
+
 
 		if (indexCount > 0)
 		{
