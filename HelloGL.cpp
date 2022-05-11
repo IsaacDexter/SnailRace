@@ -18,6 +18,12 @@ void HelloGL::InitGL(int argc, char* argv[])
 	//Initialise everything else
 	GLUTCallbacks::Init(this);
 
+	//Initialises Freetype
+	if (FT_Init_FreeType(&g_freetypeLibrary))
+	{
+		std::cerr << "An error occurred during library initialisation" << std::endl;
+	}
+
 	//set the size of the window in pixels
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	//set the initial position of the window on the screen

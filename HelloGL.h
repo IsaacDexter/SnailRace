@@ -7,6 +7,7 @@
 #include "GL/freeglut.h"	//freeGLUT library
 
 #include <ft2build.h>	//Freetype library
+#include FT_FREETYPE_H	//Freetyoe macro fo instalation specific macros
 
 
 #include "GLUTCallbacks.h"
@@ -93,6 +94,7 @@ private:
 
 	//Text
 	//String2D* g_string;
+	FT_Library g_freetypeLibrary;
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;
