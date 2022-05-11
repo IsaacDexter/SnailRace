@@ -150,6 +150,7 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Structures.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

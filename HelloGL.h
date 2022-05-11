@@ -45,6 +45,7 @@ public:
 	void InitObjects();
 	void InitLighting(Vector3 lightPosition, Vector4 ambient, Vector4 diffuse, Vector4 specular);
 	void InitMaterials();
+	bool InitFreetype();
 	void InitGL(int argc, char* argv[]);
 
 	//Destructor def
@@ -93,8 +94,7 @@ private:
 	Material* g_skyboxMaterial;
 
 	//Text
-	//String2D* g_string;
-	FT_Library g_freetypeLibrary;
+
 
 	//List containing 3D shapes
 	LinkedLists* g_sceneObjectsList;

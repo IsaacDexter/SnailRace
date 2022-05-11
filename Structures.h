@@ -6,6 +6,7 @@
 #include <gl/GLU.h>			//OpenGL Utilities
 #include "GL/freeglut.h"	//freeGLUT library
 #include <vector>
+#include <map>
 
 class Primitive;
 
@@ -142,6 +143,28 @@ struct Vector2
 	}
 };
 
+/// <summary>A vector 2 of ints representing a single point in 2D space.</summary>
+struct iVector2
+{
+	int x;
+	int y;
+	//Defines default constructiors, to allows to create an object of this type in function calls.
+	iVector2()
+	{
+		x = 0;
+		y = 0;
+	}
+	//Allows us to take parameters, so we can construct with any values
+	/// <summary>A vector 2 representing a single point in 2D space, made of vectors, primarily of use in </summary>
+	/// <param name="initial_x">The initial x value. Defaults to 0</param>
+	/// <param name="initial_y">The initial y value. Defaults to 0</param>
+	iVector2(int initial_x, int initial_y)
+	{
+		x = initial_x;
+		y = initial_y;
+	}
+};
+
 /// <summary>Used to store vertexes in a 3D shape. uses GLfloat to avoid compiler warnings</summary>
 struct Vertex
 {
@@ -231,6 +254,8 @@ struct Material
 		Shininess = initial_shininess;
 	}
 };
+
+
 
 /// <summary>Used in linked lists, containing a scene object pointer, and the next node in the linked lists. Allows for a dynamic collection of objects that can be added to/ removed from at runtim,e.</summary>
 struct ListNode
