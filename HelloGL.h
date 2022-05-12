@@ -26,15 +26,14 @@
 
 //Linked List includes
 #include "LinkedLists.h"
+#include <vector>
 
 
-//Defs
-#define REFRESHRATE 1000/60
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+
 
 class Camera;
 class String2D;
+class Snail;
 
 
 class HelloGL
@@ -107,10 +106,19 @@ private:
 	ListNode* g_head;
 	Primitive* g_skybox;
 
+	//Place the snails seperately as they are dynamic objects
+	std::vector<Snail*> g_snailList;
+
+
 	//gameplay elements 
+	/// <summary>The position for the snails to begin at.</summary>
 	Vector3 g_startLine;
+	/// <summary>The position for the snails to end at.</summary>
 	Vector3 g_finishLine;
+	/// <summary>Whether or not the snails are racing.</summary>
 	bool g_racing;
+	/// <summary>The timer that is output to the screen as the snails race.</summary>
+	float g_timer;
 
 	MouseButtons g_mouseButtonPressed = none;
 	int g_currentSceneObjectLocation;

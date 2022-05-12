@@ -15,6 +15,11 @@ class Primitive;
 #define NUM(a) (sizeof(a) / sizeof(*a))
 #define RADIANS(a) (a * pi/180)
 
+//Defs
+#define REFRESHRATE 1000/60
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
+
 /// <summary>Vector 4 allowing us to represent our data as Homogeneous Coordinates, which we need to perform transformations correctly as a fourth component is required for matrix mulitplications.</summary>
 struct Vector4
 {

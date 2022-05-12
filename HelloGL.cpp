@@ -83,9 +83,11 @@ void HelloGL::InitObjects()
 
 	//Sets up gameplay objects, such as the starting line
 	g_racing = false;
+	//Set up the start and end points of the race
 	g_startLine = Vector3(-10.0f, 0.0f, 0.0f);
 	g_finishLine = Vector3(10.0f, 0.0f, 0.0f);
-	srand(time(NULL));
+	//Set up the timer.
+	g_timer = 0.0f;
 
 	//Create a new camera and initialise it
 	g_camera = new Camera(0.0f, 0.0f, 3.0f);
@@ -132,10 +134,9 @@ void HelloGL::InitObjects()
 	g_skybox = new Primitive(g_skyboxMesh, g_skyboxTexture, g_skyboxMaterial, Vector3(0.0f, 0.0f, 0.0f));
 	
 	//adds more dynamic elements into the world -  the snails.
-	g_sceneObjectsList->AppendNode(&g_head, new Snail(g_snailMesh, g_brickTexture, g_brickMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z + 1.0f), g_finishLine, rand() % 20 + 10));
-	//Re-randomise the speed for the second snail.
-	srand(time(NULL));
-	g_sceneObjectsList->AppendNode(&g_head, new Snail(g_snailMesh, g_penguinTexture, g_penguinMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z - 1.0f), g_finishLine, rand() % 20 + 10));
+	g_snailList.push_back(new Snail(g_snailMesh, g_brickTexture, g_brickMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z + 1.0f), g_finishLine));
+	g_snailList.at(0)->RollSpeed();	//Randomise the first snails speed
+	g_snailList.push_back(new Snail(g_snailMesh, g_penguinTexture, g_penguinMaterial, Vector3(g_startLine.x, g_startLine.y, g_startLine.z - 1.0f), g_finishLine));
 }
 
 /// <summary>Initialises a light within the scene, GL_LIGHT0</summary>
@@ -177,6 +178,13 @@ void HelloGL::Display()
 
 	//draw all the objects in the g_sceneObjectsList
 	g_sceneObjectsList->RenderList(g_head);
+
+	//Draw the snails
+	for (int i = 0; i < g_snailList.size(); i++)
+	{
+		g_snailList.at(i)->Draw();
+	}
+	
 
 	////Draw text
 	g_string->Draw();
@@ -224,9 +232,10 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 	}
 
 	//If the user wants to start the race, set those snails loose!
-	if (key == ' ')
+	if (key == ' ' && !g_racing)
 	{
 		g_racing = true;
+		g_snailList.at(1)->RollSpeed();
 	}
 }
 
@@ -300,7 +309,17 @@ void HelloGL::Update()
 
 	if (g_racing)//If racing, update the snails so that they move.
 	{
-		g_sceneObjectsList->UpdateList(g_head);
+		g_timer += REFRESHRATE;	//Update the timer each frame by a 60th of a second
+		g_string->SetText(std::to_string(g_timer/1000).substr(0, 5) + " s.");	//Now the timer has been updated, output it, formatted to be in seconds/
+		for (int i = 0; i < g_snailList.size(); i++)
+		{
+			g_snailList.at(i)->Update();	//Let the snails move forth
+			if (g_snailList.at(i)->GetFinished())	//If any one is finished, they're no longer racin'
+			{
+				g_racing = false;
+				g_string->SetText("Snail " + std::to_string(i) + " won the race in " + std::to_string(g_timer/1000).substr(0, 5) + " seconds.");
+			}
+		}
 	}
 	
 
@@ -323,18 +342,26 @@ HelloGL::~HelloGL(void)
 	g_sceneObjectsList->Deletelist(&g_head);
 
 	delete g_brickTexture;
-	delete g_brickMaterial;
 	delete g_penguinTexture;
-	delete g_penguinMaterial;
 	delete g_skyboxTexture;
-	delete g_skyboxMaterial;
+	delete g_metalTexture;
+	delete g_grassTexture;
 
+	delete g_skyboxMaterial;
+	delete g_brickMaterial;
+	delete g_penguinMaterial;
+	delete g_metalMaterial;
+	delete g_grassTexture;
 
 	delete g_cubeMesh;
 	delete g_hexagonalPrismMesh;
 	delete g_skyboxMesh;
 	delete g_snailMesh;
+	delete g_landscapeMesh;
+	delete g_racecourseMesh;
 
 	delete g_camera;
 	delete g_lightPosition;
+
+	delete g_string;
 }
